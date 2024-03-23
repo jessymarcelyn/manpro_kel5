@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "180307242702",
+    "project_id": "manprokel5-d65b8",
+    "storage_bucket": "manprokel5-d65b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180307242702:android:2553419d34ca367f3aaa9f",
+        "android_client_info": {
+          "package_name": "manpro.kel5.proyek_manpro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBSVqss3mnserRmOF2v3ruLUzF8ifkV84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
