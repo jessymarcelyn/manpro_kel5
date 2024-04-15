@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".coba"
+            android:exported="false" />
+        <activity
+            android:name=".Map"
+            android:exported="false" />
+        <activity
             android:name=".AddRute"
             android:exported="false" />
         <activity
@@ -30,6 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/my_map_api_key" />
     </application>
 
 </manifest>

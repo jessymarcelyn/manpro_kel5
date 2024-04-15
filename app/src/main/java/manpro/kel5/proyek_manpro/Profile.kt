@@ -8,6 +8,7 @@ import android.widget.Button
 
 class Profile : AppCompatActivity() {
     private lateinit var btnAddRute: Button
+    private lateinit var btnMap: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -17,6 +18,13 @@ class Profile : AppCompatActivity() {
         btnAddRute.setOnClickListener {
             startActivity(Intent(this, AddRute::class.java))
         }
+
+        btnMap = findViewById(R.id.btn_map)
+        btnMap.setOnClickListener {
+            startActivity(Intent(this, Map::class.java))
+        }
+
+
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

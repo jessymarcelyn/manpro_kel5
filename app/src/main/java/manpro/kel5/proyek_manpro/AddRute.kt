@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,6 +22,8 @@ class AddRute : AppCompatActivity() {
     private lateinit var departureTimeEditText: EditText
     private lateinit var saveButton: Button
     private lateinit var db: FirebaseFirestore
+    private lateinit var textView: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +31,11 @@ class AddRute : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
 
+        textView = findViewById(R.id.textView)
         sourceSpinner = findViewById(R.id.sn_source)
         destSpinner = findViewById(R.id.sn_dest)
         transSpinner = findViewById(R.id.sn_trans)
         distanceEditText = findViewById(R.id.et_distance)
-        priceEditText = findViewById(R.id.et_price)
         departureTimeEditText = findViewById(R.id.et_departure_time)
         saveButton = findViewById(R.id.button_save)
 
@@ -76,7 +79,7 @@ class AddRute : AppCompatActivity() {
                             id_stop_dest = selectedDestinationStopId,
                             id_transportasi = selectedTransportationId,
                             jarak = distance,
-                            price = priceEditText.text.toString().toDouble(),
+                            price = distance * 1000,
                             estimasi = estimation,
                             jam_berangkat = departureTimeEditText.text.toString(),
                             jam_sampai = arrivalTime
@@ -85,10 +88,10 @@ class AddRute : AppCompatActivity() {
                         db.collection("Rute")
                             .add(newRoute)
                             .addOnSuccessListener { documentReference ->
-                                showAlert("Data berhasil disimpan!")
+                                showAlert("Data berhasil disimpan! arrival time = " + arrivalTime +" \n Document id : " + documentReference.id)
                                 distanceEditText.setText("")
-                                priceEditText.setText("")
                                 departureTimeEditText.setText("")
+                                textView.text = documentReference.id
                             }
                             .addOnFailureListener { e ->
                                 showAlert("Gagal menyimpan data: ${e.message}")
@@ -112,7 +115,9 @@ class AddRute : AppCompatActivity() {
                         items.add(namaStop)
                     }
                 }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
+                val sortedItems = items.sorted()
+
+                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sortedItems)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = adapter
             }
