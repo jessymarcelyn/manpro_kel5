@@ -36,6 +36,16 @@
                 android:text="Button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_AppName" />
+
+            <Button
+                android:id="@+id/btn_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="2dp"
+                android:text="Map"
+                app:layout_constraintStart_toEndOf="@+id/btn_AddRute"
+                app:layout_constraintTop_toTopOf="@+id/btn_AddRute" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
