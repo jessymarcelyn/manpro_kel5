@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".SelectRute"
+            android:exported="false" />
+        <activity
             android:name=".AddRute"
             android:exported="false" />
         <activity
