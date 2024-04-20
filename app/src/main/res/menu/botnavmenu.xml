@@ -4,8 +4,10 @@
         android:icon="@drawable/ic_home"
         android:id="@+id/homeFragment"/>
 
-    <item android:title="Schedule"
-        android:id="@+id/scheduleFragment"/>
+    <item
+        android:id="@+id/scheduleFragment"
+        android:icon="@drawable/baseline_schedule_24"
+        android:title="Schedule" />
 
     <item android:title="Profile"
         android:icon="@drawable/ic_profile"
