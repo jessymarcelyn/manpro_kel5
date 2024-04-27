@@ -35,18 +35,15 @@ class Home : AppCompatActivity() {
         }
     }
 
-
     private fun trackRoute(
         tempatAwal: String,
         tempatTujuan: String,
         ruteText: StringBuilder,
-        visited: MutableSet<String> = mutableSetOf(),
-        route: String = "",
-        discoveredRoutes: MutableSet<String> = mutableSetOf(),
+        currentRoute: List<String> = listOf(),
+        discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
-        visited.add(tempatAwal)
-        val newRoute = if (route.isNotEmpty()) "$route -> $tempatAwal" else tempatAwal
+        val newRoute = currentRoute + tempatAwal
 
         db.collection("Rute")
             .get()
@@ -58,32 +55,37 @@ class Home : AppCompatActivity() {
                     val arrivalTimeDest = document.getString("jam_sampai")
                     val currentRouteDocId = document.id
 
-                    if (idStopSource == tempatAwal) {
+                    if (idStopSource == tempatAwal && idStopDest != null) {
                         if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
                             val isValidRoute = isRouteValid(prevRouteDocId, departureTimeSource.toInt(), documents)
                             if (isValidRoute) {
-                                val routeString = "$newRoute -> $tempatTujuan"
-                                val currentRoute = "$newRoute -> $idStopDest"
-                                println("Current Route: $currentRoute")
-                                if (!discoveredRoutes.contains(currentRoute)) {
-                                    println("Adding Route: $currentRoute")
-                                    ruteText.append("Kemungkinan: $routeString $tempatAwal -> $tempatTujuan\n")
-                                    discoveredRoutes.add(currentRoute)
+                                val routeList = newRoute + tempatTujuan
+                                if (!discoveredRoutes.contains(routeList)) {
+                                    discoveredRoutes.add(routeList)
                                 }
                             }
-
-
-                        } else if (idStopDest !in visited) {
-                            val newVisited = visited.toMutableSet()
-                            trackRoute(idStopDest!!, tempatTujuan, ruteText, newVisited, newRoute, discoveredRoutes, currentRouteDocId)
+                        } else if (idStopDest !in currentRoute) {
+                            val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
+                            trackRoute(idStopDest, tempatTujuan, ruteText, newRoute, newDiscoveredRoutesLocal, currentRouteDocId)
+                            discoveredRoutes.addAll(newDiscoveredRoutesLocal)
                         }
                     }
                 }
-                tv_jalan.text = ruteText.toString()
+                ruteText.append("Kemungkinan:\n")
+                if (discoveredRoutes.isNotEmpty()) {
+                    displayRoutes(discoveredRoutes.toList(), ruteText)
+                }
             }
             .addOnFailureListener {
-                // Tangani kesalahan jika terjadi
             }
+    }
+
+    private fun displayRoutes(routes: List<List<String>>, ruteText: StringBuilder) {
+        routes.forEachIndexed { index, routeList ->
+            val routeString = routeList.joinToString(" -> ") { it }
+            ruteText.append("Kemungkinan : $routeString\n")
+        }
+        tv_jalan.text = ruteText.toString()
     }
 
     private fun isRouteValid(prevRouteDocId: String?, departureTime: Int, documents: QuerySnapshot): Boolean {
@@ -100,56 +102,4 @@ class Home : AppCompatActivity() {
         }
         return false
     }
-
-
-//    private fun trackRoute(
-//        tempatAwal: String,
-//        tempatTujuan: String,
-//        ruteText: StringBuilder,
-//        visited: MutableSet<String> = mutableSetOf(),
-//        route: String = "",
-//        counter: Int = 1,
-//        discoveredRoutes: MutableSet<String> = mutableSetOf()
-//    ) {
-//        visited.add(tempatAwal)
-//        val newRoute = if (route.isNotEmpty()) "$route -> $tempatAwal" else tempatAwal
-//
-//        db.collection("Rute")
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                var routeCounter = counter
-//
-//                for (document in documents) {
-//                    val idStopSource = document.getString("id_stop_source")
-//                    val idStopDest = document.getString("id_stop_dest")
-//
-//                    if (idStopSource == tempatAwal) {
-//                        if (idStopDest == tempatTujuan) {
-//                            val routeString = "$newRoute -> $tempatTujuan"
-//                            if (routeString !in discoveredRoutes) {
-//                                ruteText.append("Kemungkinan ($routeCounter): $routeString\n")
-//                                discoveredRoutes.add(routeString)
-//                                routeCounter++
-//                            }
-//                        } else if (idStopDest !in visited) {
-//                            val newVisited = visited.toMutableSet()
-//                            trackRoute(idStopDest!!, tempatTujuan, ruteText, newVisited, newRoute, routeCounter, discoveredRoutes)
-//                        }
-//                    }
-//                }
-//                tv_jalan.text = ruteText.toString()
-//            }
-//            .addOnFailureListener {
-//                // Tangani kesalahan jika terjadi
-//            }
-//    }
-
-
-
-
-
-
-
-
-
 }

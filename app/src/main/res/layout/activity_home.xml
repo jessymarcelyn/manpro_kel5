@@ -76,12 +76,13 @@
 
             <TextView
                 android:id="@+id/tv_jalan"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="324dp"
+                android:layout_height="385dp"
                 android:layout_marginBottom="8dp"
                 android:text="TextView"
                 app:layout_constraintBottom_toTopOf="@+id/btn_rute"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.405"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
