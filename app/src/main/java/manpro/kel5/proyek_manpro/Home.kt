@@ -15,6 +15,7 @@ class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnRute: Button
     private lateinit var tv_jalan: TextView
+    private lateinit var routeList : List<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -44,7 +45,7 @@ class Home : AppCompatActivity() {
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
-        val newRoute = currentRoute + tempatAwal
+//        val newRoute = currentRoute + tempatAwal
 
         db.collection("Rute")
             .get()
@@ -56,13 +57,16 @@ class Home : AppCompatActivity() {
                     val arrivalTimeDest = document.getString("jam_sampai")
                     val currentRouteDocId = document.id
 
+                    val newRoute = currentRoute + currentRouteDocId
+
                     if (idStopSource == tempatAwal && idStopDest != null) {
                         if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
                             val isValidRoute = isRouteValid(prevRouteDocId, departureTimeSource.toInt(), documents)
                             if (isValidRoute) {
-                                val routeList = newRoute + tempatTujuan
-                                if (!discoveredRoutes.contains(routeList)) {
-                                    discoveredRoutes.add(routeList)
+                                Log.d("opop", "newroute :"+ newRoute.toString())
+//                                routeList = newRoute + currentRouteDocId
+                                if (!discoveredRoutes.contains(newRoute)) {
+                                    discoveredRoutes.add(newRoute)
                                 }
                             }
                         } else if (idStopDest !in currentRoute) {
