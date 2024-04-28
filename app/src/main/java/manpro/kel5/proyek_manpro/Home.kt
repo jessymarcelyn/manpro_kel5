@@ -2,6 +2,7 @@ package manpro.kel5.proyek_manpro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
@@ -71,7 +72,7 @@ class Home : AppCompatActivity() {
                         }
                     }
                 }
-                ruteText.append("Kemungkinan:\n")
+//                ruteText.append("Kemungkinan:\n")
                 if (discoveredRoutes.isNotEmpty()) {
                     displayRoutes(discoveredRoutes.toList(), ruteText)
                 }
@@ -81,10 +82,14 @@ class Home : AppCompatActivity() {
     }
 
     private fun displayRoutes(routes: List<List<String>>, ruteText: StringBuilder) {
+        Log.d("awaw", routes.toString())
         routes.forEachIndexed { index, routeList ->
-            val routeString = routeList.joinToString(" -> ") { it }
+            val routeString = routeList.joinToString(" -> ")
+            {
+                it }
             ruteText.append("Kemungkinan : $routeString\n")
         }
+        Log.d("eeeq", "rute : $ruteText")
         tv_jalan.text = ruteText.toString()
     }
 
