@@ -15,12 +15,14 @@ class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnRute: Button
     private lateinit var tv_jalan: TextView
-    private lateinit var routeList : List<String>
+    private lateinit var routeListId: MutableList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setupBottomNavigationView(this)
         FirebaseApp.initializeApp(this)
+
+        routeListId = mutableListOf()
 
         btnRute = findViewById(R.id.btn_rute)
         tv_jalan = findViewById(R.id.tv_jalan)
@@ -28,7 +30,9 @@ class Home : AppCompatActivity() {
 //            startActivity(Intent(this, SelectRute::class.java))
             val ruteText = StringBuilder()
             trackRoute("Graha Famili", "PTC", ruteText)
+            Log.d("wewe", routeListId.toString())
         }
+
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -45,7 +49,7 @@ class Home : AppCompatActivity() {
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
-//        val newRoute = currentRoute + tempatAwal
+        val newRoute = currentRoute + tempatAwal
 
         db.collection("Rute")
             .get()
@@ -57,16 +61,13 @@ class Home : AppCompatActivity() {
                     val arrivalTimeDest = document.getString("jam_sampai")
                     val currentRouteDocId = document.id
 
-                    val newRoute = currentRoute + currentRouteDocId
-
                     if (idStopSource == tempatAwal && idStopDest != null) {
                         if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
                             val isValidRoute = isRouteValid(prevRouteDocId, departureTimeSource.toInt(), documents)
                             if (isValidRoute) {
-                                Log.d("opop", "newroute :"+ newRoute.toString())
-//                                routeList = newRoute + currentRouteDocId
-                                if (!discoveredRoutes.contains(newRoute)) {
-                                    discoveredRoutes.add(newRoute)
+                                val routeList = newRoute + tempatTujuan
+                                if (!discoveredRoutes.contains(routeList)) {
+                                    discoveredRoutes.add(routeList)
                                 }
                             }
                         } else if (idStopDest !in currentRoute) {
@@ -84,6 +85,9 @@ class Home : AppCompatActivity() {
             .addOnFailureListener {
             }
     }
+
+
+
 
     private fun displayRoutes(routes: List<List<String>>, ruteText: StringBuilder) {
         Log.d("awaw", routes.toString())
