@@ -76,10 +76,12 @@
 
             <TextView
                 android:id="@+id/tv_jalan"
-                android:layout_width="324dp"
-                android:layout_height="385dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
-                android:text="TextView"
+                android:text="Jalan"
                 app:layout_constraintBottom_toTopOf="@+id/btn_rute"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.405"
@@ -229,13 +231,15 @@
                 android:id="@+id/btn_search"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="#125B2B"
                 android:text="Search"
                 android:textSize="16sp"
                 app:cornerRadius="12dp"
                 app:layout_constraintEnd_toEndOf="@id/v_select_route"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="@+id/v_select_route"
-                app:layout_constraintTop_toBottomOf="@+id/v_appBar" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
             <LinearLayout
                 android:id="@+id/linearLayout6"
