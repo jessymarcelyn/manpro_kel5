@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:id="@+id/home"
+        android:icon="@drawable/baseline_home_24"
+        android:iconTint="@color/white"
+        android:tint="@color/white"
+        android:titleTextColor="@color/white"/>
+    <item android:title="Location"
+        android:id="@+id/location"
+        android:icon="@drawable/baseline_add_location_alt_24"
+        android:iconTint="@color/white"
+        android:tint="@color/white"
+        android:titleTextColor="@color/white"/>
+    <item android:title="Schedule"
+        android:id="@+id/schedule"
+        android:icon="@drawable/baseline_access_time_filled_24"
+        android:iconTint="@color/white"
+        android:tint="@color/white"
+        android:titleTextColor="@color/white"/>
+    <item android:title="Profile"
+        android:id="@+id/profile"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:iconTint="@color/white"
+        android:tint="@color/white"
+        android:titleTextColor="@color/white"/>
+</menu>
