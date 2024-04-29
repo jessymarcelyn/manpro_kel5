@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".selectLocation"
+            android:exported="false" />
+        <activity
             android:name=".list_view_bookmarks"
             android:exported="false" />
         <activity
