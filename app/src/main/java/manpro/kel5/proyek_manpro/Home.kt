@@ -2,6 +2,7 @@ package manpro.kel5.proyek_manpro
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
@@ -14,11 +15,14 @@ class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnRute: Button
     private lateinit var tv_jalan: TextView
+    private lateinit var routeListId: MutableList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setupBottomNavigationView(this)
         FirebaseApp.initializeApp(this)
+
+        routeListId = mutableListOf()
 
         btnRute = findViewById(R.id.btn_rute)
         tv_jalan = findViewById(R.id.tv_jalan)
@@ -26,7 +30,9 @@ class Home : AppCompatActivity() {
 //            startActivity(Intent(this, SelectRute::class.java))
             val ruteText = StringBuilder()
             trackRoute("Graha Famili", "PTC", ruteText)
+            Log.d("wewe", routeListId.toString())
         }
+
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,7 +77,7 @@ class Home : AppCompatActivity() {
                         }
                     }
                 }
-                ruteText.append("Kemungkinan:\n")
+//                ruteText.append("Kemungkinan:\n")
                 if (discoveredRoutes.isNotEmpty()) {
                     displayRoutes(discoveredRoutes.toList(), ruteText)
                 }
@@ -80,11 +86,18 @@ class Home : AppCompatActivity() {
             }
     }
 
+
+
+
     private fun displayRoutes(routes: List<List<String>>, ruteText: StringBuilder) {
+        Log.d("awaw", routes.toString())
         routes.forEachIndexed { index, routeList ->
-            val routeString = routeList.joinToString(" -> ") { it }
+            val routeString = routeList.joinToString(" -> ")
+            {
+                it }
             ruteText.append("Kemungkinan : $routeString\n")
         }
+        Log.d("eeeq", "rute : $ruteText")
         tv_jalan.text = ruteText.toString()
     }
 
