@@ -64,27 +64,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
-                android:id="@+id/btn_rute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:text="Map"
-                app:layout_constraintBottom_toBottomOf="@+id/v_bookmark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_jalan"
-                android:layout_width="324dp"
-                android:layout_height="385dp"
-                android:layout_marginBottom="8dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/btn_rute"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.405"
-                app:layout_constraintStart_toStartOf="parent" />
-
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="0dp"
