@@ -1,16 +1,16 @@
-package manpro.kel5.proyek_manpro
-
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.widget.TextView
-
-class SelectRute : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_selectrute)
-
+//package manpro.kel5.proyek_manpro
+//
+//import android.os.Bundle
+//import androidx.appcompat.app.AppCompatActivity
+//import androidx.recyclerview.widget.LinearLayoutManager
+//import androidx.recyclerview.widget.RecyclerView
+//import android.widget.TextView
+//
+//class SelectRute : AppCompatActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_selectrute)
+//
 //        val recyclerView: RecyclerView = findViewById(R.id.routeSelect)
 //        recyclerView.layoutManager = LinearLayoutManager(this)
 //
@@ -30,5 +30,5 @@ class SelectRute : AppCompatActivity() {
 //            val adapter = RouteAdapter(routeIdsList)
 //            recyclerView.adapter = adapter
 //        }
-    }
-}
+//    }
+//}
