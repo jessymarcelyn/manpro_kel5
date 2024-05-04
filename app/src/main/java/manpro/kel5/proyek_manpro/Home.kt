@@ -15,14 +15,14 @@ class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnRute: Button
     private lateinit var tv_jalan: TextView
-    private lateinit var routeListId: MutableList<String>
+    private  var newRoute: List<String> = emptyList()
+    private  var routeList: List<String> = emptyList()
+    private var counter: Int = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setupBottomNavigationView(this)
         FirebaseApp.initializeApp(this)
-
-        routeListId = mutableListOf()
 
         btnRute = findViewById(R.id.btn_rute)
         tv_jalan = findViewById(R.id.tv_jalan)
@@ -30,10 +30,7 @@ class Home : AppCompatActivity() {
 //            startActivity(Intent(this, SelectRute::class.java))
             val ruteText = StringBuilder()
             trackRoute("Graha Famili", "PTC", ruteText)
-            Log.d("wewe", routeListId.toString())
         }
-
-
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -49,8 +46,6 @@ class Home : AppCompatActivity() {
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
-        val newRoute = currentRoute + tempatAwal
-
         db.collection("Rute")
             .get()
             .addOnSuccessListener { documents ->
@@ -61,13 +56,22 @@ class Home : AppCompatActivity() {
                     val arrivalTimeDest = document.getString("jam_sampai")
                     val currentRouteDocId = document.id
 
+                    Log.d("rtrt", "idStopDest" + idStopDest)
+                    Log.d("erer", "new route sebelum " + newRoute)
+                    newRoute = currentRoute + currentRouteDocId
+                    Log.d("erer", "new route sesudah " + newRoute)
+                    Log.d("erer", "currentRoute " + currentRoute)
+                    Log.d("erer", "currentRouteDocId " + currentRouteDocId)
+
                     if (idStopSource == tempatAwal && idStopDest != null) {
                         if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
+                            Log.d("mimi", "masuk" + prevRouteDocId)
                             val isValidRoute = isRouteValid(prevRouteDocId, departureTimeSource.toInt(), documents)
                             if (isValidRoute) {
-                                val routeList = newRoute + tempatTujuan
-                                if (!discoveredRoutes.contains(routeList)) {
-                                    discoveredRoutes.add(routeList)
+//                                 newRoute = currentRoute + currentRouteDocId
+                                Log.d("erer", "new route MASUK " + newRoute)
+                                if (!discoveredRoutes.contains(newRoute)) {
+                                    discoveredRoutes.add(newRoute)
                                 }
                             }
                         } else if (idStopDest !in currentRoute) {
@@ -86,17 +90,16 @@ class Home : AppCompatActivity() {
             }
     }
 
-
-
-
     private fun displayRoutes(routes: List<List<String>>, ruteText: StringBuilder) {
         Log.d("awaw", routes.toString())
         routes.forEachIndexed { index, routeList ->
             val routeString = routeList.joinToString(" -> ")
             {
                 it }
+
             ruteText.append("Kemungkinan : $routeString\n")
         }
+//        Log.d("rere", listId.toString())
         Log.d("eeeq", "rute : $ruteText")
         tv_jalan.text = ruteText.toString()
     }
@@ -108,6 +111,8 @@ class Home : AppCompatActivity() {
             if (document.id == prevRouteDocId) {
                 val arrivalTime = document.getString("jam_sampai")?.toInt()
                 if (arrivalTime != null && arrivalTime <= departureTime) {
+                    Log.d("rere", "documentid : " + prevRouteDocId)
+                    Log.d("rere", "arroval time : " + arrivalTime + " dept time : " + departureTime)
                     return true
                 }
                 break
@@ -116,3 +121,4 @@ class Home : AppCompatActivity() {
         return false
     }
 }
+
