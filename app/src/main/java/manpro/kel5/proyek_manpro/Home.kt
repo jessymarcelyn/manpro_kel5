@@ -16,8 +16,8 @@ class Home : AppCompatActivity() {
     private lateinit var btnRute: Button
     private lateinit var tv_jalan: TextView
     private  var newRoute: List<String> = emptyList()
-    private  var routeList: List<String> = emptyList()
-    private var counter: Int = 0;
+    private val validDiscoveredRoutes = mutableListOf<List<String>>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -29,8 +29,11 @@ class Home : AppCompatActivity() {
         btnRute.setOnClickListener {
 //            startActivity(Intent(this, SelectRute::class.java))
             val ruteText = StringBuilder()
-            trackRoute("Graha Famili", "PTC", ruteText)
+            trackRoute("Galaxy Mall 3", "Galaxy Mall 2", ruteText)
+
         }
+
+
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -52,73 +55,96 @@ class Home : AppCompatActivity() {
                 for (document in documents) {
                     val idStopSource = document.getString("id_stop_source")
                     val idStopDest = document.getString("id_stop_dest")
-                    val departureTimeSource = document.getString("jam_berangkat")
-                    val arrivalTimeDest = document.getString("jam_sampai")
+                    val departureTimeSource = document.getString("jam_berangkat")?.toInt()
+                    val arrivalTimeDest = document.getString("jam_sampai")?.toInt()
                     val currentRouteDocId = document.id
 
-                    Log.d("rtrt", "idStopDest" + idStopDest)
-                    Log.d("erer", "new route sebelum " + newRoute)
                     newRoute = currentRoute + currentRouteDocId
-                    Log.d("erer", "new route sesudah " + newRoute)
-                    Log.d("erer", "currentRoute " + currentRoute)
-                    Log.d("erer", "currentRouteDocId " + currentRouteDocId)
-
                     if (idStopSource == tempatAwal && idStopDest != null) {
                         if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
-                            Log.d("mimi", "masuk" + prevRouteDocId)
-                            val isValidRoute = isRouteValid(prevRouteDocId, departureTimeSource.toInt(), documents)
-                            if (isValidRoute) {
-//                                 newRoute = currentRoute + currentRouteDocId
-                                Log.d("erer", "new route MASUK " + newRoute)
-                                if (!discoveredRoutes.contains(newRoute)) {
-                                    discoveredRoutes.add(newRoute)
-                                }
+                            // Cek antar route apakah sudah benar
+                            val connectionValidity = isValidRoute(newRoute, documents)
+                            if (connectionValidity.all { it }) { // Kalau bener semua
+                                discoveredRoutes.add(newRoute)
                             }
                         } else if (idStopDest !in currentRoute) {
                             val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
-                            trackRoute(idStopDest, tempatTujuan, ruteText, newRoute, newDiscoveredRoutesLocal, currentRouteDocId)
+                            trackRoute(
+                                idStopDest,
+                                tempatTujuan,
+                                ruteText,
+                                newRoute,
+                                newDiscoveredRoutesLocal,
+                                currentRouteDocId
+                            )
                             discoveredRoutes.addAll(newDiscoveredRoutesLocal)
                         }
                     }
                 }
-//                ruteText.append("Kemungkinan:\n")
+                // Pastiin lagi discovered routenya udah bener atau gk
                 if (discoveredRoutes.isNotEmpty()) {
-                    displayRoutes(discoveredRoutes.toList(), ruteText)
+                    for (i in discoveredRoutes.indices) {
+                        val route = discoveredRoutes.elementAt(i)
+                        val connectionValidity = isValidRoute(route, documents)
+                        if (connectionValidity.all { it }) { // Kalau bener semua
+                            validDiscoveredRoutes.add(route)
+                        }
+                    }
+                    Log.d("trtr", validDiscoveredRoutes.toString())
+                    displayRoutes(validDiscoveredRoutes)
+//                        displayRoutes(validDiscoveredRoutes)
                 }
             }
             .addOnFailureListener {
             }
     }
 
-    private fun displayRoutes(routes: List<List<String>>, ruteText: StringBuilder) {
-        Log.d("awaw", routes.toString())
-        routes.forEachIndexed { index, routeList ->
-            val routeString = routeList.joinToString(" -> ")
-            {
-                it }
+    private fun displayRoutes(validDiscoveredRoutes: List<List<String>>) {
+        Log.d("ere", validDiscoveredRoutes.toString())
+        if (validDiscoveredRoutes.isNotEmpty()) {
+            val routeString = validDiscoveredRoutes.joinToString("\n") {
+                it.joinToString(" -> ") { route -> route }
+            }
 
-            ruteText.append("Kemungkinan : $routeString\n")
+            tv_jalan.text = validDiscoveredRoutes.toString() // Update UI with routeString
+        } else {
+            tv_jalan.text = "Tidak ada rute yang ditemukan."
         }
-//        Log.d("rere", listId.toString())
-        Log.d("eeeq", "rute : $ruteText")
-        tv_jalan.text = ruteText.toString()
     }
 
-    private fun isRouteValid(prevRouteDocId: String?, departureTime: Int, documents: QuerySnapshot): Boolean {
-        if (prevRouteDocId == null) return true
+    private fun isValidRoute(
+        currentRoute: List<String>,
+        documents: QuerySnapshot
+    ): List<Boolean> {
+        val connectionValidity = mutableListOf<Boolean>()
+        for (i in 0 until currentRoute.size - 1) {
+            val prevRouteDocId = currentRoute[i]
+            val nextRouteDocId = currentRoute[i + 1]
 
-        for (document in documents) {
-            if (document.id == prevRouteDocId) {
-                val arrivalTime = document.getString("jam_sampai")?.toInt()
-                if (arrivalTime != null && arrivalTime <= departureTime) {
-                    Log.d("rere", "documentid : " + prevRouteDocId)
-                    Log.d("rere", "arroval time : " + arrivalTime + " dept time : " + departureTime)
-                    return true
+            var isValid = true;
+            for (document in documents) {
+                if (document.id == prevRouteDocId) {
+                    val prevArrivalTime = document.getString("jam_sampai")?.toInt()
+                    if (prevArrivalTime != null) {
+                        for (nextDocument in documents) {
+                            if (nextDocument.id == nextRouteDocId) {
+                                val nextDepartureTime =
+                                    nextDocument.getString("jam_berangkat")?.toInt()
+                                if (nextDepartureTime != null && prevArrivalTime > nextDepartureTime) {
+                                    isValid = false;
+                                    break;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    break;
                 }
-                break
             }
+            connectionValidity.add(isValid);
         }
-        return false
+        return connectionValidity;
     }
 }
+
 
