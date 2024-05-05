@@ -21,8 +21,10 @@ class Profile : AppCompatActivity() {
 
         btnMap = findViewById(R.id.btn_map)
         btnMap.setOnClickListener {
-            startActivity(Intent(this, Map::class.java))
+//            startActivity(Intent(this, Map::class.java))
+            startActivity(Intent(this, login::class.java))
         }
+
 
 
     }

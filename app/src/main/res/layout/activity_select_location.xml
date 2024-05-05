@@ -101,23 +101,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/box_filter"
-                app:srcCompat="@drawable/ic_filter" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
     <ListView

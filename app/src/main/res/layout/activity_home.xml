@@ -27,7 +27,7 @@
                 android:id="@+id/tv_AppName"
                 android:layout_width="273dp"
                 android:layout_height="45dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="32dp"
                 android:text="SuroboyoTrans"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
@@ -56,7 +56,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="128dp"
+                android:layout_marginBottom="96dp"
                 android:background="@drawable/box_bookmark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,8 @@
                     android:gravity="center"
                     android:text="KEBERANGKATAN"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -116,7 +117,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:text="5 Agustus 2024"
                     android:textColor="#FFFFFFFF"
                     android:textSize="18sp"
@@ -215,6 +215,7 @@
                     android:layout_weight="1"
                     android:text="Stasiun Gubeng"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
             <Button
@@ -291,17 +292,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
                 tools:listitem="@layout/list_bookmark_home" />
 
-            <ImageButton
-                android:id="@+id/imageButton9"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/circle_profile_home"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_profile" />
-
             <Button
                 android:id="@+id/btn_rute"
                 android:layout_width="wrap_content"
@@ -311,6 +301,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_bookmark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="@+id/v_select_route"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:srcCompat="@drawable/up_down" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
