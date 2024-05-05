@@ -28,7 +28,7 @@ class selectLocation : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val _btn_back = findViewById<ImageView>(R.id.btn_back)
+//        val _btn_back = findViewById<ImageView>(R.id.btn_back)
 
         _isAsal = intent.getBooleanExtra(isAsal, false)
         dataAsal = intent.getStringExtra(asal) ?: ""
@@ -75,7 +75,7 @@ class selectLocation : AppCompatActivity() {
 
     private fun populateListView(stopList: List<String>) {
         Log.d("klkl", stopList.toString())
-        val _list_loc = findViewById<ListView>(R.id.list_loc)
+        val _list_loc = findViewById<ListView>(R.id.listLoc)
         val adapter = ListLocation(this, stopList.sorted())
         _list_loc.adapter = adapter
 

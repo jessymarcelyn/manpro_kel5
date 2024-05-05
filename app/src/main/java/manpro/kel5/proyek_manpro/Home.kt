@@ -15,6 +15,7 @@ import manpro.kel5.proyek_manpro.BottomNav.Companion.setupBottomNavigationView
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnRute: Button
+    private lateinit var btnSearch: Button
     private lateinit var tv_jalan: TextView
     private  var newRoute: List<String> = emptyList()
     private val validDiscoveredRoutes = mutableListOf<List<String>>()
@@ -32,11 +33,12 @@ class Home : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
 
         btnRute = findViewById(R.id.btn_rute)
+        btnSearch = findViewById(R.id.btn_search)
         tv_jalan = findViewById(R.id.tv_jalan)
-        var _tv_asal1 = findViewById<TextView>(R.id.tv_asal1)
-        var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
-        var _tv_tujuan1 = findViewById<TextView>(R.id.tv_tujuan1)
-        var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
+//        var _tv_asal1 = findViewById<TextView>(R.id.tv_asal1)
+//        var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
+//        var _tv_tujuan1 = findViewById<TextView>(R.id.tv_tujuan1)
+//        var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
         val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: ""
         val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: ""
@@ -45,47 +47,50 @@ class Home : AppCompatActivity() {
         Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)
         val _isAsall = intent.getBooleanExtra(isAsall, false)
 
-        _tv_asal2.text = terimaDataAsal
-        _tv_tujuan2.text = terimaDataTujuan
-        _tv_asal1.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, true)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
-            }
-            startActivity(intentWithData)
-        }
-        _tv_asal2.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, true)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
-            }
-            startActivity(intentWithData)
-        }
-        _tv_tujuan1.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, false)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
-            }
-            startActivity(intentWithData)
-        }
-        _tv_tujuan2.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, false)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
-            }
-            startActivity(intentWithData)
-        }
+//        _tv_asal2.text = terimaDataAsal
+//        _tv_tujuan2.text = terimaDataTujuan
+//        _tv_asal1.setOnClickListener {
+//            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
+//                putExtra(selectLocation.isAsal, true)
+//                putExtra(selectLocation.asal, _tv_asal2.text)
+//                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+//            }
+//            startActivity(intentWithData)
+//        }
+//        _tv_asal2.setOnClickListener {
+//            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
+//                putExtra(selectLocation.isAsal, true)
+//                putExtra(selectLocation.asal, _tv_asal2.text)
+//                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+//            }
+//            startActivity(intentWithData)
+//        }
+//        _tv_tujuan1.setOnClickListener {
+//            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
+//                putExtra(selectLocation.isAsal, false)
+//                putExtra(selectLocation.asal, _tv_asal2.text)
+//                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+//            }
+//            startActivity(intentWithData)
+//        }
+//        _tv_tujuan2.setOnClickListener {
+//            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
+//                putExtra(selectLocation.isAsal, false)
+//                putExtra(selectLocation.asal, _tv_asal2.text)
+//                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+//            }
+//            startActivity(intentWithData)
+//        }
 
 
         btnRute.setOnClickListener {
 //            startActivity(Intent(this, SelectRute::class.java))
             val ruteText = StringBuilder()
             trackRoute(terimaDataAsal, terimaDataTujuan, ruteText)
+        }
 
+        btnSearch.setOnClickListener {
+            startActivity(Intent(this, SelectRute::class.java))
         }
 
 
