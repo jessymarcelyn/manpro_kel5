@@ -106,6 +106,13 @@ class Home : AppCompatActivity() {
             startActivity(Intent(this, SelectRute::class.java))
         }
 
+        btnSearch.setOnClickListener {
+            val intentWithData = Intent(this@Home, SelectRute::class.java).apply {
+                putExtra(SelectRute.asal, _tv_asal2.text)
+                putExtra(SelectRute.tujuan, _tv_tujuan2.text)
+            }
+            startActivity(intentWithData)
+        }
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
