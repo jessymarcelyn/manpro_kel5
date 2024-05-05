@@ -12,6 +12,9 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import manpro.kel5.proyek_manpro.BottomNav.Companion.setupBottomNavigationView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -33,6 +36,14 @@ class Home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setupBottomNavigationView(this)
         FirebaseApp.initializeApp(this)
+
+        //Set tanggal hari ini
+        val currentDate = Date()
+        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
+        val formattedDate = dateFormat.format(currentDate)
+        var _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
+        _tv_tanggal.text = formattedDate
+
 
         btnRute = findViewById(R.id.btn_rute)
         btnSearch = findViewById(R.id.btn_search)
