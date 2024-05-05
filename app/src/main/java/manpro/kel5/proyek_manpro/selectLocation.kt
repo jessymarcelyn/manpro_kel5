@@ -58,14 +58,18 @@ class selectLocation : AppCompatActivity() {
         Log.d("pipi", "dataAsal" + dataAsal.toString())
         Log.d("pipi", "dataTujuan : " + dataTujuan.toString())
 
-//        _btn_back.setOnClickListener {
-//            val intent = Intent(this@selectLocation, Home::class.java)
-//            startActivity(intent)
-//        }
 
+        val _btn_back = findViewById<ImageView>(R.id.btn_back)
+        _btn_back.setOnClickListener {
+            val intentWithData = Intent(this@selectLocation, Home::class.java).apply {
+                putExtra(Home.dataAsall, dataAsal)
+                putExtra(Home.dataTujuann, dataTujuan)
+                putExtra(Home.isAsall, false)
+            }
+            startActivity(intentWithData)
+        }
 
         retrieveStopData()
-
     }
 
     private fun retrieveStopDataFilter(input: String) {
