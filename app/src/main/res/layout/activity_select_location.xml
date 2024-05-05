@@ -76,6 +76,7 @@
                 app:boxStrokeWidthFocused="0dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/searchText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mau kemana?" />
@@ -91,7 +92,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/imageSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_marginTop="6dp"

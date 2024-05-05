@@ -1,10 +1,12 @@
 package manpro.kel5.proyek_manpro
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
@@ -12,6 +14,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -25,10 +29,27 @@ class selectLocation : AppCompatActivity() {
     private  var _isAsal: Boolean = false
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-//        val _btn_back = findViewById<ImageView>(R.id.btn_back)
+        setContentView(R.layout.activity_select_location)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        val _searchText = findViewById<TextInputEditText>(R.id.searchText)
+
+        val _imageSearch = findViewById<ImageButton>(R.id.imageSearch)
+
+        _imageSearch.setOnClickListener{
+            val userInput = _searchText.text.toString()
+            Log.d("ukuk", "User input: $userInput")
+            retrieveStopDataFilter(userInput)
+        }
+
 
         _isAsal = intent.getBooleanExtra(isAsal, false)
         dataAsal = intent.getStringExtra(asal) ?: ""
@@ -42,17 +63,36 @@ class selectLocation : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-        setContentView(R.layout.activity_select_location)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
         retrieveStopData()
 
-
-
     }
+
+    private fun retrieveStopDataFilter(input: String) {
+        Log.d("ukuk", "input" + input.toString())
+
+        val stopList = mutableListOf<String>() // List to store stop names
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Stop")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val namaStop = document.getString("nama_stop")
+                    if (namaStop != null && namaStop.startsWith(input, ignoreCase = true)) {
+                        // Check if the stop name starts with the specified string (case-insensitive)
+                        stopList.add(namaStop)
+                    }
+                }
+                Log.d("ukuk", stopList.toString())
+                // Now you have the filtered list of stop names, you can populate the ListView
+                populateListView(stopList)
+            }
+            .addOnFailureListener { exception ->
+                // Handle failure
+            }
+    }
+
+
     private fun retrieveStopData() {
         val stopList = mutableListOf<String>() // List to store stop names
         val db = FirebaseFirestore.getInstance()
