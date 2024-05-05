@@ -68,6 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:hint="Mau kemana?"
+                android:textColorHint="#000000"
                 app:boxBackgroundColor="#FFFFFF"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopStart="10dp"
@@ -77,7 +79,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mau kemana?"
+                    android:textColor="@color/black"
+                    android:textColorLink="@color/white"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

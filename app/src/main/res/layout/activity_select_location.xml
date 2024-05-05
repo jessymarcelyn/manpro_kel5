@@ -69,17 +69,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:hint="Mau kemana?"
                 app:boxBackgroundColor="#FFFFFF"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopStart="10dp"
                 app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:boxStrokeWidthFocused="0dp"
+                app:hintTextColor="#000000">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/searchText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Mau kemana?" />
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/navigationBarColor"
+                    android:textColorLink="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
