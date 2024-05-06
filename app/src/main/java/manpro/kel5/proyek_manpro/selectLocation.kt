@@ -4,22 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 
 
-class selectLocation : AppCompatActivity() {
+class SelectLocation : AppCompatActivity() {
     companion object{
         const val isAsal = "true"
         const val tujuan = "aaa"
@@ -42,7 +38,7 @@ class selectLocation : AppCompatActivity() {
 
         val _searchText = findViewById<TextInputEditText>(R.id.searchText)
 
-        val _imageSearch = findViewById<ImageButton>(R.id.imageSearch)
+        val _imageSearch = findViewById<ImageButton>(R.id.btnSearch1)
 
         _imageSearch.setOnClickListener{
             val userInput = _searchText.text.toString()
@@ -61,7 +57,7 @@ class selectLocation : AppCompatActivity() {
 
         val _btn_back = findViewById<ImageView>(R.id.btn_back)
         _btn_back.setOnClickListener {
-            val intentWithData = Intent(this@selectLocation, Home::class.java).apply {
+            val intentWithData = Intent(this@SelectLocation, Home::class.java).apply {
                 putExtra(Home.dataAsall, dataAsal)
                 putExtra(Home.dataTujuann, dataTujuan)
                 putExtra(Home.isAsall, false)
@@ -129,7 +125,7 @@ class selectLocation : AppCompatActivity() {
             if(_isAsal){
                 Log.d("pipi", "masuk1")
 
-                val intentWithData = Intent(this@selectLocation, Home::class.java).apply {
+                val intentWithData = Intent(this@SelectLocation, Home::class.java).apply {
                     putExtra(Home.dataAsall, selectedItem)
                     putExtra(Home.dataTujuann, dataTujuan)
                     Log.d("pipi", "selectedItem " + selectedItem)
@@ -140,7 +136,7 @@ class selectLocation : AppCompatActivity() {
                 startActivity(intentWithData)
             }else{
                 Log.d("pipi", "masuk2")
-                val intentWithData = Intent(this@selectLocation, Home::class.java).apply {
+                val intentWithData = Intent(this@SelectLocation, Home::class.java).apply {
                     putExtra(Home.dataAsall, dataAsal)
                     putExtra(Home.dataTujuann, selectedItem)
                     putExtra(Home.isAsall, false)

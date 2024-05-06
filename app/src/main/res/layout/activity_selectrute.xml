@@ -26,7 +26,7 @@
         app:srcCompat="@drawable/box_app_bar" />
 
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/tvCoba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -48,6 +48,7 @@
         app:srcCompat="@drawable/ic_arrow_left" />
 
     <LinearLayout
+        android:id="@+id/linearLayout12"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -68,8 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:hint="Mau kemana?"
-                android:textColorHint="#000000"
                 app:boxBackgroundColor="#FFFFFF"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopStart="10dp"
@@ -79,8 +78,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textColorLink="@color/white"
+                    android:hint="Mau kemana?"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +92,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/imageSearch"
+                android:id="@+id/btnSearch1"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_marginTop="6dp"
@@ -122,21 +120,30 @@
 
     </LinearLayout>
 
-    <ListView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        tools:listitem="@layout/list_selectroute">
+    <!--    <ListView-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:layout_marginBottom="32dp"-->
+    <!--        android:divider="@android:color/transparent"-->
+    <!--        android:dividerHeight="10sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view"-->
+    <!--        tools:listitem="@layout/list_selectroute">-->
 
-    </ListView>
+    <!--    </ListView>-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRute"
+        android:layout_width="match_parent"
+        android:layout_height="591dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"></androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

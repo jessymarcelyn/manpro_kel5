@@ -15,10 +15,13 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".SelectRuteDetail"
+            android:exported="false" />
+        <activity
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".selectLocation"
+            android:name=".SelectLocation"
             android:exported="false" />
         <activity
             android:name=".list_view_bookmarks"

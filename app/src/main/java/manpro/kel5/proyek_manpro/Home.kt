@@ -21,8 +21,6 @@ class Home : AppCompatActivity() {
     private lateinit var btnRute: Button
     private lateinit var btnSearch: Button
     private lateinit var tv_jalan: TextView
-    private  var newRoute: List<String> = emptyList()
-    private val validDiscoveredRoutes = mutableListOf<List<String>>()
 
     companion object{
         const val dataAsall = "GETDATA1"
@@ -53,8 +51,10 @@ class Home : AppCompatActivity() {
         var _tv_tujuan1 = findViewById<TextView>(R.id.tv_tujuan1)
         var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
-        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
-        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
+//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
+//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
+        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
+        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
         Log.d("pipi", "balik")
         Log.d("pipi", "terimaDataAsal" + terimaDataAsal)
         Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)
@@ -63,52 +63,42 @@ class Home : AppCompatActivity() {
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
         _tv_asal1.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, true)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+                putExtra(SelectLocation.isAsal, true)
+                putExtra(SelectLocation.asal, _tv_asal2.text)
+                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
         }
         _tv_asal2.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, true)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+                putExtra(SelectLocation.isAsal, true)
+                putExtra(SelectLocation.asal, _tv_asal2.text)
+                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
         }
         _tv_tujuan1.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, false)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+                putExtra(SelectLocation.isAsal, false)
+                putExtra(SelectLocation.asal, _tv_asal2.text)
+                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
         }
         _tv_tujuan2.setOnClickListener {
-            val intentWithData = Intent(this@Home, selectLocation::class.java).apply {
-                putExtra(selectLocation.isAsal, false)
-                putExtra(selectLocation.asal, _tv_asal2.text)
-                putExtra(selectLocation.tujuan, _tv_tujuan2.text)
+            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+                putExtra(SelectLocation.isAsal, false)
+                putExtra(SelectLocation.asal, _tv_asal2.text)
+                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
-        }
-
-
-        btnRute.setOnClickListener {
-//            startActivity(Intent(this, SelectRute::class.java))
-            val ruteText = StringBuilder()
-            trackRoute(terimaDataAsal, terimaDataTujuan, ruteText)
-        }
-
-        btnSearch.setOnClickListener {
-            startActivity(Intent(this, SelectRute::class.java))
         }
 
         btnSearch.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectRute::class.java).apply {
                 putExtra(SelectRute.asal, _tv_asal2.text)
+                putExtra(SelectRute.tujuan, _tv_tujuan2.text)
                 putExtra(SelectRute.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
@@ -119,111 +109,6 @@ class Home : AppCompatActivity() {
         when (item.itemId) {
             else -> return super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun trackRoute(
-        tempatAwal: String,
-        tempatTujuan: String,
-        ruteText: StringBuilder,
-        currentRoute: List<String> = listOf(),
-        discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
-        prevRouteDocId: String? = null
-    ) {
-        db.collection("Rute")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val idStopSource = document.getString("id_stop_source")
-                    val idStopDest = document.getString("id_stop_dest")
-                    val departureTimeSource = document.getString("jam_berangkat")?.toInt()
-                    val arrivalTimeDest = document.getString("jam_sampai")?.toInt()
-                    val currentRouteDocId = document.id
-
-                    newRoute = currentRoute + currentRouteDocId
-                    if (idStopSource == tempatAwal && idStopDest != null) {
-                        if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
-                            // Cek antar route apakah sudah benar
-                            val connectionValidity = isValidRoute(newRoute, documents)
-                            if (connectionValidity.all { it }) { // Kalau bener semua
-                                discoveredRoutes.add(newRoute)
-                            }
-                        } else if (idStopDest !in currentRoute) {
-                            val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
-                            trackRoute(
-                                idStopDest,
-                                tempatTujuan,
-                                ruteText,
-                                newRoute,
-                                newDiscoveredRoutesLocal,
-                                currentRouteDocId
-                            )
-                            discoveredRoutes.addAll(newDiscoveredRoutesLocal)
-                        }
-                    }
-                }
-                // Pastiin lagi discovered routenya udah bener atau gk
-                if (discoveredRoutes.isNotEmpty()) {
-                    for (i in discoveredRoutes.indices) {
-                        val route = discoveredRoutes.elementAt(i)
-                        val connectionValidity = isValidRoute(route, documents)
-                        if (connectionValidity.all { it }) { // Kalau bener semua
-                            validDiscoveredRoutes.add(route)
-                        }
-                    }
-                    Log.d("trtr", validDiscoveredRoutes.toString())
-                    displayRoutes(validDiscoveredRoutes)
-//                        displayRoutes(validDiscoveredRoutes)
-                }
-            }
-            .addOnFailureListener {
-            }
-    }
-
-    private fun displayRoutes(validDiscoveredRoutes: List<List<String>>) {
-        Log.d("ere", validDiscoveredRoutes.toString())
-        if (validDiscoveredRoutes.isNotEmpty()) {
-            val routeString = validDiscoveredRoutes.joinToString("\n") {
-                it.joinToString(" -> ") { route -> route }
-            }
-
-            tv_jalan.text = validDiscoveredRoutes.toString()
-        } else {
-            tv_jalan.text = "Tidak ada rute yang ditemukan."
-        }
-    }
-
-    private fun isValidRoute(
-        currentRoute: List<String>,
-        documents: QuerySnapshot
-    ): List<Boolean> {
-        val connectionValidity = mutableListOf<Boolean>()
-        for (i in 0 until currentRoute.size - 1) {
-            val prevRouteDocId = currentRoute[i]
-            val nextRouteDocId = currentRoute[i + 1]
-
-            var isValid = true;
-            for (document in documents) {
-                if (document.id == prevRouteDocId) {
-                    val prevArrivalTime = document.getString("jam_sampai")?.toInt()
-                    if (prevArrivalTime != null) {
-                        for (nextDocument in documents) {
-                            if (nextDocument.id == nextRouteDocId) {
-                                val nextDepartureTime =
-                                    nextDocument.getString("jam_berangkat")?.toInt()
-                                if (nextDepartureTime != null && prevArrivalTime > nextDepartureTime) {
-                                    isValid = false;
-                                    break;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-            connectionValidity.add(isValid);
-        }
-        return connectionValidity;
     }
 }
 
