@@ -7,22 +7,24 @@
         android:iconTint="@color/white"
         android:tint="@color/white"
         android:titleTextColor="@color/white"/>
-    <item android:title="Location"
+    <item
         android:id="@+id/location"
-        android:icon="@drawable/baseline_add_location_alt_24"
+        android:icon="@drawable/ic_location_asal"
         android:iconTint="@color/white"
         android:tint="@color/white"
-        android:titleTextColor="@color/white"/>
+        android:title="Location"
+        android:titleTextColor="@color/white" />
     <item android:title="Schedule"
         android:id="@+id/schedule"
         android:icon="@drawable/baseline_access_time_filled_24"
         android:iconTint="@color/white"
         android:tint="@color/white"
         android:titleTextColor="@color/white"/>
-    <item android:title="Profile"
+    <item
         android:id="@+id/profile"
-        android:icon="@drawable/baseline_account_circle_24"
+        android:icon="@drawable/ic_person"
         android:iconTint="@color/white"
         android:tint="@color/white"
-        android:titleTextColor="@color/white"/>
+        android:title="Profile"
+        android:titleTextColor="@color/white" />
 </menu>
