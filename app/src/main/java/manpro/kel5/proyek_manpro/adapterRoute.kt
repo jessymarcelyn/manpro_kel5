@@ -16,6 +16,16 @@ class adapterRoute (
 //    ,
 //    private val context: Context
 ): RecyclerView.Adapter<adapterRoute.ListViewHolder>(){
+    private lateinit var  onItemClickCallback: OnItemClickCallback
+
+    interface OnItemClickCallback {
+        fun  onItemClicked(data : Rute)
+        fun delData(pos:Int)
+        fun gotoDetail(data : Rute)
+    }
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     inner class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var _tv_label: TextView = itemView.findViewById(R.id.tv_label)
@@ -69,7 +79,9 @@ class adapterRoute (
         holder.recyclerView.adapter = adapter
         holder.recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
 
-
+        holder._btn_choose.setOnClickListener {
+            onItemClickCallback.gotoDetail(rute)
+        }
 
 
     }

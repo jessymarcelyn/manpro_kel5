@@ -61,6 +61,31 @@ class SelectRute : AppCompatActivity() {
         val ruteText = StringBuilder()
         trackRoute(dataAsal, dataTujuan, ruteText)
 
+        _rvRute = findViewById(R.id.rvRute)
+        _rvRute.layoutManager = LinearLayoutManager(this)
+        val adapterP = adapterRoute(arRute)
+        _rvRute.adapter = adapterP
+
+        adapterP.setOnItemClickCallback(object : adapterRoute.OnItemClickCallback{
+            //            Log.d("toast", "dependee")
+            override fun onItemClicked(data: Rute) {
+//                Toast.makeText(this@fClass, data.name, Toast.LENGTH_LONG). show()
+                Log.d("toast", "kepencet")
+//                Toast.makeText(requireContext(),"HALO", Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun delData(pos: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun gotoDetail(data: Rute) {
+                val intent = Intent(this@SelectRute, SelectRuteDetail::class.java)
+                intent.putExtra("kirimData", data)
+                startActivity(intent)
+            }
+        })
+
 //        val recyclerView: RecyclerView = findViewById(R.id.routeSelect)
 //        recyclerView.layoutManager = LinearLayoutManager(this)
 //
@@ -81,10 +106,7 @@ class SelectRute : AppCompatActivity() {
 //            recyclerView.adapter = adapter
 //        }
 
-        _rvRute = findViewById(R.id.rvRute)
-        _rvRute.layoutManager = LinearLayoutManager(this)
-        val adapterP = adapterRoute(arRute)
-        _rvRute.adapter = adapterP
+
 
     }
     private fun trackRoute(

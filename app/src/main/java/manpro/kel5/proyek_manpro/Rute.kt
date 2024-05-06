@@ -1,5 +1,9 @@
 package manpro.kel5.proyek_manpro
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Rute(
 //    var doc_rute: String,
 //    var id_rute: String,
@@ -46,4 +50,4 @@ data class Rute(
 
 
 
-)
+):Parcelable
