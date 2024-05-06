@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="116dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp">
+
+            <View
+                android:id="@+id/view_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#125B2B"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_bus"
+                android:layout_width="48dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.044"
+                app:layout_constraintStart_toStartOf="@+id/view_schedule"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bus" />
+
+            <TextView
+                android:id="@+id/tv_keberangkatan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="KEBERANGKATAN : "
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.06"
+                app:layout_constraintStart_toEndOf="@+id/iv_bus"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_tanggal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="5 AGUSTUS 2024"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/view_schedule"
+                app:layout_constraintHorizontal_bias="0.483"
+                app:layout_constraintStart_toEndOf="@+id/tv_keberangkatan"
+                app:layout_constraintTop_toTopOf="@+id/view_schedule" />
+
+            <TextView
+                android:id="@+id/tv_lokasi1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="268dp"
+                android:text="LOKASI ASAL :"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_loc1" />
+
+            <TextView
+                android:id="@+id/tv_lokasi2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="144dp"
+                android:text="LOKASI TUJUAN :"
+                app:layout_constraintEnd_toStartOf="@+id/tv_estimasibiaya"
+                app:layout_constraintTop_toBottomOf="@+id/tv_stasiun1" />
+
+            <TextView
+                android:id="@+id/tv_berangkat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="Berangkat :"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_lokasi1"
+                app:layout_constraintTop_toBottomOf="@+id/view_schedule" />
+
+            <TextView
+                android:id="@+id/tv_stasiun1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:text="STASIUN PASAR TURI"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_loc1"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lokasi1" />
+
+            <TextView
+                android:id="@+id/tv_stasiun2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="32dp"
+                android:text="STASIUN GUBENG"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_loc2"
+                app:layout_constraintTop_toTopOf="@+id/tv_lokasi2" />
+
+            <TextView
+                android:id="@+id/tv_estimasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Estimasi Waktu :"
+                app:layout_constraintEnd_toStartOf="@+id/tv_estimasibiaya"
+                app:layout_constraintHorizontal_bias="0.857"
+                app:layout_constraintStart_toEndOf="@+id/tv_lokasi2"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+            <TextView
+                android:id="@+id/tv_estimasibiaya"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="8dp"
+                android:text="Estimasi Biaya :"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="07 : 30 WIB"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.56"
+                app:layout_constraintStart_toEndOf="@+id/tv_stasiun1"
+                app:layout_constraintTop_toBottomOf="@+id/tv_berangkat" />
+
+            <ImageView
+                android:id="@+id/iv_loc1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_lokasi1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_schedule"
+                app:srcCompat="@drawable/location1" />
+
+            <ImageView
+                android:id="@+id/iv_loc2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_lokasi2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_loc1"
+                app:srcCompat="@drawable/location2" />
+
+            <TextView
+                android:id="@+id/tv_waktu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="45 Menit"
+                app:layout_constraintEnd_toStartOf="@+id/tv_biaya"
+                app:layout_constraintHorizontal_bias="0.576"
+                app:layout_constraintStart_toEndOf="@+id/tv_stasiun2"
+                app:layout_constraintTop_toBottomOf="@+id/tv_estimasi" />
+
+            <TextView
+                android:id="@+id/tv_biaya"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:text="Rp. 25.000.000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_estimasibiaya" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
