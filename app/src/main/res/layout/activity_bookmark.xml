@@ -30,16 +30,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="62dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/baseline_arrow_back_24"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.717" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView3"-->
+<!--        android:layout_width="62dp"-->
+<!--        android:layout_height="54dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:src="@drawable/baseline_arrow_back_24"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/view"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.717" />-->
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialcardview"
@@ -155,17 +155,17 @@
                 app:layout_constraintVertical_bias="0.777"
                 android:backgroundTint="#117D36"/>
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="69dp"
-                android:layout_height="57dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="32dp"
-                android:src="@drawable/baseline_circle_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/tv_kantor"
-                app:layout_constraintTop_toTopOf="@+id/tv_kantor" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView6"-->
+<!--                android:layout_width="69dp"-->
+<!--                android:layout_height="57dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginEnd="32dp"-->
+<!--                android:src="@drawable/baseline_circle_24"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="1.0"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/tv_kantor"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/tv_kantor" />-->
 
             <TextView
                 android:id="@+id/tv_est"

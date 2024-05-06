@@ -1,85 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/main"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".SelectRuteDetail">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvAsal"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:text="tvAsal"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView18" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/btn_back2"-->
+<!--        android:layout_width="85dp"-->
+<!--        android:layout_height="61dp"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/textView18"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/textView18"-->
+<!--        app:srcCompat="@drawable/ic_arrow_left" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvTujuan"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:text="tvTujuan"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tvAsal"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tvAsal" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvDurasi"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="tvDurasi"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tvTujuan"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tvTujuan" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvHarga"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="tvHarga"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tvDurasi"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tvDurasi" />-->
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="271dp"-->
+<!--        android:layout_height="624dp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tvHarga"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tvHarga" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvJamBerangkat"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:text="tvJamBerangkat"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/tvAsal" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvJamSampai"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:text="tvJamSampai"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tvJamBerangkat"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tvJamBerangkat" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView18"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Halaman Rute Detail"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectRuteDetail">
+    tools:context=".Map">
 
-    <TextView
-        android:id="@+id/tvAsal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="tvAsal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/btn_back2"
-        android:layout_width="85dp"
-        android:layout_height="61dp"
-        app:layout_constraintEnd_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toTopOf="@+id/textView18"
-        app:srcCompat="@drawable/ic_arrow_left" />
-
-    <TextView
-        android:id="@+id/tvTujuan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="tvTujuan"
-        app:layout_constraintStart_toStartOf="@+id/tvAsal"
-        app:layout_constraintTop_toBottomOf="@+id/tvAsal" />
-
-    <TextView
-        android:id="@+id/tvDurasi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tvDurasi"
-        app:layout_constraintStart_toStartOf="@+id/tvTujuan"
-        app:layout_constraintTop_toBottomOf="@+id/tvTujuan" />
-
-    <TextView
-        android:id="@+id/tvHarga"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tvHarga"
-        app:layout_constraintStart_toStartOf="@+id/tvDurasi"
-        app:layout_constraintTop_toBottomOf="@+id/tvDurasi" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="271dp"
-        android:layout_height="624dp"
-        app:layout_constraintStart_toStartOf="@+id/tvHarga"
-        app:layout_constraintTop_toBottomOf="@+id/tvHarga" />
-
-    <TextView
-        android:id="@+id/tvJamBerangkat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="tvJamBerangkat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvAsal" />
-
-    <TextView
-        android:id="@+id/tvJamSampai"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="tvJamSampai"
-        app:layout_constraintStart_toStartOf="@+id/tvJamBerangkat"
-        app:layout_constraintTop_toBottomOf="@+id/tvJamBerangkat" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Halaman Rute Detail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
