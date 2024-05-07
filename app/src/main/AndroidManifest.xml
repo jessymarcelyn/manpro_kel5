@@ -46,6 +46,10 @@
             android:exported="false" />
         <activity
             android:name=".Home"
+            android:exported="false" />
+
+        <activity
+            android:name="paba.uas.manpro.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
