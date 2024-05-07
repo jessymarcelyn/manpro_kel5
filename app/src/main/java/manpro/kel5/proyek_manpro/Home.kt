@@ -18,9 +18,7 @@ import java.util.Locale
 
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var btnRute: Button
     private lateinit var btnSearch: Button
-    private lateinit var tv_jalan: TextView
 
     companion object{
         const val dataAsall = "GETDATA1"
@@ -43,9 +41,7 @@ class Home : AppCompatActivity() {
         _tv_tanggal.text = formattedDate
 
 
-        btnRute = findViewById(R.id.btn_rute)
         btnSearch = findViewById(R.id.btn_search)
-        tv_jalan = findViewById(R.id.tv_jalan)
         var _tv_asal1 = findViewById<TextView>(R.id.tv_asal1)
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
         var _tv_tujuan1 = findViewById<TextView>(R.id.tv_tujuan1)

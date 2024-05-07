@@ -11,35 +11,72 @@
         android:orientation="vertical">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/tv_AppName"
-                android:layout_width="273dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="36dp"
-                android:text="schedule"
-                android:textAlignment="center"
-                android:textSize="40sp"
-                android:textStyle="bold"
+            android:layout_height="match_parent"
+            tools:context=".Schedule">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:background="@drawable/box_app_bar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SCHEDULE"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/view"
+                app:layout_constraintVertical_bias="0.764" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcv_schedule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_schedule"
+                android:layout_width="372dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/navbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/navbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/navigationBarColor"
+                app:elevation="0dp"
+                app:itemActiveIndicatorStyle="@null"
+                app:itemBackground="@android:color/transparent"
+                app:itemIconTint="@color/icon_color"
+                app:itemPaddingBottom="10dp"
+                app:itemPaddingTop="10dp"
+                app:itemTextColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/botnavmenu" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/navigationBarColor"
-        app:elevation="0dp"
-        app:itemActiveIndicatorStyle="@null"
-        app:itemBackground="@android:color/transparent"
-        app:itemIconTint="@color/icon_color"
-        app:itemPaddingBottom="10dp"
-        app:itemPaddingTop="10dp"
-        app:itemTextColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/botnavmenu" />
 </androidx.constraintlayout.widget.ConstraintLayout>
