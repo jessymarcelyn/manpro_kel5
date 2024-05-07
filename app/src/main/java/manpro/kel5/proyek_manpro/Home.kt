@@ -53,10 +53,10 @@ class Home : AppCompatActivity() {
 
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
-        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
-        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
-//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
-//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
+//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
+//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
+        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
+        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
         Log.d("pipi", "balik")
         Log.d("pipi", "terimaDataAsal" + terimaDataAsal)
         Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)

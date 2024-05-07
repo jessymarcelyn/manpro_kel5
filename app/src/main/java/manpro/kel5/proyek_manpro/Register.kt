@@ -2,16 +2,30 @@ package manpro.kel5.proyek_manpro
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.databinding.ActivityRegisterBinding
 
 class Register : AppCompatActivity() {
 
-    private lateinit var tv_login: TextView
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var ti_username: TextInputEditText
+    private lateinit var ti_password: TextInputEditText
+    private lateinit var ti_email: TextInputEditText
+    private lateinit var btn_daftar : Button
+    private lateinit var tv_login : TextView
+    private lateinit var binding : ActivityRegisterBinding
+    private lateinit var autentikasi : FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,9 +36,64 @@ class Register : AppCompatActivity() {
             insets
         }
 
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        autentikasi = FirebaseAuth.getInstance()
+
+        ti_username = findViewById(R.id.ti_username)
+        ti_password = findViewById(R.id.ti_password)
+        ti_email = findViewById(R.id.ti_email)
+        btn_daftar = findViewById(R.id.button_daftar)
+
+        // Register
+        binding.buttonDaftar.setOnClickListener {
+            val username = binding.tiUsername.text.toString()
+            val email = binding.tiEmail.text.toString()
+            val password = binding.tiPassword.text.toString()
+
+            // New User
+            val newUser = hashMapOf(
+                "username" to username,
+                "password" to password,
+                "email" to email
+            )
+
+
+            // Membuat user dengan username dan password
+            if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
+                autentikasi.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
+                    if (it.isSuccessful){
+                        // Menambah user ke database
+                        db.collection("User")
+                            .add(newUser)
+                            .addOnSuccessListener { documentReference ->
+                                Toast.makeText(this, "Add User Success", Toast.LENGTH_SHORT).show()
+                            }
+
+                        Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, Home::class.java)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }else {
+                Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        // Text : sudah punya akun ?
+        // Pindah ke login page
         tv_login = findViewById(R.id.tv_login)
         tv_login.setOnClickListener {
             startActivity(Intent(this, Login::class.java))
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }

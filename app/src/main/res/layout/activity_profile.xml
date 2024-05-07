@@ -19,7 +19,7 @@
         android:id="@+id/tv_AppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:text="My Profile"
         android:textAlignment="center"
         android:textColor="#FAFAFA"
@@ -29,12 +29,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/AppBar" />
 
+    <TextView
+        android:id="@+id/tv_usernameDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="username"
+        android:textAlignment="center"
+        android:textColor="#FAFAFA"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/AppBar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_AppName" />
+
     <Button
         android:id="@+id/btn_AddRute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Button"
+        android:text="Add Rute"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
@@ -44,9 +57,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Map"
+        android:text="Register"
         app:layout_constraintStart_toEndOf="@+id/btn_AddRute"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Login"
+        app:layout_constraintStart_toEndOf="@+id/btn_map"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+
 
     <TextView
         android:id="@+id/textView14"
@@ -349,7 +373,9 @@
                 app:srcCompat="@drawable/ic_logout" />
         </LinearLayout>
 
+        <!--        linear layout log out-->
         <LinearLayout
+            android:id="@+id/linearLayoutLogOut"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -378,6 +404,7 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!--    linear layout delete account-->
     <LinearLayout
         android:id="@+id/linearLayout11"
         android:layout_width="0dp"

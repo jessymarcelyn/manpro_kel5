@@ -163,7 +163,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_daftar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -187,7 +187,7 @@
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
+                app:layout_constraintTop_toBottomOf="@+id/button_daftar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

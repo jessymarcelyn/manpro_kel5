@@ -1,19 +1,32 @@
 package manpro.kel5.proyek_manpro
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
-
+    private val db = FirebaseFirestore.getInstance()
     private lateinit var tv_lupa_pass: TextView
-    private lateinit var tv_daftar: Button
+    private lateinit var tv_daftar: TextView
+    private lateinit var ti_username: TextInputEditText
+    private lateinit var ti_password: TextInputEditText
+    private lateinit var button_masuk: Button
 
+    private lateinit var binding : ActivityLoginBinding
+    private lateinit var autentikasi : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +38,62 @@ class Login : AppCompatActivity() {
             insets
         }
 
+        ti_username = findViewById(R.id.ti_username)
+        ti_password = findViewById(R.id.ti_password)
+        button_masuk = findViewById(R.id.button_masuk)
+
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        autentikasi = FirebaseAuth.getInstance()
+
+        binding.buttonMasuk.setOnClickListener {
+            val username = binding.tiUsername.text.toString()
+            val password = binding.tiPassword.text.toString()
+
+            db.collection("User")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val user = documents.first().toObject(User::class.java)
+                        if (user.password == password) {
+                            val email = user.email
+                            autentikasi.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { signInTask ->
+                                    if (signInTask.isSuccessful) {
+                                        Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                                        val intent = Intent(this, Home::class.java)
+                                        startActivity(intent)
+                                    } else {
+                                        // Handle sign-in failure
+                                        Toast.makeText(this, "Login failed: ${signInTask.exception?.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                        } else {
+                            // Password does not match
+                            Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        // User not found
+                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle any errors that occurred during the query
+                    Toast.makeText(this, "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+
         tv_daftar = findViewById(R.id.tv_daftar)
         tv_daftar.setOnClickListener {
             startActivity(Intent(this, Register::class.java))
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }

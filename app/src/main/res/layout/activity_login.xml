@@ -121,7 +121,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/button_masuk"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -145,7 +145,7 @@
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
+                app:layout_constraintTop_toBottomOf="@+id/button_masuk" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -158,7 +158,7 @@
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
+                app:layout_constraintTop_toBottomOf="@+id/button_masuk" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
