@@ -1,6 +1,7 @@
 package manpro.kel5.proyek_manpro
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.Pager
@@ -19,6 +20,7 @@ class Schedule : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
+        BottomNav.setupBottomNavigationView(this)
 
         rvSchedule = findViewById(R.id.rv_schedule)
         rvSchedule.layoutManager = LinearLayoutManager(this)
@@ -50,6 +52,11 @@ class Schedule : AppCompatActivity() {
             flow.collectLatest { pagingData ->
                 adapter.submitData(pagingData)
             }
+        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 }
