@@ -3,6 +3,8 @@ package manpro.kel5.proyek_manpro
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -38,13 +40,27 @@ class SelectLocation : AppCompatActivity() {
 
         val _searchText = findViewById<TextInputEditText>(R.id.searchText)
 
-        val _imageSearch = findViewById<ImageButton>(R.id.btnSearch1)
+//        val _imageSearch = findViewById<ImageButton>(R.id.btnSearch1)
+//
+//        _imageSearch.setOnClickListener{
+//            val userInput = _searchText.text.toString()
+//            Log.d("ukuk", "User input: $userInput")
+//            retrieveStopDataFilter(userInput)
+//        }
 
-        _imageSearch.setOnClickListener{
-            val userInput = _searchText.text.toString()
-            Log.d("ukuk", "User input: $userInput")
-            retrieveStopDataFilter(userInput)
-        }
+        _searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val userInput = s.toString()
+                Log.d("ukuk", "User input: $userInput")
+                retrieveStopDataFilter(userInput)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
 
 
         _isAsal = intent.getBooleanExtra(isAsal, false)

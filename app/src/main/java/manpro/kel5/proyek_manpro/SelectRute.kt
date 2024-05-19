@@ -148,6 +148,7 @@ class SelectRute : AppCompatActivity() {
                                 currentRouteDocId
                             )
                             discoveredRoutes.addAll(newDiscoveredRoutesLocal)
+//                            Log.d("dfdf", "newDiscoveredRoutesLocal " + newDiscoveredRoutesLocal.toString() )
                         }
                     }
                 }
