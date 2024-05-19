@@ -1,9 +1,14 @@
 package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.DocumentSnapshot
@@ -50,6 +57,14 @@ class SelectRute : AppCompatActivity() {
             }
             startActivity(intentWithData)
         }
+
+        val btnFilter = findViewById<ImageButton>(R.id.btnFilter1)
+
+        btnFilter.setOnClickListener{
+            showFilterDialog()
+        }
+
+//        BottomSheetBehavior.from(sheet).ap
 
         Log.d("eueu", "dataAsal " + dataAsal)
         Log.d("eueu", "dataTujuan " +  dataTujuan)
@@ -111,6 +126,21 @@ class SelectRute : AppCompatActivity() {
 
 
     }
+    private fun showFilterDialog() {
+        // Create a new dialog
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.filter_menu)
+
+        // Set the dialog properties
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+
+        // Show the dialog
+        dialog.show()
+    }
+
     private fun trackRoute(
         tempatAwal: String,
         tempatTujuan: String,

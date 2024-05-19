@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State when the item is pressed -->
+    <item android:state_pressed="true" android:color="#A9A9A9" /> <!-- DarkGray when pressed -->
+    <!-- State when the item is focused -->
+    <item android:state_focused="true" android:color="#D3D3D3" /> <!-- LightGray when focused -->
+    <!-- Default state -->
+    <item android:color="@color/white" /> <!-- Gray by default -->
+</selector>
