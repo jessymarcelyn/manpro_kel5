@@ -9,8 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +24,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.DocumentSnapshot
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 class SelectRute : AppCompatActivity() {
@@ -38,6 +45,8 @@ class SelectRute : AppCompatActivity() {
     private lateinit var tv_jalan: TextView
     private var arRute = arrayListOf<Rute>()
     private lateinit var _rvRute: RecyclerView
+    private  var _filterOpt: Int = 1
+    var ruteText = StringBuilder()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +82,7 @@ class SelectRute : AppCompatActivity() {
         btnSearch.setOnClickListener {
 
         }
-        val ruteText = StringBuilder()
+        ruteText = StringBuilder()
         trackRoute(dataAsal, dataTujuan, ruteText)
 
         _rvRute = findViewById(R.id.rvRute)
@@ -137,6 +146,43 @@ class SelectRute : AppCompatActivity() {
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
 
+        val _btnSort = dialog.findViewById<Button>(R.id.btnSort)
+        val _btnRadio1 = dialog.findViewById<RadioButton>(R.id.btnRadio1)
+        val _btnRadio2 = dialog.findViewById<RadioButton>(R.id.btnRadio2)
+        val _btnRadio3 = dialog.findViewById<RadioButton>(R.id.btnRadio3)
+        val _radioGroupFilter = dialog.findViewById<RadioGroup>(R.id.radioGroupFilter)
+
+        var selectedRadioButtonId = -1
+
+        // Set a checked change listener for the radio group
+        _radioGroupFilter.setOnCheckedChangeListener { group, checkedId ->
+            selectedRadioButtonId = checkedId
+        }
+
+        _btnSort.setOnClickListener {
+            if (selectedRadioButtonId != -1) {
+                val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
+                val filterText = selectedRadioButton.text.toString()
+                if(selectedRadioButtonId == _btnRadio1.id){
+                    _filterOpt = 1
+                    Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
+                }
+                else if(selectedRadioButtonId == _btnRadio2.id){
+                    _filterOpt = 2
+                    Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
+                }
+                else if(selectedRadioButtonId == _btnRadio3.id){
+                    _filterOpt = 3
+                    Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
+                }
+                fetchRutes()
+            } else {
+                Toast.makeText(this, "Please select a filter option", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+
         // Show the dialog
         dialog.show()
     }
@@ -149,6 +195,8 @@ class SelectRute : AppCompatActivity() {
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
+        arRute.clear()
+
         db.collection("Rute")
             .get()
             .addOnSuccessListener { documents ->
@@ -201,104 +249,6 @@ class SelectRute : AppCompatActivity() {
             }
     }
 
-    fun fetchRutes() {
-        val totalRoutes = validDiscoveredRoutes.size
-        var counter = 0
-
-        fun processRoute(innerList: List<String>) {
-            val listId = mutableListOf<String>()
-            val listAsal = mutableListOf<String>()
-            val listTujuan = mutableListOf<String>()
-            val listHarga = mutableListOf<Int>()
-            val listDurasi = mutableListOf<Int>()
-            val listJamBerangkat = mutableListOf<String>()
-            val listJamSampai = mutableListOf<String>()
-
-            var counterInnerList = 0
-
-            for (ruteId in innerList) {
-                Log.d("mhmh", "ruteID " + ruteId)
-                db.collection("Rute")
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            val docId = document.id
-                            if (docId == ruteId) {
-                                val namaAsal = document.getString("id_stop_source")
-                                val namaTujuan = document.getString("id_stop_dest")
-                                val jamBerangkat = document.getString("jam_berangkat")
-                                val jamSampai = document.getString("jam_sampai")
-                                val durasi = document.getLong("estimasi")?.toInt() ?: 0
-                                val biaya = document.getLong("price")?.toInt() ?: 0
-                                Log.d("mhmh", "masuk1 ")
-                                Log.d("mhmh", "namaAsal " + namaAsal)
-                                Log.d("mhmh", "namaTujuan " + namaTujuan)
-
-                                if (namaAsal != null && namaTujuan != null && jamBerangkat != null && jamSampai != null) {
-                                    Log.d("mhmh", "masuk2 ")
-                                    listId.add(docId)
-                                    listAsal.add(namaAsal)
-                                    listTujuan.add(namaTujuan)
-                                    listHarga.add(durasi)
-                                    listDurasi.add(biaya)
-                                    listJamBerangkat.add(jamBerangkat)
-                                    listJamSampai.add(jamSampai)
-
-                                    counterInnerList++
-
-                                    if (counterInnerList == innerList.size) {
-                                        // Semua inner rute sudah berhasil
-                                        arRute.add(
-                                            Rute(
-                                                listId,
-                                                listAsal,
-                                                listTujuan,
-                                                listHarga,
-                                                listDurasi,
-                                                listJamBerangkat,
-                                                listJamSampai
-                                            )
-                                        )
-                                        counter++
-
-                                        if (counter == totalRoutes) {
-                                            // Semua rute sudah berhasil
-                                            Log.d("mjmj", arRute.toString())
-                                            _rvRute.adapter?.notifyDataSetChanged()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        // Handle failure
-                    }
-            }
-        }
-
-        // Process each route
-        for (innerList in validDiscoveredRoutes) {
-            processRoute(innerList)
-            arRute.clear()
-        }
-    }
-
-
-
-
-    private fun displayRoutes(validDiscoveredRoutes: List<List<String>>) {
-        Log.d("ere", "MASUK " + validDiscoveredRoutes.toString())
-        if (validDiscoveredRoutes.isNotEmpty()) {
-            val routeString = validDiscoveredRoutes.joinToString("\n") {
-                it.joinToString(" -> ") { route -> route }
-            }
-//            tv_jalan.text = validDiscoveredRoutes.toString()
-        } else {
-            tv_jalan.text = "Tidak ada rute yang ditemukan."
-        }
-    }
-
     private fun isValidRoute(
         currentRoute: List<String>,
         documents: QuerySnapshot
@@ -332,4 +282,154 @@ class SelectRute : AppCompatActivity() {
         }
         return connectionValidity;
     }
+
+    fun fetchRutes() {
+        val totalRoutes = validDiscoveredRoutes.size
+        var counter = 0
+
+        fun processRoute(innerList: List<String>) {
+            val listId = mutableListOf<String>()
+            val listAsal = mutableListOf<String>()
+            val listTujuan = mutableListOf<String>()
+            val listHarga = mutableListOf<Int>()
+            val listDurasi = mutableListOf<Int>()
+            val listJamBerangkat = mutableListOf<String>()
+            val listJamSampai = mutableListOf<String>()
+            val listTranspor = mutableListOf<String>()
+
+            var counterInnerList = 0
+
+            for (ruteId in innerList) {
+                Log.d("mhmh", "ruteID " + ruteId)
+                db.collection("Rute")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            val docId = document.id
+                            if (docId == ruteId) {
+                                val namaAsal = document.getString("id_stop_source")
+                                val namaTujuan = document.getString("id_stop_dest")
+                                val jamBerangkat = document.getString("jam_berangkat")
+                                val jamSampai = document.getString("jam_sampai")
+                                val id_transportasi = document.getString("id_transportasi")
+                                val durasi = document.getLong("estimasi")?.toInt() ?: 0
+                                val biaya = document.getLong("price")?.toInt() ?: 0
+                                Log.d("mhmh", "masuk1 ")
+                                Log.d("mhmh", "namaAsal " + namaAsal)
+                                Log.d("mhmh", "namaTujuan " + namaTujuan)
+
+                                if (namaAsal != null && namaTujuan != null && jamBerangkat != null && jamSampai != null &&id_transportasi != null) {
+                                    Log.d("mhmh", "masuk2 ")
+                                    listId.add(docId)
+                                    listAsal.add(namaAsal)
+                                    listTujuan.add(namaTujuan)
+                                    listHarga.add(durasi)
+                                    listDurasi.add(biaya)
+                                    listJamBerangkat.add(jamBerangkat)
+                                    listJamSampai.add(jamSampai)
+                                    listTranspor.add(id_transportasi)
+
+                                    counterInnerList++
+
+                                    if (counterInnerList == innerList.size) {
+                                        // Semua inner rute sudah berhasil
+                                        arRute.add(
+                                            Rute(
+                                                listId,
+                                                listAsal,
+                                                listTujuan,
+                                                listHarga,
+                                                listDurasi,
+                                                listJamBerangkat,
+                                                listJamSampai,
+                                                listTranspor
+                                            )
+                                        )
+                                        counter++
+
+                                        if (counter == totalRoutes) {
+                                            // Semua rute sudah berhasil
+                                            Log.d("mjmj", arRute.toString())
+//                                            _rvRute.adapter?.notifyDataSetChanged()
+                                            sortRutes(arRute)
+                                            _rvRute.adapter?.notifyDataSetChanged()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        // Handle failure
+                    }
+            }
+        }
+
+        // Process each route
+        for (innerList in validDiscoveredRoutes) {
+            processRoute(innerList)
+            arRute.clear()
+        }
+    }
+
+    fun sortRutes(arRute: ArrayList<Rute>) {
+        if (_filterOpt == 1) {
+            val timeFormat = SimpleDateFormat("HHmm", Locale.getDefault())
+            arRute.sortBy { rute ->
+                // rute waktu sampai tercepat
+                Log.d("wdwd", rute.jam_sampai.lastOrNull().toString())
+                rute.jam_sampai.lastOrNull()?.let { jamSampai ->
+                    val date: Date = timeFormat.parse(jamSampai)!!
+                    val calendar = Calendar.getInstance()
+                    calendar.time = date
+                    val hours = calendar.get(Calendar.HOUR_OF_DAY)
+                    val minutes = calendar.get(Calendar.MINUTE)
+                    hours * 60 + minutes
+                } ?: Int.MAX_VALUE  // Default to a large value if listJamSampai is empty
+            }
+            Log.d("sasa", arRute.toString())
+            _rvRute.adapter?.notifyDataSetChanged()
+        }
+        //sementara masih sort dari rute terlama
+        else if (_filterOpt == 2) {
+            val timeFormat = SimpleDateFormat("HHmm", Locale.getDefault())
+            arRute.sortByDescending { rute ->
+                // Convert the last jam_sampai to minutes since midnight for comparison
+                Log.d("wdwd", rute.jam_sampai.lastOrNull().toString())
+                rute.jam_sampai.lastOrNull()?.let { jamSampai ->
+                    val date: Date = timeFormat.parse(jamSampai)!!
+                    val calendar = Calendar.getInstance()
+                    calendar.time = date
+                    val hours = calendar.get(Calendar.HOUR_OF_DAY)
+                    val minutes = calendar.get(Calendar.MINUTE)
+                    hours * 60 + minutes
+                } ?: Int.MIN_VALUE  // Default to a large negative value if listJamSampai is empty
+            }
+            Log.d("sasa", arRute.toString())
+            _rvRute.adapter?.notifyDataSetChanged()
+        } else if(_filterOpt == 3){
+            // rute minim transfer
+            arRute.sortBy { rute ->
+                rute.id_transportasi.distinct().size
+            }
+            Log.d("sasa", arRute.toString())
+            _rvRute.adapter?.notifyDataSetChanged()
+        }
+
+    }
+
+
+    private fun displayRoutes(validDiscoveredRoutes: List<List<String>>) {
+        Log.d("ere", "MASUK " + validDiscoveredRoutes.toString())
+        if (validDiscoveredRoutes.isNotEmpty()) {
+            val routeString = validDiscoveredRoutes.joinToString("\n") {
+                it.joinToString(" -> ") { route -> route }
+            }
+//            tv_jalan.text = validDiscoveredRoutes.toString()
+        } else {
+            tv_jalan.text = "Tidak ada rute yang ditemukan."
+        }
+    }
+
+
 }

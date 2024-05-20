@@ -33,11 +33,13 @@
             android:textStyle="bold" />
 
         <RadioGroup
+            android:id="@+id/radioGroupFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
         <RadioButton
+            android:id="@+id/btnRadio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -49,6 +51,7 @@
             android:textSize="20sp" />
 
         <RadioButton
+            android:id="@+id/btnRadio2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -60,19 +63,20 @@
             android:textSize="20sp" />
 
         <RadioButton
+            android:id="@+id/btnRadio3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:padding="8dp"
-            android:text="Rute dengan minim transfer"
+            android:text="Rute sedikit transfer"
             android:textAlignment="viewStart"
             android:textColor="#000000"
             android:textSize="20sp" />
         </RadioGroup>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnSort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"

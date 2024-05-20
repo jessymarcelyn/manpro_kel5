@@ -46,6 +46,7 @@ data class Rute(
     var biaya: List<Int>,
     var jam_berangkat: List<String>,
     var jam_sampai: List<String>,
+    var id_transportasi: List<String>
 
 
 
