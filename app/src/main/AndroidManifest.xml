@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".ChooseRoute"
+            android:exported="false" />
+        <activity
             android:name=".Register"
             android:exported="false" />
         <activity
@@ -47,7 +50,6 @@
         <activity
             android:name=".Home"
             android:exported="false" />
-
         <activity
             android:name="paba.uas.manpro.MainActivity"
             android:exported="true">

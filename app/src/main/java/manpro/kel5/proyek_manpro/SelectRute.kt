@@ -19,11 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.DocumentSnapshot
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -57,7 +54,7 @@ class SelectRute : AppCompatActivity() {
         dataAsal = intent.getStringExtra(asal) ?: ""
         dataTujuan = intent.getStringExtra(tujuan) ?: ""
 
-        val _btn_back = findViewById<ImageView>(R.id.btn_back1)
+        val _btn_back = findViewById<ImageView>(R.id.btn_back_c_rute)
         _btn_back.setOnClickListener {
             val intentWithData = Intent(this@SelectRute, Home::class.java).apply {
                 putExtra(Home.dataAsall, dataAsal)
