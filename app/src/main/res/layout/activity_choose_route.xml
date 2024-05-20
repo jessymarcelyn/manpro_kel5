@@ -199,7 +199,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_tujuan2" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/tv_hargaa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -213,8 +213,8 @@
 
     <ImageView
         android:id="@+id/imageView10"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -222,10 +222,10 @@
         app:srcCompat="@drawable/circle_asal" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tv_asall2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="16sp"
         android:text="STASIUN PASAR TURI"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
@@ -233,10 +233,10 @@
         app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/tv_tujuann2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="16sp"
         android:text="STASIUN Z"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView17"
@@ -255,21 +255,92 @@
 
     <ImageView
         android:id="@+id/imageView17"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/rv_choose"
         app:srcCompat="@drawable/circle_tujuan" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="251dp"
-        android:layout_height="199dp"
-        android:layout_marginTop="8dp"
+        android:id="@+id/rv_choose"
+        android:layout_width="354dp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/vert1" />
+
+    <TextView
+        android:id="@+id/tv_jamBerangkatt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_asall2"
+        app:layout_constraintEnd_toEndOf="@+id/rv_choose"
+        app:layout_constraintTop_toTopOf="@+id/tv_asall2" />
+
+    <TextView
+        android:id="@+id/tv_jamSampai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_tujuann2"
+        app:layout_constraintEnd_toEndOf="@+id/rv_choose"
+        app:layout_constraintTop_toTopOf="@+id/tv_tujuann2" />
+
+    <Button
+        android:id="@+id/btnView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#8E8E89"
+        android:text="View"
+        app:layout_constraintEnd_toStartOf="@+id/btnChoose"
+        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+
+    <Button
+        android:id="@+id/btnChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#8E8E89"
+        android:text="Choose"
+        app:layout_constraintEnd_toEndOf="@+id/rv_choose"
+        app:layout_constraintTop_toTopOf="@+id/btnView" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/circle_profile"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/tv_asal1" />
+
+    <TextView
+        android:id="@+id/tv_durasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="30"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="@+id/view4"
+        app:layout_constraintTop_toTopOf="@+id/view4" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Min"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="@+id/view4"
+        app:layout_constraintTop_toBottomOf="@+id/tv_durasi" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

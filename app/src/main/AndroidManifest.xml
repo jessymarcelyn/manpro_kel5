@@ -51,6 +51,9 @@
             android:name=".Home"
             android:exported="false" />
         <activity
+            android:name=".ChooseRoute"
+            android:exported="false" />
+        <activity
             android:name="paba.uas.manpro.MainActivity"
             android:exported="true">
             <intent-filter>

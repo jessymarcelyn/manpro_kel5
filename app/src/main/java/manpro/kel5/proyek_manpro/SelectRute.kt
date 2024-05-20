@@ -102,9 +102,13 @@ class SelectRute : AppCompatActivity() {
 
             override fun gotoDetail(data: Rute) {
 //                val intent = Intent(this@SelectRute, Map::class.java)
-                val intent = Intent(this@SelectRute, SelectRuteDetail::class.java)
+//                val intent = Intent(this@SelectRute, SelectRuteDetail::class.java)
+//                intent.putExtra("kirimData", data)
+                val intent = Intent(this@SelectRute, ChooseRoute::class.java)
                 Log.d("uyuy", data.toString())
                 intent.putExtra("kirimData", data)
+                intent.putExtra(ChooseRoute.asal, dataAsal)
+                intent.putExtra(ChooseRoute.tujuan, dataTujuan)
                 startActivity(intent)
             }
         })

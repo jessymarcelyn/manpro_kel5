@@ -7,8 +7,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/listImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/circle_middle"
@@ -22,7 +22,7 @@
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:text="Stasiun X"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/listImage"
         app:layout_constraintStart_toEndOf="@+id/listImage"
@@ -39,5 +39,15 @@
         app:layout_constraintEnd_toEndOf="@+id/listImage"
         app:layout_constraintStart_toStartOf="@+id/listImage"
         app:layout_constraintTop_toBottomOf="@+id/listImage" />
+
+    <TextView
+        android:id="@+id/tv_jamBerangkat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_lokasi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_lokasi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
