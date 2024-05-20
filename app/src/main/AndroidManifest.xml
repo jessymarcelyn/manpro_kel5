@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
-            android:name=".ChooseRoute"
+            android:name=".AddStop"
             android:exported="false" />
         <activity
             android:name=".Register"

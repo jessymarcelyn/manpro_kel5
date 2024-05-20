@@ -16,6 +16,7 @@ class Profile : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var tv_usernameDisplay : TextView
     private lateinit var btnAddRute: Button
+    private lateinit var btnAddStop : Button
     private lateinit var btnMap: Button
     private lateinit var btnLogin: Button
     private lateinit var llLogout : LinearLayout
@@ -30,12 +31,20 @@ class Profile : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         BottomNav.setupBottomNavigationView(this)
 
+        // Add Rute
         btnAddRute = findViewById(R.id.btn_AddRute)
         btnAddRute.setOnClickListener {
             startActivity(Intent(this, AddRute::class.java))
         }
 
-        btnMap = findViewById(R.id.btn_map)
+        // Add Stop
+        btnAddStop = findViewById(R.id.btn_AddStop)
+        btnAddStop.setOnClickListener {
+            startActivity(Intent(this, AddStop::class.java))
+        }
+
+        // Register
+        btnMap = findViewById(R.id.btn_register)
         btnMap.setOnClickListener {
 //            startActivity(Intent(this, Map::class.java))
             startActivity(Intent(this, Register::class.java))

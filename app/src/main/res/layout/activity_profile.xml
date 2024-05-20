@@ -52,7 +52,17 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
     <Button
-        android:id="@+id/btn_map"
+        android:id="@+id/btn_AddStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="76dp"
+        android:text="Add Stop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+
+    <Button
+        android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -68,7 +78,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Login"
-        app:layout_constraintStart_toEndOf="@+id/btn_map"
+        app:layout_constraintStart_toEndOf="@+id/btn_register"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
 
