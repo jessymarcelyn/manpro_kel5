@@ -21,6 +21,7 @@ class ChooseRoute : AppCompatActivity() {
     companion object{
         const val tujuan = "efef"
         const val asal = "fefe"
+        const val index = "asas"
     }
 
     val listAsal = mutableListOf<String>()
@@ -28,6 +29,7 @@ class ChooseRoute : AppCompatActivity() {
     val listTranspor = mutableListOf<String>()
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
+    private lateinit var indexx: String
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,9 @@ class ChooseRoute : AppCompatActivity() {
         val dataIntent = intent.getParcelableExtra<Rute>("kirimData")
         dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
+        indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
 
+        val _tv_title = findViewById<TextView>(R.id.tv_title)
         val _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
         val _tv_asall2 = findViewById<TextView>(R.id.tv_asall2)
         val _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
@@ -62,6 +66,7 @@ class ChooseRoute : AppCompatActivity() {
         _tv_asall2.text = dataAsal
         _tv_tujuan2.text = dataTujuan
         _tv_tujuann2.text = dataTujuan
+        _tv_title.text = "RUTE " + indexx.toString()
 
         Log.d("lklk", dataIntent.toString())
 

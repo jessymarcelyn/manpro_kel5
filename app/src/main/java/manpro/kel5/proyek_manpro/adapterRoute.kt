@@ -21,7 +21,7 @@ class adapterRoute (
     interface OnItemClickCallback {
         fun  onItemClicked(data : Rute)
         fun delData(pos:Int)
-        fun gotoDetail(data : Rute)
+        fun gotoDetail(data : Rute, pos: Int)
     }
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
         this.onItemClickCallback = onItemClickCallback
@@ -80,7 +80,7 @@ class adapterRoute (
         holder.recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
 
         holder._btn_choose.setOnClickListener {
-            onItemClickCallback.gotoDetail(rute)
+            onItemClickCallback.gotoDetail(rute, position+1)
         }
 
 

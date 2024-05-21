@@ -100,7 +100,8 @@ class SelectRute : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
-            override fun gotoDetail(data: Rute) {
+            override fun gotoDetail(data: Rute, pos: Int) {
+                Log.d("opo", pos.toString())
 //                val intent = Intent(this@SelectRute, Map::class.java)
 //                val intent = Intent(this@SelectRute, SelectRuteDetail::class.java)
 //                intent.putExtra("kirimData", data)
@@ -109,6 +110,7 @@ class SelectRute : AppCompatActivity() {
                 intent.putExtra("kirimData", data)
                 intent.putExtra(ChooseRoute.asal, dataAsal)
                 intent.putExtra(ChooseRoute.tujuan, dataTujuan)
+                intent.putExtra(ChooseRoute.index, pos.toString());
                 startActivity(intent)
             }
         })
