@@ -66,7 +66,9 @@ class adapterRoute (
         holder._tv_durasi.text = differenceInMinutes.toString()
 
         holder._tv_label.text = "Rute ${position+1}"
-        holder._tv_harga.text = totalBiaya.toString()
+
+        val formattedBiaya = String.format("%,d", totalBiaya)
+        holder._tv_harga.text = formattedBiaya
 
 
         var titikRute: MutableList<String> = mutableListOf()

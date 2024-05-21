@@ -48,6 +48,7 @@ class ChooseRoute : AppCompatActivity() {
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
         indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
 
+
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         val _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
         val _tv_asall2 = findViewById<TextView>(R.id.tv_asall2)
@@ -71,7 +72,7 @@ class ChooseRoute : AppCompatActivity() {
         Log.d("lklk", dataIntent.toString())
 
         var totalBiaya = 0
-        var totalDurasi = 0
+
         if (dataIntent != null) {
             for (harga in dataIntent.biaya) {
                 totalBiaya += harga

@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,8 @@ class SelectRute : AppCompatActivity() {
     private lateinit var _rvRute: RecyclerView
     private  var _filterOpt: Int = 1
     var ruteText = StringBuilder()
+    private var bus : Boolean = false
+    private var train : Boolean = false
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,6 +158,9 @@ class SelectRute : AppCompatActivity() {
         val _btnRadio3 = dialog.findViewById<RadioButton>(R.id.btnRadio3)
         val _radioGroupFilter = dialog.findViewById<RadioGroup>(R.id.radioGroupFilter)
 
+        val _idSwitch = dialog.findViewById<Switch>(R.id.idSwitch)
+        val _idSwitch2 = dialog.findViewById<Switch>(R.id.idSwitch2)
+
         var selectedRadioButtonId = -1
 
         // Set a checked change listener for the radio group
@@ -163,6 +169,13 @@ class SelectRute : AppCompatActivity() {
         }
 
         _btnSort.setOnClickListener {
+            bus = _idSwitch.isChecked
+            train = _idSwitch2.isChecked
+
+            //blm bisa mempertahanin kalau diclick
+
+            Log.d("nbnb", "bus : " + bus)
+            Log.d("nbnb", "train : " + train)
             if (selectedRadioButtonId != -1) {
                 val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
                 val filterText = selectedRadioButton.text.toString()
@@ -178,10 +191,8 @@ class SelectRute : AppCompatActivity() {
                     _filterOpt = 3
                     Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
                 }
-                fetchRutes()
-            } else {
-                Toast.makeText(this, "Please select a filter option", Toast.LENGTH_SHORT).show()
             }
+            fetchRutes()
             dialog.dismiss()
         }
 
@@ -354,6 +365,29 @@ class SelectRute : AppCompatActivity() {
                                             // Semua rute sudah berhasil
                                             Log.d("mjmj", arRute.toString())
 //                                            _rvRute.adapter?.notifyDataSetChanged()
+                                            val filteredRoutes: MutableList<Rute> = mutableListOf()
+
+                                            if((bus && train) || (!bus && !train)){
+
+                                            }
+                                            else if (bus) {
+                                                Log.d("mnmn", "masuk1")
+                                                filteredRoutes.addAll(arRute.filter { route ->
+                                                    route.id_transportasi.all { it.startsWith("B") }
+                                                })
+                                                arRute.clear()
+                                                arRute.addAll(filteredRoutes)
+                                            } else if (train) {
+                                                Log.d("mnmn", "masuk2")
+                                                filteredRoutes.addAll(arRute.filter { route ->
+                                                    route.id_transportasi.all { it.startsWith("T") }
+                                                })
+                                                arRute.clear()
+                                                arRute.addAll(filteredRoutes)
+                                            }
+
+
+                                            Log.d("mmm",arRute.toString())
                                             sortRutes(arRute)
                                             _rvRute.adapter?.notifyDataSetChanged()
                                         }
@@ -393,28 +427,27 @@ class SelectRute : AppCompatActivity() {
             Log.d("sasa", arRute.toString())
             _rvRute.adapter?.notifyDataSetChanged()
         }
-        //sementara masih sort dari rute terlama
+
         else if (_filterOpt == 2) {
-            val timeFormat = SimpleDateFormat("HHmm", Locale.getDefault())
-            arRute.sortByDescending { rute ->
-                // Convert the last jam_sampai to minutes since midnight for comparison
-                Log.d("wdwd", rute.jam_sampai.lastOrNull().toString())
-                rute.jam_sampai.lastOrNull()?.let { jamSampai ->
-                    val date: Date = timeFormat.parse(jamSampai)!!
-                    val calendar = Calendar.getInstance()
-                    calendar.time = date
-                    val hours = calendar.get(Calendar.HOUR_OF_DAY)
-                    val minutes = calendar.get(Calendar.MINUTE)
-                    hours * 60 + minutes
-                } ?: Int.MIN_VALUE  // Default to a large negative value if listJamSampai is empty
+            val sortedRute = arRute.sortedBy { rute ->
+                rute.biaya.sum()
+            }
+
+            arRute.clear()
+            arRute.addAll(sortedRute)
+
+            sortedRute.forEach { rute ->
+                Log.d("efef", "Total Biaya: ${rute.biaya.sum()}")
             }
             Log.d("sasa", arRute.toString())
             _rvRute.adapter?.notifyDataSetChanged()
         } else if(_filterOpt == 3){
             // rute minim transfer
-            arRute.sortBy { rute ->
+            val sortedRute = arRute.sortedBy { rute ->
                 rute.id_transportasi.distinct().size
             }
+            arRute.clear()
+            arRute.addAll(sortedRute)
             Log.d("sasa", arRute.toString())
             _rvRute.adapter?.notifyDataSetChanged()
         }
