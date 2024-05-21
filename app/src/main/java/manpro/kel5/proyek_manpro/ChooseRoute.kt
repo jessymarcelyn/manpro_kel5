@@ -25,6 +25,7 @@ class ChooseRoute : AppCompatActivity() {
 
     val listAsal = mutableListOf<String>()
     val listJamBerangkat = mutableListOf<String>()
+    val listTranspor = mutableListOf<String>()
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
 
@@ -55,6 +56,7 @@ class ChooseRoute : AppCompatActivity() {
         val _tv_durasi = findViewById<TextView>(R.id.tv_durasi)
         val _btnView = findViewById<Button>(R.id.btnView)
         val _btnChoose = findViewById<Button>(R.id.btnChoose)
+        val _tv_buss = findViewById<TextView>(R.id.tv_buss)
 
         _tv_asal2.text = dataAsal
         _tv_asall2.text = dataAsal
@@ -90,6 +92,8 @@ class ChooseRoute : AppCompatActivity() {
             formattedJam = "${jamStr.substring(0, 2)}:${jamStr.substring(2, 4)}"
             _tv_jamSampai.text = formattedJam
 
+            _tv_buss.text = dataIntent.id_transportasi.get(0)
+
             dataIntent.nama_source.forEachIndexed { index, data ->
                 if (index != 0) {
                     listAsal.add(data)
@@ -100,8 +104,13 @@ class ChooseRoute : AppCompatActivity() {
                     listJamBerangkat.add(data)
                 }
             }
+            dataIntent.id_transportasi.forEachIndexed { index, data ->
+                if (index != 0) {
+                    listTranspor.add(data)
+                }
+            }
             _rv_choose.layoutManager = LinearLayoutManager(this)
-            val adapterP = adapterChooseRoute(listAsal, listJamBerangkat)
+            val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listTranspor)
             _rv_choose.adapter = adapterP
         }
 
