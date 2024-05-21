@@ -76,12 +76,12 @@ class ChooseRoute : AppCompatActivity() {
             for (harga in dataIntent.biaya) {
                 totalBiaya += harga
             }
-            for (durasi in dataIntent.durasi){
-                totalDurasi += durasi
-            }
+
+            val firstJamBerangkat = dataIntent.jam_berangkat.first()
+            val lastJamSampai = dataIntent.jam_sampai.last()
+            val differenceInMinutes = calculateTimeDifference(firstJamBerangkat, lastJamSampai)
+            _tv_durasi.text = differenceInMinutes.toString()
         }
-        val menit = totalDurasi / 60
-        _tv_durasi.text = menit.toString()
 
         val formattedBiaya = "Rp. " + String.format("%,d", totalBiaya)
         _tv_hargaa.text = formattedBiaya
@@ -133,7 +133,23 @@ class ChooseRoute : AppCompatActivity() {
             intent.putExtra("kirimData", dataIntent)
             startActivity(intent)
         }
+    }
+    // Convert "HHMM" string format to total minutes since midnight
+    fun convertToMinutes(time: String): Int {
+        val hours = time.substring(0, 2).toInt()
+        val minutes = time.substring(2).toInt()
+        return hours * 60 + minutes
+    }
 
-
+    // Calculate the difference between two times in minutes
+    fun calculateTimeDifference(start: String, end: String): Int {
+        val startMinutes = convertToMinutes(start)
+        val endMinutes = convertToMinutes(end)
+        return if (endMinutes >= startMinutes) {
+            endMinutes - startMinutes
+        } else {
+            // Handle case when the end time is on the next day
+            endMinutes + (24 * 60) - startMinutes
+        }
     }
 }

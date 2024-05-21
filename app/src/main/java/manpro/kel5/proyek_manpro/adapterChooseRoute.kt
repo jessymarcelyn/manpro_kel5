@@ -43,6 +43,5 @@ class adapterChooseRoute (
         holder._tv_trans.text = trans
 //        holder._tv_jamBerangkat.text = rutee.jam_berangkat
 
-
     }
 }
