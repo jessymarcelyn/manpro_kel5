@@ -1,13 +1,14 @@
-package manpro.kel5.proyek_manpro
+package manpro.kel5.proyek_manpro.profile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.R
+import manpro.kel5.proyek_manpro.Stop
 
 class AddStop : AppCompatActivity() {
     private lateinit var id_stop : EditText

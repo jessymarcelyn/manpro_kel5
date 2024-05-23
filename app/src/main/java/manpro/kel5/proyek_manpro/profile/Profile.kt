@@ -1,4 +1,4 @@
-package manpro.kel5.proyek_manpro
+package manpro.kel5.proyek_manpro.profile
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,9 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.BottomNav
+import manpro.kel5.proyek_manpro.Home
+import manpro.kel5.proyek_manpro.R
 import manpro.kel5.proyek_manpro.databinding.ActivityProfileBinding
 
 class Profile : AppCompatActivity() {
@@ -21,6 +24,7 @@ class Profile : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var llLogout : LinearLayout
     private lateinit var llDelAcc : LinearLayout
+    private lateinit var llChangePassword : LinearLayout
 
 
     private lateinit var binding: ActivityProfileBinding
@@ -55,6 +59,7 @@ class Profile : AppCompatActivity() {
             startActivity(Intent(this, Login::class.java))
         }
 
+        // Log Out
         autentikasi = FirebaseAuth.getInstance()
         llLogout = findViewById(R.id.linearLayoutLogOut)
         llLogout.setOnClickListener {
@@ -68,7 +73,17 @@ class Profile : AppCompatActivity() {
             }
         }
 
-//        linear layout 11 = delete account
+        llChangePassword = findViewById(R.id.LL_change_password)
+        llChangePassword.setOnClickListener{
+            if(autentikasi.currentUser != null){
+                startActivity(Intent(this, ChangePassword::class.java))
+            }
+            else {
+                Toast.makeText(this, "Login First", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+//        Linear llayout 11 = Delete account
         llDelAcc = findViewById(R.id.linearLayout11)
         llDelAcc.setOnClickListener{
             if(autentikasi.currentUser!= null){

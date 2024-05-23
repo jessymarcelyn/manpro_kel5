@@ -1,4 +1,4 @@
-package manpro.kel5.proyek_manpro
+package manpro.kel5.proyek_manpro.profile
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -9,6 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.R
+import manpro.kel5.proyek_manpro.RutePerjalanan
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

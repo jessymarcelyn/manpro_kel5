@@ -1,4 +1,4 @@
-package manpro.kel5.proyek_manpro
+package manpro.kel5.proyek_manpro.profile
 
 data class User (
     var id_user : String = "",

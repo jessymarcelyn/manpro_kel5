@@ -2,6 +2,7 @@ package manpro.kel5.proyek_manpro
 import android.app.Activity
 import android.content.Intent
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import manpro.kel5.proyek_manpro.profile.Profile
 
 class BottomNav {
     companion object {
