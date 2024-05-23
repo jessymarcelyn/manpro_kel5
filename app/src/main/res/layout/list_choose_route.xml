@@ -5,6 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/imageView23"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/baseline_schedule_24"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_jamBerangkat"
+        app:layout_constraintEnd_toStartOf="@+id/tv_jamBerangkat"
+        app:layout_constraintTop_toTopOf="@+id/tv_jamBerangkat" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/listImage"
         android:layout_width="30dp"
@@ -69,5 +79,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView18"
         app:layout_constraintStart_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toTopOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/tv_waktu_lain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="10:30, 10:45"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_jamBerangkat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
