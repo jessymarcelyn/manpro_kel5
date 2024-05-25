@@ -20,6 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -148,9 +150,10 @@ class AddRute : AppCompatActivity() {
                     val plusMinuteStr = if (plusMinute < 10) "0$plusMinute" else "$plusMinute"
                     val arrivalTime = "$plusHourStr$plusMinuteStr"
 
+                    var finalDistance = BigDecimal(distance).setScale(2, RoundingMode.HALF_EVEN).toDouble()
                     // Jenis kendaraan = kereta
                     if(document.getString("jenis") == "kereta") {
-                        val price = (distance * 400).roundToInt()
+                        val price = (finalDistance * 4000).roundToInt()
                         val roundedPrice = (Math.round(price / 500.0) * 500).toInt()
                         val finalPrice = roundedPrice.toDouble()
                         newRoute = RutePerjalanan(
@@ -158,7 +161,7 @@ class AddRute : AppCompatActivity() {
                             id_stop_source = selectedSourceStopId,
                             id_stop_dest = selectedDestinationStopId,
                             id_transportasi = selectedTransportationId,
-                            jarak = distance,
+                            jarak = finalDistance,
                             price = finalPrice,
                             estimasi = estimation,
                             jam_berangkat = departureTimeEditText.text.toString(),
@@ -168,7 +171,7 @@ class AddRute : AppCompatActivity() {
 
                     // Jenis kendaraan = bus
                     else {
-                        val price = (distance * 250).roundToInt()
+                        val price = (finalDistance * 2500).roundToInt()
                         val roundedPrice = (Math.round(price / 500.0) * 500).toInt()
                         val finalPrice = roundedPrice.toDouble()
                         newRoute = RutePerjalanan(
@@ -176,7 +179,7 @@ class AddRute : AppCompatActivity() {
                             id_stop_source = selectedSourceStopId,
                             id_stop_dest = selectedDestinationStopId,
                             id_transportasi = selectedTransportationId,
-                            jarak = distance,
+                            jarak = finalDistance,
                             price = finalPrice,
                             estimasi = estimation,
                             jam_berangkat = departureTimeEditText.text.toString(),
