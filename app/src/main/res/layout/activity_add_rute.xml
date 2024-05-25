@@ -41,7 +41,7 @@
         android:layout_height="40dp"
         android:layout_below="@id/sn_trans"
         android:layout_marginTop="16dp"
-        android:hint="Jarak"
+        android:hint="Jarak (KOSONGI SAJA) "
         app:layout_constraintEnd_toEndOf="@+id/sn_source"
         app:layout_constraintStart_toStartOf="@+id/sn_source"
         app:layout_constraintTop_toBottomOf="@+id/sn_trans" />
@@ -57,15 +57,27 @@
         app:layout_constraintStart_toStartOf="@+id/sn_source"
         app:layout_constraintTop_toBottomOf="@+id/et_distance" />
 
+
+    <Button
+        android:id="@+id/btn_cek_koordinat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="28dp"
+        android:text="Cek Koordinat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <Button
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="72dp"
         android:text="save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
@@ -107,5 +119,26 @@
         app:layout_constraintEnd_toEndOf="@+id/et_departure_time"
         app:layout_constraintStart_toStartOf="@+id/et_departure_time"
         app:layout_constraintTop_toBottomOf="@+id/et_departure_time" />
+
+    <!-- New TextView added below the save button -->
+    <TextView
+        android:id="@+id/tv_coordinate_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Origin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_save" />
+
+    <TextView
+        android:id="@+id/tv_coordinate_dest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Dest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_coordinate_origin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

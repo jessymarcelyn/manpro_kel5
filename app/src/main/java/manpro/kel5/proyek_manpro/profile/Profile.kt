@@ -25,6 +25,7 @@ class Profile : AppCompatActivity() {
     private lateinit var llLogout : LinearLayout
     private lateinit var llDelAcc : LinearLayout
     private lateinit var llChangePassword : LinearLayout
+    private lateinit var text : String
 
 
     private lateinit var binding: ActivityProfileBinding
@@ -133,5 +134,32 @@ class Profile : AppCompatActivity() {
         when (item.itemId) {
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun getCoordinate() {
+        // Provided coordinates
+        db.collection("StopBaru")
+            .whereEqualTo("nama","A Yani")
+            .get()
+            .addOnSuccessListener{querySnapshot ->
+                for(document in querySnapshot){
+                    val latitude = document.getDouble("latitude")
+                    val longitude = document.getDouble("longitude")
+                    latitude.toString()
+                    longitude.toString()
+                    text = "$latitude,$longitude"
+//                    tv_usernameDisplay.text = text
+                }
+//                    if(!querySnapshot.isEmpty){
+////                        val stop = querySnapshot.first().toObject(Stop::class.java)
+//                        val latitude = querySnapshot.get
+//                        val longitude = stop.longitude.toString()
+//                        origins = "$latitude,$longitude"
+//                    }
+
+            }
+            .addOnFailureListener {
+                text = "Get Failed"
+            }
     }
 }

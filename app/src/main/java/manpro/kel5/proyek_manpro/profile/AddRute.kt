@@ -23,17 +23,27 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 class AddRute : AppCompatActivity() {
     private lateinit var sourceSpinner: Spinner
     private lateinit var destSpinner: Spinner
     private lateinit var transSpinner: Spinner
-    private lateinit var distanceEditText: EditText
+//    private lateinit var distanceEditText: EditText
     private lateinit var departureTimeEditText: EditText
     private lateinit var saveButton: Button
     private lateinit var db: FirebaseFirestore
     private lateinit var textView: TextView
     private lateinit var distanceMatrixService: DistanceMatrixService
+
+    private lateinit var coordinate: String
+    private lateinit var origins : String
+    private lateinit var destinations : String
+    private lateinit var tv_origins : TextView
+    private lateinit var tv_dest : TextView
+    private lateinit var cek_koordinat_button : Button
+
+    private lateinit var newRoute : RutePerjalanan
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,13 +56,17 @@ class AddRute : AppCompatActivity() {
         sourceSpinner = findViewById(R.id.sn_source)
         destSpinner = findViewById(R.id.sn_dest)
         transSpinner = findViewById(R.id.sn_trans)
-        distanceEditText = findViewById(R.id.et_distance)
+//        distanceEditText = findViewById(R.id.et_distance)
         departureTimeEditText = findViewById(R.id.et_departure_time)
         saveButton = findViewById(R.id.button_save)
 
         initSpinner(sourceSpinner)
         initSpinner(destSpinner)
         inittransSpinner(transSpinner)
+
+        tv_origins = findViewById(R.id.tv_coordinate_origin)
+        tv_dest = findViewById(R.id.tv_coordinate_dest)
+        cek_koordinat_button = findViewById(R.id.btn_cek_koordinat)
 
         val apiKey = getString(R.string.my_map_api_key)
 
@@ -63,6 +77,12 @@ class AddRute : AppCompatActivity() {
 
         distanceMatrixService = retrofit.create(DistanceMatrixService::class.java)
 
+        cek_koordinat_button.setOnClickListener {
+            val selectedSourceStopId = sourceSpinner.selectedItem.toString()
+            val selectedDestinationStopId = destSpinner.selectedItem.toString()
+            getCoordinateOrigin(selectedSourceStopId)
+            getCoordinateDest(selectedDestinationStopId)
+        }
 
         saveButton.setOnClickListener {
             val selectedSourceStopId = sourceSpinner.selectedItem.toString()
@@ -71,8 +91,14 @@ class AddRute : AppCompatActivity() {
             val currentDate = SimpleDateFormat("ddMMyyyy", Locale.getDefault()).format(Date())
 
             // Provided coordinates
-            val origins ="-7.33747,112.72949"  // PERLU DIUBAH pake fun get coordinates di bawah
-            val destinations = "-7.35097,112.73641"
+
+            origins = tv_origins.text.toString()
+            destinations = tv_dest.text.toString()
+            print(origins)
+            print(destinations)
+
+//            val origins ="-7.33747,112.72949"  // PERLU DIUBAH pake fun get coordinates di bawah
+//            val destinations = "-7.35097,112.73641"
 
             val call = distanceMatrixService.getDistance(origins, destinations, apiKey)
             call.enqueue(object : Callback<DistanceMatrixResponse> {
@@ -122,24 +148,50 @@ class AddRute : AppCompatActivity() {
                     val plusMinuteStr = if (plusMinute < 10) "0$plusMinute" else "$plusMinute"
                     val arrivalTime = "$plusHourStr$plusMinuteStr"
 
-                    val newRoute = RutePerjalanan(
-                        id_rute = "$selectedTransportationId$estimation$currentDate",
-                        id_stop_source = selectedSourceStopId,
-                        id_stop_dest = selectedDestinationStopId,
-                        id_transportasi = selectedTransportationId,
-                        jarak = distance,
-                        price = distance * 1000,
-                        estimasi = estimation,
-                        jam_berangkat = departureTimeEditText.text.toString(),
-                        jam_sampai = arrivalTime
-                    )
+                    // Jenis kendaraan = kereta
+                    if(document.getString("jenis") == "kereta") {
+                        val price = (distance * 400).roundToInt()
+                        val roundedPrice = (Math.round(price / 500.0) * 500).toInt()
+                        val finalPrice = roundedPrice.toDouble()
+                        newRoute = RutePerjalanan(
+                            id_rute = "$selectedTransportationId$estimation$currentDate",
+                            id_stop_source = selectedSourceStopId,
+                            id_stop_dest = selectedDestinationStopId,
+                            id_transportasi = selectedTransportationId,
+                            jarak = distance,
+                            price = finalPrice,
+                            estimasi = estimation,
+                            jam_berangkat = departureTimeEditText.text.toString(),
+                            jam_sampai = arrivalTime
+                        )
+                    }
+
+                    // Jenis kendaraan = bus
+                    else {
+                        val price = (distance * 250).roundToInt()
+                        val roundedPrice = (Math.round(price / 500.0) * 500).toInt()
+                        val finalPrice = roundedPrice.toDouble()
+                        newRoute = RutePerjalanan(
+                            id_rute = "$selectedTransportationId$estimation$currentDate",
+                            id_stop_source = selectedSourceStopId,
+                            id_stop_dest = selectedDestinationStopId,
+                            id_transportasi = selectedTransportationId,
+                            jarak = distance,
+                            price = finalPrice,
+                            estimasi = estimation,
+                            jam_berangkat = departureTimeEditText.text.toString(),
+                            jam_sampai = arrivalTime
+                        )
+                    }
 
                     db.collection("RuteBaru")
                         .add(newRoute)
                         .addOnSuccessListener { documentReference ->
                             showAlert("Data berhasil disimpan! arrival time = $arrivalTime \n Document id : ${documentReference.id}")
-                            distanceEditText.setText("")
+//                            distanceEditText.setText("")
                             departureTimeEditText.setText("")
+                            tv_origins.setText("Origin")
+                            tv_dest.setText("Dest")
                             textView.text = documentReference.id
                         }
                         .addOnFailureListener { e ->
@@ -185,7 +237,9 @@ class AddRute : AppCompatActivity() {
                         items.add(namaTrans)
                     }
                 }
-                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
+                val sortedItems = items.sorted()
+
+                val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sortedItems)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = adapter
             }
@@ -206,24 +260,45 @@ class AddRute : AppCompatActivity() {
     }
 
     // ERROR FETCH DATABASE
-    private fun getCoordinates(stopName: String):String {
-        var coordinate = "Empty"
+    private fun getCoordinateOrigin(stopName: String) {
+        coordinate = "Empty"
         db.collection("StopBaru")
             .whereEqualTo("nama", stopName)
             .get()
             .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val stop = documents.first().toObject(Stop::class.java)
-                    val latitude = stop.latitude.toString()
-                    val longitude = stop.longitude.toString()
-                    coordinate = "$latitude,$longitude"
-                } else {
+                for(document in documents){
+                    val latitude = document.getDouble("latitude")
+                    val longitude = document.getDouble("longitude")
+                    latitude.toString()
+                    longitude.toString()
+                    tv_origins.text = "$latitude,$longitude"
+//                    tv_usernameDisplay.text = text
                 }
             }
             .addOnFailureListener { exception ->
                 // Handle failure, e.g., log the error
                 Log.e("getCoordinates", "Error getting documents: ", exception)
             }
-        return coordinate
+    }
+
+    private fun getCoordinateDest(stopName: String) {
+        coordinate = "Empty"
+        db.collection("StopBaru")
+            .whereEqualTo("nama", stopName)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents){
+                    val latitude = document.getDouble("latitude")
+                    val longitude = document.getDouble("longitude")
+                    latitude.toString()
+                    longitude.toString()
+                    tv_dest.text = "$latitude,$longitude"
+//                    tv_usernameDisplay.text = text
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Handle failure, e.g., log the error
+                Log.e("getCoordinates", "Error getting documents: ", exception)
+            }
     }
 }
