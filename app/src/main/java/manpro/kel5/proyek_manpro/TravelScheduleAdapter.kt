@@ -4,13 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import java.text.NumberFormat
 import java.util.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 
 class TravelScheduleAdapter : PagingDataAdapter<TravelSchedule, TravelScheduleAdapter.ViewHolder>(TravelScheduleDiffCallback()) {
 
@@ -47,11 +45,10 @@ class TravelScheduleAdapter : PagingDataAdapter<TravelSchedule, TravelScheduleAd
 
 class TravelScheduleDiffCallback : DiffUtil.ItemCallback<TravelSchedule>() {
     override fun areItemsTheSame(oldItem: TravelSchedule, newItem: TravelSchedule): Boolean {
-        return oldItem == newItem
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: TravelSchedule, newItem: TravelSchedule): Boolean {
         return oldItem == newItem
     }
 }
-
