@@ -1,4 +1,4 @@
-package manpro.kel5.proyek_manpro
+package manpro.kel5.proyek_manpro.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.Home
+import manpro.kel5.proyek_manpro.R
 import manpro.kel5.proyek_manpro.databinding.ActivityRegisterBinding
 
 class Register : AppCompatActivity() {
@@ -44,6 +46,7 @@ class Register : AppCompatActivity() {
         ti_password = findViewById(R.id.ti_password)
         ti_email = findViewById(R.id.ti_email)
         btn_daftar = findViewById(R.id.button_daftar)
+
 
         // Register
         binding.buttonDaftar.setOnClickListener {

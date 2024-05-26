@@ -15,16 +15,19 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
-            android:name=".AddStop"
+            android:name=".profile.ChangePassword"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".profile.AddStop"
+            android:exported="false" />
+        <activity
+            android:name=".profile.Register"
             android:exported="false" />
         <activity
             android:name=".SelectRuteDetail"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".profile.Login"
             android:exported="false" />
         <activity
             android:name=".SelectLocation"
@@ -39,10 +42,10 @@
             android:name=".Map"
             android:exported="false" />
         <activity
-            android:name=".AddRute"
+            android:name=".profile.AddRute"
             android:exported="false" />
         <activity
-            android:name=".Profile"
+            android:name=".profile.Profile"
             android:exported="false" />
         <activity
             android:name=".Schedule"

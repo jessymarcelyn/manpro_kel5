@@ -153,8 +153,9 @@
         </LinearLayout>
     </LinearLayout>
 
+<!--    Linear Layout Change Password-->
     <LinearLayout
-        android:id="@+id/linearLayout7"
+        android:id="@+id/LL_change_password"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -222,7 +223,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+        app:layout_constraintTop_toBottomOf="@+id/LL_change_password" />
 
     <LinearLayout
         android:id="@+id/linearLayout8"

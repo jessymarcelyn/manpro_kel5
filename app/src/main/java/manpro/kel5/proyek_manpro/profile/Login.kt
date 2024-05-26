@@ -1,9 +1,7 @@
-package manpro.kel5.proyek_manpro
+package manpro.kel5.proyek_manpro.profile
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
@@ -15,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import manpro.kel5.proyek_manpro.Home
+import manpro.kel5.proyek_manpro.R
 import manpro.kel5.proyek_manpro.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
@@ -40,13 +40,13 @@ class Login : AppCompatActivity() {
 
         ti_username = findViewById(R.id.ti_username)
         ti_password = findViewById(R.id.ti_password)
-        button_masuk = findViewById(R.id.button_masuk)
+        button_masuk = findViewById(R.id.btn_masuk)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         autentikasi = FirebaseAuth.getInstance()
 
-        binding.buttonMasuk.setOnClickListener {
+        binding.btnMasuk.setOnClickListener {
             val username = binding.tiUsername.text.toString()
             val password = binding.tiPassword.text.toString()
 
@@ -88,6 +88,11 @@ class Login : AppCompatActivity() {
         tv_daftar = findViewById(R.id.tv_daftar)
         tv_daftar.setOnClickListener {
             startActivity(Intent(this, Register::class.java))
+        }
+
+        tv_lupa_pass = findViewById(R.id.tv_lupa_password)
+        tv_lupa_pass.setOnClickListener {
+            startActivity(Intent(this, ChangePassword::class.java))
         }
     }
 

@@ -42,7 +42,9 @@ class Schedule : AppCompatActivity() {
         val pager = Pager(
             config = PagingConfig(
                 pageSize = 10,
-                enablePlaceholders = false
+                enablePlaceholders = false,
+                prefetchDistance = 5,
+                initialLoadSize = 20
             ),
             pagingSourceFactory = pagingSource
         )
@@ -54,6 +56,7 @@ class Schedule : AppCompatActivity() {
             }
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             else -> return super.onOptionsItemSelected(item)
