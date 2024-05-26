@@ -11,6 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
@@ -40,7 +44,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/view_schedule"
-                app:srcCompat="@drawable/bus" />
+                app:srcCompat="@drawable/ic_bus_white" />
 
             <TextView
                 android:id="@+id/tv_keberangkatan"
@@ -80,7 +84,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/tv_lokasi1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view_schedule"
-                app:srcCompat="@drawable/location1" />
+                app:srcCompat="@drawable/ic_location_asal" />
 
             <TextView
                 android:id="@+id/tv_lokasi1"
@@ -114,7 +118,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/tv_lokasi2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_loc1"
-                app:srcCompat="@drawable/location2" />
+                app:srcCompat="@drawable/ic_location_tujuan" />
 
             <TextView
                 android:id="@+id/tv_lokasi2"

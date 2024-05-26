@@ -80,7 +80,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/ic_bus" />
+                app:srcCompat="@drawable/ic_train_green" />
 
             <TextView
                 android:id="@+id/textView13"

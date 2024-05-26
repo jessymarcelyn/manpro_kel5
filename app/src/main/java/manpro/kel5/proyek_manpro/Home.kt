@@ -42,9 +42,9 @@ class Home : AppCompatActivity() {
 
 
         btnSearch = findViewById(R.id.btn_search)
-        var _tv_asal1 = findViewById<TextView>(R.id.tv_asal1)
+
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
-        var _tv_tujuan1 = findViewById<TextView>(R.id.tv_tujuan1)
+
         var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
@@ -60,7 +60,7 @@ class Home : AppCompatActivity() {
 
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
-        _tv_asal1.setOnClickListener {
+        _tv_asal2.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, true)
                 putExtra(SelectLocation.asal, _tv_asal2.text)
@@ -76,7 +76,7 @@ class Home : AppCompatActivity() {
             }
             startActivity(intentWithData)
         }
-        _tv_tujuan1.setOnClickListener {
+        _tv_tujuan2.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, false)
                 putExtra(SelectLocation.asal, _tv_asal2.text)
