@@ -45,7 +45,7 @@ class Home : AppCompatActivity() {
 
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
 
-        var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
+//        var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
@@ -59,12 +59,12 @@ class Home : AppCompatActivity() {
         val _isAsall = intent.getBooleanExtra(isAsall, false)
 
         _tv_asal2.text = terimaDataAsal
-        _tv_tujuan2.text = terimaDataTujuan
+//        _tv_tujuan2.text = terimaDataTujuan
         _tv_asal2.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, true)
                 putExtra(SelectLocation.asal, _tv_asal2.text)
-                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
+//                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
         }
@@ -72,31 +72,31 @@ class Home : AppCompatActivity() {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, true)
                 putExtra(SelectLocation.asal, _tv_asal2.text)
-                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
+//                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
         }
-        _tv_tujuan2.setOnClickListener {
-            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
-                putExtra(SelectLocation.isAsal, false)
-                putExtra(SelectLocation.asal, _tv_asal2.text)
-                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
-            }
-            startActivity(intentWithData)
-        }
-        _tv_tujuan2.setOnClickListener {
-            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
-                putExtra(SelectLocation.isAsal, false)
-                putExtra(SelectLocation.asal, _tv_asal2.text)
-                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
-            }
-            startActivity(intentWithData)
-        }
+//        _tv_tujuan2.setOnClickListener {
+//            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+//                putExtra(SelectLocation.isAsal, false)
+//                putExtra(SelectLocation.asal, _tv_asal2.text)
+//                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
+//            }
+//            startActivity(intentWithData)
+//        }
+//        _tv_tujuan2.setOnClickListener {
+//            val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+//                putExtra(SelectLocation.isAsal, false)
+//                putExtra(SelectLocation.asal, _tv_asal2.text)
+//                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
+//            }
+//            startActivity(intentWithData)
+//        }
 
         btnSearch.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectRute::class.java).apply {
                 putExtra(SelectRute.asal, _tv_asal2.text)
-                putExtra(SelectRute.tujuan, _tv_tujuan2.text)
+//                putExtra(SelectRute.tujuan, _tv_tujuan2.text)
             }
             startActivity(intentWithData)
         }
