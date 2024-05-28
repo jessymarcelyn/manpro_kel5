@@ -15,6 +15,12 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".detail_faq"
+            android:exported="false" />
+        <activity
+            android:name=".faq"
+            android:exported="false" />
+        <activity
             android:name=".profile.ChangePassword"
             android:exported="false" />
         <activity
