@@ -20,13 +20,14 @@ import java.util.Locale
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnSearch: Button
-    private lateinit var btnChange: ImageView
 
     companion object{
         const val dataAsall = "GETDATA1"
         const val dataTujuann = "GETDATA2"
         const val isAsall = "true"
     }
+
+    private var normal: Boolean = true
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,15 +43,16 @@ class Home : AppCompatActivity() {
         var _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
         _tv_tanggal.text = formattedDate
 
-
-        btnSearch = findViewById(R.id.btn_search)
-        btnChange = findViewById(R.id.iv_changeRoute)
-
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
+
         var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
+//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
+//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
         val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
         val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
+//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
+//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
         Log.d("pipi", "balik")
         Log.d("pipi", "terimaDataAsal" + terimaDataAsal)
         Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)
@@ -59,11 +61,20 @@ class Home : AppCompatActivity() {
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
 
-        btnChange.setOnClickListener{
-            val temp = _tv_asal2.text
-            _tv_asal2.text = _tv_tujuan2.text
-            _tv_tujuan2.text = temp
+        var _iv_switch = findViewById<ImageView>(R.id.iv_switch)
+
+        _iv_switch.setOnClickListener {
+            if (normal) {
+                _tv_asal2.text = terimaDataTujuan
+                _tv_tujuan2.text = terimaDataAsal
+                normal = false
+            } else {
+                _tv_asal2.text = terimaDataAsal
+                _tv_tujuan2.text = terimaDataTujuan
+                normal = true
+            }
         }
+        btnSearch = findViewById(R.id.btn_search)
 
         _tv_asal2.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
