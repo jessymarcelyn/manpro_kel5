@@ -1,6 +1,7 @@
 package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,10 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -28,6 +33,7 @@ class Home : AppCompatActivity() {
     }
 
     private var normal: Boolean = true
+    val listTambah = mutableListOf<String>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +68,7 @@ class Home : AppCompatActivity() {
         _tv_tujuan2.text = terimaDataTujuan
 
         var _iv_switch = findViewById<ImageView>(R.id.iv_switch)
+        var _iv_tambah = findViewById<ImageView>(R.id.iv_tambah)
 
         _iv_switch.setOnClickListener {
             if (normal) {
@@ -74,6 +81,35 @@ class Home : AppCompatActivity() {
                 normal = true
             }
         }
+        val _rv_stop = findViewById<RecyclerView>(R.id.rv_stop)
+        _rv_stop.layoutManager = LinearLayoutManager(this)
+        val adapterP = AdapterHomeLoc(listTambah)
+        _rv_stop.adapter = adapterP
+
+        _iv_tambah.setOnClickListener{
+            listTambah.add("a")
+            _rv_stop.adapter?.notifyDataSetChanged()
+
+        }
+        adapterP.setOnItemClickCallback(object : AdapterHomeLoc.OnItemClickCallback {
+            override fun onItemClicked(data: String) {
+                val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
+                    putExtra(SelectLocation.isAsal, true)
+                    putExtra(SelectLocation.asal, _tv_asal2.text)
+                    putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
+                    putExtra(SelectLocation.tujuan, "PTC")
+                }
+                startActivity(intentWithData)
+            }
+
+            override fun delData(pos: Int) {
+                if (pos in listTambah.indices) {  // Check if position is valid
+                    listTambah.removeAt(pos)
+                    adapterP.notifyDataSetChanged()
+                }
+            }
+        })
+
         btnSearch = findViewById(R.id.btn_search)
 
         _tv_asal2.setOnClickListener {
