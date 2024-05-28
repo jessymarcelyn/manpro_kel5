@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SelectRute">
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="110dp"
-        android:background="@color/navigationBarColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/btn_back_c_rute"
         android:layout_width="40dp"
@@ -23,7 +14,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout12"
+        app:layout_constraintVertical_bias="0.571"
         app:srcCompat="@drawable/ic_arrow_left" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:background="@color/navigationBarColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout12"
@@ -33,6 +35,7 @@
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btn_back_c_rute"
         app:layout_constraintTop_toTopOf="@+id/view">
 
