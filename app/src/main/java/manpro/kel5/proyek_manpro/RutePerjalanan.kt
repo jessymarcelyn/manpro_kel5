@@ -8,5 +8,7 @@ data class RutePerjalanan(
     val price: Double = 0.0,
     val estimasi: Int = 0,
     val jam_berangkat: String = "",
-    val jam_sampai: String = ""
+    val jam_sampai: String = "",
+    val startDate: String = "",
+    val finishDate: String =""
 )

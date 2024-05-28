@@ -1,5 +1,6 @@
 package manpro.kel5.proyek_manpro.profile
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -23,6 +24,7 @@ import retrofit2.Response
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -44,6 +46,8 @@ class AddRute : AppCompatActivity() {
     private lateinit var tv_origins : TextView
     private lateinit var tv_dest : TextView
     private lateinit var cek_koordinat_button : Button
+    private lateinit var etStartDate: EditText
+    private lateinit var etFinishDate: EditText
 
     private lateinit var newRoute : RutePerjalanan
 
@@ -69,6 +73,17 @@ class AddRute : AppCompatActivity() {
         tv_origins = findViewById(R.id.tv_coordinate_origin)
         tv_dest = findViewById(R.id.tv_coordinate_dest)
         cek_koordinat_button = findViewById(R.id.btn_cek_koordinat)
+
+        etStartDate = findViewById(R.id.et_start_date)
+        etFinishDate = findViewById(R.id.et_finish_date)
+
+        etStartDate.setOnClickListener {
+            showDatePickerDialog(etStartDate)
+        }
+
+        etFinishDate.setOnClickListener {
+            showDatePickerDialog(etFinishDate)
+        }
 
         val apiKey = getString(R.string.my_map_api_key)
 
@@ -151,11 +166,18 @@ class AddRute : AppCompatActivity() {
                     val arrivalTime = "$plusHourStr$plusMinuteStr"
 
                     var finalDistance = BigDecimal(distance).setScale(2, RoundingMode.HALF_EVEN).toDouble()
+
+                    val hari_berangkat_raw = etStartDate.text.toString()
+                    val hari_sampai_raw = etFinishDate.text.toString()
+                    val hari_berangkat_final = convertDateFormat(hari_berangkat_raw)
+                    val hari_sampai_final = convertDateFormat(hari_sampai_raw)
+
                     // Jenis kendaraan = kereta
                     if(document.getString("jenis") == "kereta") {
                         val price = (finalDistance * 4000).roundToInt()
                         val roundedPrice = (Math.round(price / 500.0) * 500).toInt()
                         val finalPrice = roundedPrice.toDouble()
+
                         newRoute = RutePerjalanan(
                             id_rute = "$selectedTransportationId$estimation$currentDate",
                             id_stop_source = selectedSourceStopId,
@@ -165,7 +187,9 @@ class AddRute : AppCompatActivity() {
                             price = finalPrice,
                             estimasi = estimation,
                             jam_berangkat = departureTimeEditText.text.toString(),
-                            jam_sampai = arrivalTime
+                            jam_sampai = arrivalTime,
+                            startDate = hari_berangkat_final,
+                            finishDate = hari_sampai_final
                         )
                     }
 
@@ -183,7 +207,10 @@ class AddRute : AppCompatActivity() {
                             price = finalPrice,
                             estimasi = estimation,
                             jam_berangkat = departureTimeEditText.text.toString(),
-                            jam_sampai = arrivalTime
+                            jam_sampai = arrivalTime,
+                            startDate = hari_berangkat_final,
+                            finishDate = hari_sampai_final
+
                         )
                     }
 
@@ -303,5 +330,28 @@ class AddRute : AppCompatActivity() {
                 // Handle failure, e.g., log the error
                 Log.e("getCoordinates", "Error getting documents: ", exception)
             }
+    }
+
+    private fun showDatePickerDialog(editText: EditText) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                // Month is 0-based, so you have to add 1 to the month
+                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                editText.setText(selectedDate)
+            }, year, month, day)
+
+        datePickerDialog.show()
+    }
+
+    private fun convertDateFormat(inputDate: String, inputFormat: String = "dd/MM/yyyy", outputFormat: String = "ddMMyyyy"): String {
+        val inputDateFormat = SimpleDateFormat(inputFormat, Locale.getDefault())
+        val outputDateFormat = SimpleDateFormat(outputFormat, Locale.getDefault())
+        val date = inputDateFormat.parse(inputDate)
+        return outputDateFormat.format(date)
     }
 }
