@@ -10,14 +10,10 @@ class RutePagingSource(private val db: FirebaseFirestore) : PagingSource<QuerySn
 
     override suspend fun load(params: LoadParams<QuerySnapshot>): LoadResult<QuerySnapshot, TravelSchedule> {
         return try {
-            // Mendapatkan halaman saat ini
-            val currentPage = params.key ?: db.collection("Rute")
-                .limit(params.loadSize.toLong())
-                .get()
-                .await()
+            val currentPage = params.key ?: db.collection("Rute").get().await()
 
             val travelSchedules = mutableListOf<TravelSchedule>()
-            for (document in currentPage.documents) {
+            for (document in currentPage) {
                 val idStopSource = document.getString("id_stop_source") ?: ""
                 val idStopDest = document.getString("id_stop_dest") ?: ""
                 val jamBerangkatStr = document.getString("jam_berangkat") ?: ""
@@ -31,40 +27,23 @@ class RutePagingSource(private val db: FirebaseFirestore) : PagingSource<QuerySn
                         idStopSource,
                         idStopDest,
                         waktuBerangkat.toString(),
-                        estimasi,
+                        estimasi.toInt(),
                         price.toInt()
                     )
                 )
             }
 
-            // Mendapatkan halaman sebelumnya
-            val prevPage = if (currentPage.isEmpty) null else db.collection("Rute")
-                .endBefore(currentPage.documents.first())
-                .limit(params.loadSize.toLong() * 2) // Ubah loadSize menjadi loadSize * 2
-                .get()
-                .await()
-
-            // Mendapatkan halaman selanjutnya
-            val nextPage = db.collection("Rute")
-                .startAfter(currentPage.documents.last())
-                .limit(params.loadSize.toLong() * 2) // Ubah loadSize menjadi loadSize * 2
-                .get()
-                .await()
-
             LoadResult.Page(
                 data = travelSchedules,
-                prevKey = prevPage,
-                nextKey = nextPage
+                prevKey = null, // Since it's the first page
+                nextKey = currentPage // Use the same query snapshot as the next key
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
 
-
     override fun getRefreshKey(state: PagingState<QuerySnapshot, TravelSchedule>): QuerySnapshot? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey
-        }
+        TODO("Not yet implemented")
     }
 }
