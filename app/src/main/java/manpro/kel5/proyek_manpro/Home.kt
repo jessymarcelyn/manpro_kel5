@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,6 +27,8 @@ class Home : AppCompatActivity() {
         const val isAsall = "true"
     }
 
+    private var normal: Boolean = true
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +42,6 @@ class Home : AppCompatActivity() {
         val formattedDate = dateFormat.format(currentDate)
         var _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
         _tv_tanggal.text = formattedDate
-
-
-        btnSearch = findViewById(R.id.btn_search)
 
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
 
@@ -60,6 +60,22 @@ class Home : AppCompatActivity() {
 
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
+
+        var _iv_switch = findViewById<ImageView>(R.id.iv_switch)
+
+        _iv_switch.setOnClickListener {
+            if (normal) {
+                _tv_asal2.text = terimaDataTujuan
+                _tv_tujuan2.text = terimaDataAsal
+                normal = false
+            } else {
+                _tv_asal2.text = terimaDataAsal
+                _tv_tujuan2.text = terimaDataTujuan
+                normal = true
+            }
+        }
+        btnSearch = findViewById(R.id.btn_search)
+
         _tv_asal2.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, true)
