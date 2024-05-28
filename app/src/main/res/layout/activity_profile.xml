@@ -121,7 +121,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circle_profile"
-                app:srcCompat="@drawable/ic_profile" />
+                app:srcCompat="@drawable/ic_person" />
         </LinearLayout>
 
         <LinearLayout
@@ -153,7 +153,7 @@
         </LinearLayout>
     </LinearLayout>
 
-<!--    Linear Layout Change Password-->
+    <!--    Linear Layout Change Password-->
     <LinearLayout
         android:id="@+id/LL_change_password"
         android:layout_width="0dp"
@@ -478,14 +478,11 @@
         android:id="@+id/navbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/navigationBarColor"
         app:elevation="0dp"
         app:itemActiveIndicatorStyle="@null"
         app:itemBackground="@android:color/transparent"
         app:itemIconTint="@color/icon_color"
-        app:itemPaddingBottom="10dp"
-        app:itemPaddingTop="10dp"
-        app:itemTextColor="#FFFFFF"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

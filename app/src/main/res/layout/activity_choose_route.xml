@@ -11,17 +11,18 @@
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:background="@drawable/box_app_bar"
+        android:background="@color/navigationBarColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/btn_back_c_rute"
-        android:layout_width="85dp"
-        android:layout_height="61dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
 
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_left" />
@@ -43,11 +44,11 @@
     <View
         android:id="@+id/view2"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/box_choose_route"
+        android:background="@drawable/box_select_route"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -125,22 +126,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:srcCompat="@drawable/ic_location_tujuan" />
-
-    <TextView
-        android:id="@+id/tv_asal1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:text="LOKASI ASAL :"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/tv_asal2"
@@ -150,19 +139,9 @@
         android:layout_weight="1"
         android:text="Stasiun Pasar Turi"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/tv_asal1" />
-
-    <TextView
-        android:id="@+id/tv_tujuan1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:text="LOKASI TUJUAN :"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/tv_tujuan2"
@@ -172,8 +151,9 @@
         android:layout_weight="1"
         android:text="Stasiun Gubeng"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tujuan1" />
+        app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
     <View
         android:id="@+id/view8"
@@ -216,9 +196,9 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:srcCompat="@drawable/circle_asal" />
 
     <TextView
@@ -295,31 +275,36 @@
         android:id="@+id/btnView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="#8E8E89"
+        android:backgroundTint="#0081a1"
         android:text="View"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_map"
+        app:layout_constraintBottom_toBottomOf="@+id/btnChoose"
         app:layout_constraintEnd_toStartOf="@+id/btnChoose"
-        app:layout_constraintTop_toBottomOf="@+id/imageView17" />
+        app:layout_constraintTop_toTopOf="@+id/btnChoose" />
 
     <Button
         android:id="@+id/btnChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#8E8E89"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#0081a1"
         android:text="Choose"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_pointer"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_choose"
-        app:layout_constraintTop_toTopOf="@+id/btnView" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_jamSampai" />
 
     <View
         android:id="@+id/view4"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="24dp"
         android:layout_marginEnd="26dp"
         android:background="@drawable/circle_profile"
         app:layout_constraintEnd_toEndOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/tv_asal1" />
+        tools:layout_editor_absoluteY="174dp" />
 
     <TextView
         android:id="@+id/tv_durasi"
@@ -362,6 +347,47 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView19"
         app:layout_constraintStart_toEndOf="@+id/imageView19"
         app:layout_constraintTop_toTopOf="@+id/imageView19" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Leave At"
+        android:textColor="#777777"
+        app:layout_constraintEnd_toEndOf="@+id/tv_jamBerangkatt"
+        app:layout_constraintStart_toStartOf="@+id/tv_jamBerangkatt"
+        app:layout_constraintTop_toBottomOf="@+id/tv_jamBerangkatt" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="1 hr 22 min"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/imageView10"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" | Arrival time"
+        app:layout_constraintBottom_toBottomOf="@+id/textView19"
+        app:layout_constraintStart_toEndOf="@+id/textView19"
+        app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="06:04"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView22"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

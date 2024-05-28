@@ -38,7 +38,18 @@ class TravelScheduleAdapter : PagingDataAdapter<TravelSchedule, TravelScheduleAd
             tvTempatTujuan.text = schedule.tempatTujuan
             val formattedTime = String.format(Locale.getDefault(), "%02d:%02d WIB", schedule.waktu / 60, schedule.waktu % 60)
             tvWaktuBerangkat.text = formattedTime
-            tvWaktu.text = schedule.waktu.toString()
+            val jam = schedule.waktu / 60
+            val menit = schedule.waktu % 60
+            val waktuFormatted = if (jam > 0) {
+                if (menit > 0) {
+                    "$jam Jam $menit Menit"
+                } else {
+                    "$jam Jam"
+                }
+            } else {
+                "$menit Menit"
+            }
+            tvWaktu.text = waktuFormatted
             val formattedBiaya = NumberFormat.getCurrencyInstance().format(schedule.biaya)
             tvBiaya.text = formattedBiaya
         }
