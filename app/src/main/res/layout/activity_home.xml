@@ -232,7 +232,8 @@
                     android:text="Cari"
                     android:textSize="16sp"
                     app:cornerRadius="12dp"
-                    app:icon="@drawable/ic_search" />
+                    app:icon="@drawable/ic_search"
+                    app:iconGravity="textStart" />
 
             </LinearLayout>
 
