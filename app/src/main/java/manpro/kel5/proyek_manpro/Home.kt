@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,6 +20,7 @@ import java.util.Locale
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnSearch: Button
+    private lateinit var btnChange: ImageView
 
     companion object{
         const val dataAsall = "GETDATA1"
@@ -42,17 +44,13 @@ class Home : AppCompatActivity() {
 
 
         btnSearch = findViewById(R.id.btn_search)
+        btnChange = findViewById(R.id.iv_changeRoute)
 
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
-
         var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
-//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
-//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
         val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
         val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
-//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
-//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
         Log.d("pipi", "balik")
         Log.d("pipi", "terimaDataAsal" + terimaDataAsal)
         Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)
@@ -60,6 +58,13 @@ class Home : AppCompatActivity() {
 
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
+
+        btnChange.setOnClickListener{
+            val temp = _tv_asal2.text
+            _tv_asal2.text = _tv_tujuan2.text
+            _tv_tujuan2.text = temp
+        }
+
         _tv_asal2.setOnClickListener {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, true)
