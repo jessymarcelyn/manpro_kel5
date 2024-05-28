@@ -27,6 +27,17 @@
             android:layout_gravity="center"
             android:text="Stasiun Gubeng"
             android:textStyle="bold" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/img_remove"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_close" />
     </LinearLayout>
 
 

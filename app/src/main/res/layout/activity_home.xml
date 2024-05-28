@@ -35,13 +35,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/box_select_route"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/textView7">
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -58,7 +58,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Depart At"
+                        android:text="Tanggal berangkat"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -179,14 +179,20 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/box_home_location"
                             android:orientation="horizontal">
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_tujuan2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="TextView" />
 
                     </LinearLayout>
 
@@ -216,15 +222,17 @@
 
                 <Button
                     android:id="@+id/btn_search"
-                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.Icon"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
+                    android:layout_margin="16dp"
                     android:backgroundTint="#0081a1"
                     android:gravity="center"
-                    android:text="Search"
+                    android:text="Cari"
                     android:textSize="16sp"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_search" />
 
             </LinearLayout>
 
@@ -286,6 +294,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
                 tools:listitem="@layout/list_bookmark_home" />
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Transportasi harianmu"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="cari transportasi umum ya di SuroboyoTrans"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <ImageView
+                android:id="@+id/imageView24"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/img_bus" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
@@ -293,14 +332,11 @@
         android:id="@+id/navbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/navigationBarColor"
         app:elevation="0dp"
         app:itemActiveIndicatorStyle="@null"
         app:itemBackground="@android:color/transparent"
         app:itemIconTint="@color/icon_color"
-        app:itemPaddingBottom="10dp"
-        app:itemPaddingTop="10dp"
-        app:itemTextColor="#FFFFFF"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

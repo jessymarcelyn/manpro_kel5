@@ -61,7 +61,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_lokasi" />
 
     <ImageView
-        android:id="@+id/imageView18"
+        android:id="@+id/iv_transport"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/view9"
@@ -76,16 +76,16 @@
         android:layout_marginStart="5dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView18"
-        app:layout_constraintStart_toEndOf="@+id/imageView18"
-        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_transport"
+        app:layout_constraintStart_toEndOf="@+id/iv_transport"
+        app:layout_constraintTop_toTopOf="@+id/iv_transport" />
 
     <TextView
-        android:id="@+id/tv_waktu_lain"
+        android:id="@+id/tv_durasi_transit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="10:30, 10:45"
+        android:text="15 minutes"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_jamBerangkat" />

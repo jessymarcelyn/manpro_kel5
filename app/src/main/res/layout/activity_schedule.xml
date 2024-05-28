@@ -14,30 +14,6 @@
             android:layout_height="match_parent"
             tools:context=".Schedule">
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:background="@drawable/box_app_bar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SCHEDULE"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/view"
-                app:layout_constraintVertical_bias="0.764" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/mcv_schedule"
                 android:layout_width="0dp"
@@ -48,31 +24,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_schedule"
-                android:layout_width="372dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/navbar"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/mcv_schedule" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/navbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/navigationBarColor"
                 app:elevation="0dp"
                 app:itemActiveIndicatorStyle="@null"
                 app:itemBackground="@android:color/transparent"
                 app:itemIconTint="@color/icon_color"
-                app:itemPaddingBottom="10dp"
-                app:itemPaddingTop="10dp"
-                app:itemTextColor="#FFFFFF"
+                app:itemTextColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
