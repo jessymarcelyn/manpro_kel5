@@ -18,7 +18,7 @@
             android:name=".detail_faq"
             android:exported="false" />
         <activity
-            android:name=".faq"
+            android:name=".profile.Faq"
             android:exported="false" />
         <activity
             android:name=".profile.ChangePassword"

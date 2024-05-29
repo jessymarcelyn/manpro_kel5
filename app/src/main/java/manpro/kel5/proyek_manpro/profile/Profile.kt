@@ -25,6 +25,7 @@ class Profile : AppCompatActivity() {
     private lateinit var llLogout : LinearLayout
     private lateinit var llDelAcc : LinearLayout
     private lateinit var llChangePassword : LinearLayout
+    private lateinit var llFAQ : LinearLayout
     private lateinit var text : String
 
 
@@ -126,6 +127,11 @@ class Profile : AppCompatActivity() {
                     }
                 }
 
+        }
+
+        llFAQ = findViewById(R.id.LL_FAQ)
+        llFAQ.setOnClickListener{
+            startActivity(Intent(this, Faq::class.java))
         }
 
 
