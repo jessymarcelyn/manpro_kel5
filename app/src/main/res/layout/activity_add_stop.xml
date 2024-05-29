@@ -13,7 +13,7 @@
             android:id="@+id/tv_judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ADD STOP"
+            android:text="ADD RUTE"
             android:textSize="40sp"
             android:textStyle="bold"
             android:textAlignment="center"

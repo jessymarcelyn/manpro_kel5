@@ -35,6 +35,29 @@
         app:layout_constraintStart_toStartOf="@+id/sn_source"
         app:layout_constraintTop_toBottomOf="@+id/tv_trans" />
 
+    <EditText
+        android:id="@+id/et_distance"
+        android:layout_width="372dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/sn_trans"
+        android:layout_marginTop="16dp"
+        android:hint="Jarak (KOSONGI SAJA) "
+        app:layout_constraintEnd_toEndOf="@+id/sn_source"
+        app:layout_constraintStart_toStartOf="@+id/sn_source"
+        app:layout_constraintTop_toBottomOf="@+id/sn_trans" />
+
+    <EditText
+        android:id="@+id/et_departure_time"
+        android:layout_width="372dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:hint="departure time"
+        app:layout_constraintEnd_toEndOf="@+id/sn_source"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/sn_source"
+        app:layout_constraintTop_toBottomOf="@+id/et_distance" />
+
+
     <Button
         android:id="@+id/btn_cek_koordinat"
         android:layout_width="wrap_content"
@@ -87,41 +110,6 @@
         app:layout_constraintStart_toStartOf="@+id/tv_dest"
         app:layout_constraintTop_toBottomOf="@+id/sn_dest" />
 
-    <EditText
-        android:id="@+id/et_departure_time"
-        android:layout_width="372dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:hint="departure time"
-        app:layout_constraintEnd_toEndOf="@+id/sn_source"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/sn_source"
-        app:layout_constraintTop_toBottomOf="@+id/sn_trans" />
-
-    <EditText
-        android:id="@+id/et_start_date"
-        android:layout_width="372dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:hint="Start Date"
-        android:focusable="false"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="@+id/sn_source"
-        app:layout_constraintStart_toStartOf="@+id/sn_source"
-        app:layout_constraintTop_toBottomOf="@+id/et_departure_time" />
-
-    <EditText
-        android:id="@+id/et_finish_date"
-        android:layout_width="372dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:hint="Finish Date"
-        android:focusable="false"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="@+id/sn_source"
-        app:layout_constraintStart_toStartOf="@+id/sn_source"
-        app:layout_constraintTop_toBottomOf="@+id/et_start_date" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="372dp"
@@ -130,7 +118,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="@+id/et_departure_time"
         app:layout_constraintStart_toStartOf="@+id/et_departure_time"
-        app:layout_constraintTop_toBottomOf="@+id/et_finish_date" />
+        app:layout_constraintTop_toBottomOf="@+id/et_departure_time" />
 
     <!-- New TextView added below the save button -->
     <TextView
