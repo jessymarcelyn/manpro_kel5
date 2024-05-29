@@ -56,6 +56,16 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jam Berangkat"
+        android:textColor="#777777"
         app:layout_constraintBottom_toBottomOf="@+id/tv_lokasi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_lokasi" />
@@ -85,9 +95,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="15 minutes"
-        android:textSize="12sp"
+        android:text="15 menit"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_jamBerangkat" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Durasi Perjalanan : "
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_durasi_transit"
+        app:layout_constraintEnd_toStartOf="@+id/tv_durasi_transit"
+        app:layout_constraintTop_toTopOf="@+id/tv_durasi_transit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

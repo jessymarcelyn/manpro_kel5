@@ -23,7 +23,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="96dp"
-                android:background="@drawable/box_bookmark"
+                android:background="@drawable/box_select_route"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -81,6 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:text="5 Agustus 2024"
                         android:textColor="#FFFFFFFF"
                         android:textSize="16sp"
@@ -114,6 +115,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
                             android:background="@drawable/box_home_location"
                             android:orientation="horizontal">
 
@@ -147,7 +149,7 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="8dp"
                                 android:layout_marginStart="8dp"
-                                app:srcCompat="@drawable/ic_location_asal" />
+                                app:srcCompat="@drawable/ic_location_tujuan" />
 
                             <TextView
                                 android:id="@+id/tv_tujuan2"
@@ -178,6 +180,7 @@
                                 android:id="@+id/iv_switch"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
+                                android:layout_marginBottom="8dp"
                                 android:background="@drawable/box_button_home"
                                 app:srcCompat="@drawable/ic_swap" />
 
@@ -232,12 +235,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:backgroundTint="#0081a1"
+                    android:backgroundTint="@color/selectedNavColor"
                     android:gravity="center"
                     android:text="Cari"
                     android:textSize="16sp"
                     app:cornerRadius="12dp"
-                    app:icon="@drawable/ic_search" />
+                    app:icon="@drawable/ic_search"
+                    app:iconGravity="textStart" />
 
             </LinearLayout>
 

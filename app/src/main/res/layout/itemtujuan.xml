@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_location_asal" />
+        app:srcCompat="@drawable/ic_location_tujuan" />
 
     <TextView
         android:id="@+id/tv_tujuannn2"

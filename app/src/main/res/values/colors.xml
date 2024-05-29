@@ -3,6 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
-    <color name="selectedNavColor">#62D05F</color>
-    <color name="navigationBarColor">#117D36</color>
+    <color name="navigationBarColor">#0766AD</color>
+    <color name="selectedNavColor">#29ADB2</color>
+    <color name="secondaryColor">#C5E898</color>
+    <color name="thirdColor">#F3F3F3</color>
+    <color name="yellow">#F1F1F1</color>
+
+
+
 </resources>

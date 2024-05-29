@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"  android:shape="rectangle">
-    <solid android:color="#0081a0" />
+    <solid android:color="@color/selectedNavColor" />
     <corners android:topLeftRadius="20dp" android:topRightRadius="20dp" />
 </shape>
