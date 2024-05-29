@@ -131,7 +131,7 @@ class Profile : AppCompatActivity() {
 
         llFAQ = findViewById(R.id.LL_FAQ)
         llFAQ.setOnClickListener{
-            startActivity(Intent(this, Faq::class.java))
+            startActivity(Intent(this, FAQ::class.java))
         }
 
 
