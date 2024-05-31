@@ -34,6 +34,9 @@ class SelectRute : AppCompatActivity() {
         const val isAsal = "true"
         const val tujuan = "ccc"
         const val asal = "ddd"
+        const val filterOpt = "sSs"
+        const val filterBus = "rEe"
+        const val filterTrain = "Ww"
     }
     private  var _isAsal: Boolean = false
     private lateinit var dataAsal: String
@@ -49,6 +52,7 @@ class SelectRute : AppCompatActivity() {
     private var bus : Boolean = false
     private var train : Boolean = false
 
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +61,13 @@ class SelectRute : AppCompatActivity() {
         _isAsal = intent.getBooleanExtra(isAsal, false)
         dataAsal = intent.getStringExtra(asal) ?: ""
         dataTujuan = intent.getStringExtra(tujuan) ?: ""
+        _filterOpt = intent.getIntExtra(SelectRute.filterOpt, 1)
+        bus = intent.getBooleanExtra(SelectRute.filterBus, false)
+        train = intent.getBooleanExtra(SelectRute.filterTrain, false)
+
+        Log.d("rre", "_filterOpt " + _filterOpt)
+        Log.d("rre", "bus " + bus)
+        Log.d("rre", "train " + train)
 
         val _btn_back = findViewById<ImageView>(R.id.btn_back_c_rute)
         _btn_back.setOnClickListener {
@@ -115,6 +126,10 @@ class SelectRute : AppCompatActivity() {
                 intent.putExtra(ChooseRoute.asal, dataAsal)
                 intent.putExtra(ChooseRoute.tujuan, dataTujuan)
                 intent.putExtra(ChooseRoute.index, pos.toString());
+                // Pass the current filter settings
+                intent.putExtra(ChooseRoute.filterOpt, _filterOpt)
+                intent.putExtra(ChooseRoute.filterBus, bus)
+                intent.putExtra(ChooseRoute.filterTrain, train)
                 startActivity(intent)
             }
         })

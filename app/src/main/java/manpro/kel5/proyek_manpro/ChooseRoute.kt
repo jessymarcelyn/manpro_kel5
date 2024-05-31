@@ -22,6 +22,9 @@ class ChooseRoute : AppCompatActivity() {
         const val tujuan = "efef"
         const val asal = "fefe"
         const val index = "asas"
+        const val filterOpt = "ss"
+        const val filterBus = "re"
+        const val filterTrain = "w"
     }
 
     val listAsal = mutableListOf<String>()
@@ -31,6 +34,9 @@ class ChooseRoute : AppCompatActivity() {
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
     private lateinit var indexx: String
+    private  var dataFilterOpt: Int = 0
+    private  var dataFilterBus: Boolean = false
+    private  var dataFilterTrain: Boolean = false
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +54,13 @@ class ChooseRoute : AppCompatActivity() {
         dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
         indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
+        dataFilterOpt = intent.getIntExtra(ChooseRoute.filterOpt, 1)
+        dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, false)
+        dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, false)
+
+        Log.d("fdfd", "_filterOpt " + dataFilterOpt)
+        Log.d("fdfd", "bus " + dataFilterBus)
+        Log.d("fdfd", "train " + dataFilterTrain)
 
 
         val _tv_title = findViewById<TextView>(R.id.tv_title)
@@ -131,6 +144,9 @@ class ChooseRoute : AppCompatActivity() {
             val intentWithData = Intent(this@ChooseRoute, SelectRute::class.java).apply {
                 putExtra(SelectRute.asal, dataAsal)
                 putExtra(SelectRute.tujuan, dataTujuan)
+                putExtra(SelectRute.filterOpt, dataFilterOpt)
+                putExtra(SelectRute.filterBus, dataFilterBus)
+                putExtra(SelectRute.filterTrain, dataFilterTrain)
             }
             startActivity(intentWithData)
         }
