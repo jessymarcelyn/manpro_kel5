@@ -2,6 +2,7 @@ package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -161,6 +162,23 @@ class SelectRute : AppCompatActivity() {
         val _idSwitch = dialog.findViewById<Switch>(R.id.idSwitch)
         val _idSwitch2 = dialog.findViewById<Switch>(R.id.idSwitch2)
 
+        // Retrieve the last saved state from SharedPreferences
+        val sharedPreferences = getSharedPreferences("FilterPrefs", Context.MODE_PRIVATE)
+        val savedFilterOpt = sharedPreferences.getInt("filterOpt", -1)
+        val savedBus = sharedPreferences.getBoolean("bus", false)
+        val savedTrain = sharedPreferences.getBoolean("train", false)
+
+        // Restore the switches' states
+        _idSwitch.isChecked = savedBus
+        _idSwitch2.isChecked = savedTrain
+
+        // Restore the selected radio button
+        when (savedFilterOpt) {
+            1 -> _btnRadio1.isChecked = true
+            2 -> _btnRadio2.isChecked = true
+            3 -> _btnRadio3.isChecked = true
+        }
+
         var selectedRadioButtonId = -1
 
         // Set a checked change listener for the radio group
@@ -172,34 +190,49 @@ class SelectRute : AppCompatActivity() {
             bus = _idSwitch.isChecked
             train = _idSwitch2.isChecked
 
-            //blm bisa mempertahanin kalau diclick
+            Log.d("nbnb", "bus : $bus")
+            Log.d("nbnb", "train : $train")
 
-            Log.d("nbnb", "bus : " + bus)
-            Log.d("nbnb", "train : " + train)
             if (selectedRadioButtonId != -1) {
                 val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
-                val filterText = selectedRadioButton.text.toString()
-                if(selectedRadioButtonId == _btnRadio1.id){
-                    _filterOpt = 1
-                    Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
-                }
-                else if(selectedRadioButtonId == _btnRadio2.id){
-                    _filterOpt = 2
-                    Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
-                }
-                else if(selectedRadioButtonId == _btnRadio3.id){
-                    _filterOpt = 3
-                    Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
+                if (selectedRadioButton != null) {
+                    val filterText = selectedRadioButton.text.toString()
+                    when (selectedRadioButtonId) {
+                        _btnRadio1.id -> {
+                            _filterOpt = 1
+                            Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
+                        }
+                        _btnRadio2.id -> {
+                            _filterOpt = 2
+                            Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
+                        }
+                        _btnRadio3.id -> {
+                            _filterOpt = 3
+                            Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    // Save the current state to SharedPreferences
+                    with(sharedPreferences.edit()) {
+                        putInt("filterOpt", _filterOpt)
+                        putBoolean("bus", bus)
+                        putBoolean("train", train)
+                        apply()
+                    }
+                } else {
+                    Log.d("FilterDialog", "Selected radio button is null")
                 }
             }
+
             fetchRutes()
             dialog.dismiss()
         }
 
-
         // Show the dialog
         dialog.show()
     }
+
+
 
     private fun trackRoute(
         tempatAwal: String,
@@ -339,8 +372,8 @@ class SelectRute : AppCompatActivity() {
                                     listId.add(docId)
                                     listAsal.add(namaAsal)
                                     listTujuan.add(namaTujuan)
-                                    listHarga.add(durasi)
-                                    listDurasi.add(biaya)
+                                    listHarga.add(biaya)
+                                    listDurasi.add(durasi)
                                     listJamBerangkat.add(jamBerangkat)
                                     listJamSampai.add(jamSampai)
                                     listTranspor.add(id_transportasi)
@@ -361,8 +394,8 @@ class SelectRute : AppCompatActivity() {
                                                     listId,
                                                     listAsal,
                                                     listTujuan,
-                                                    listHarga,
                                                     listDurasi,
+                                                    listHarga,
                                                     listJamBerangkat,
                                                     listJamSampai,
                                                     listTranspor

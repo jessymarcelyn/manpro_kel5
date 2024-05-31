@@ -19,6 +19,7 @@ class adapterChooseRoute (
         var _tv_lokasi : TextView = itemView.findViewById(R.id.tv_lokasi)
         var _tv_jamBerangkat : TextView = itemView.findViewById(R.id.tv_jamBerangkat)
         var _tv_trans : TextView = itemView.findViewById(R.id.tv_bus)
+        var _tv_durasi_transit : TextView = itemView.findViewById(R.id.tv_durasi_transit)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -41,7 +42,30 @@ class adapterChooseRoute (
         holder._tv_lokasi.text = nama
         holder._tv_jamBerangkat.text = formattedJam
         holder._tv_trans.text = trans
+
+
+        // NANTI HARUS GANTI KE ESTIMASI
+//        holder._tv_durasi_transit.text = nama
 //        holder._tv_jamBerangkat.text = rutee.jam_berangkat
 
+    }
+
+    // Convert "HHMM" string format to total minutes since midnight
+    fun convertToMinutes(time: String): Int {
+        val hours = time.substring(0, 2).toInt()
+        val minutes = time.substring(2).toInt()
+        return hours * 60 + minutes
+    }
+
+    // Calculate the difference between two times in minutes
+    fun calculateTimeDifference(start: String, end: String): Int {
+        val startMinutes = convertToMinutes(start)
+        val endMinutes = convertToMinutes(end)
+        return if (endMinutes >= startMinutes) {
+            endMinutes - startMinutes
+        } else {
+            // Handle case when the end time is on the next day
+            endMinutes + (24 * 60) - startMinutes
+        }
     }
 }

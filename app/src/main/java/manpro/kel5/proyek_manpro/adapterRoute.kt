@@ -63,7 +63,7 @@ class adapterRoute (
         val lastJamSampai = rute.jam_sampai.last()
         val differenceInMinutes = calculateTimeDifference(firstJamBerangkat, lastJamSampai)
 
-        holder._tv_durasi.text = differenceInMinutes.toString()
+        holder._tv_durasi.text = differenceInMinutes.toString() + " Menit"
 
         holder._tv_label.text = "Rute ${position+1}"
 

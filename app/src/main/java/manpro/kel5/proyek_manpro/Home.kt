@@ -1,6 +1,7 @@
 package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,12 @@ class Home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setupBottomNavigationView(this)
         FirebaseApp.initializeApp(this)
+
+        val sharedPreferences = getSharedPreferences("FilterPrefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            clear()
+            apply()
+        }
 
         //Set tanggal hari ini
         val currentDate = Date()
@@ -161,6 +168,7 @@ class Home : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
 }
 
 

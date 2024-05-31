@@ -27,6 +27,7 @@ class ChooseRoute : AppCompatActivity() {
     val listAsal = mutableListOf<String>()
     val listJamBerangkat = mutableListOf<String>()
     val listTranspor = mutableListOf<String>()
+    val listDurasi = mutableListOf<Int>()
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
     private lateinit var indexx: String
@@ -113,6 +114,11 @@ class ChooseRoute : AppCompatActivity() {
             dataIntent.id_transportasi.forEachIndexed { index, data ->
                 if (index != 0) {
                     listTranspor.add(data)
+                }
+            }
+            dataIntent.durasi.forEachIndexed { index, data ->
+                if (index != 0) {
+                    listDurasi.add(data)
                 }
             }
             _rv_choose.layoutManager = LinearLayoutManager(this)
