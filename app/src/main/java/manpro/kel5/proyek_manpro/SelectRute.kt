@@ -298,6 +298,8 @@ class SelectRute : AppCompatActivity() {
     }
 
     fun fetchRutes() {
+        arRute.clear()
+        Log.d("jjj", validDiscoveredRoutes.toString())
         val totalRoutes = validDiscoveredRoutes.size
         var counter = 0
 
@@ -345,20 +347,35 @@ class SelectRute : AppCompatActivity() {
 
                                     counterInnerList++
 
+                                    // Semua inner rute sudah berhasil
                                     if (counterInnerList == innerList.size) {
-                                        // Semua inner rute sudah berhasil
-                                        arRute.add(
-                                            Rute(
-                                                listId,
-                                                listAsal,
-                                                listTujuan,
-                                                listHarga,
-                                                listDurasi,
-                                                listJamBerangkat,
-                                                listJamSampai,
-                                                listTranspor
+
+                                        //yang duplikat dihapus
+                                        val isDuplicate = arRute.any { existingRoute ->
+                                            existingRoute.doc_rute.toSet() == listId.toSet()
+                                        }
+
+                                        if (!isDuplicate) {
+                                            arRute.add(
+                                                Rute(
+                                                    listId,
+                                                    listAsal,
+                                                    listTujuan,
+                                                    listHarga,
+                                                    listDurasi,
+                                                    listJamBerangkat,
+                                                    listJamSampai,
+                                                    listTranspor
+                                                )
                                             )
-                                        )
+                                        }
+
+//                                        val allListIds = mutableListOf<String>()
+//                                        for (route in arRute) {
+//                                            allListIds.addAll(route.doc_rute)
+//                                        }
+//
+//                                        Log.d("nnn", "All List IDs: $allListIds")
                                         counter++
 
                                         if (counter == totalRoutes) {
@@ -402,10 +419,12 @@ class SelectRute : AppCompatActivity() {
             }
         }
 
+
         // Process each route
         for (innerList in validDiscoveredRoutes) {
+            Log.d("lll", validDiscoveredRoutes.toString())
+            Log.d("iii", innerList.toString())
             processRoute(innerList)
-            arRute.clear()
         }
     }
 

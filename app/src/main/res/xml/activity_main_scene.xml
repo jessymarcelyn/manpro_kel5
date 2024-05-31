@@ -18,7 +18,7 @@
             android:id="@+id/backgroundLayout"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"

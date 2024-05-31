@@ -10,8 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/backgroundLayout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="181dp"
+        android:layout_height="179dp"
         android:background="@drawable/bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
