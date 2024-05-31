@@ -138,6 +138,17 @@
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/box_home_location"
+                            android:orientation="horizontal">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_stop"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/box_home_location"
                             android:orientation="horizontal">
@@ -158,6 +169,7 @@
                                 android:layout_gravity="center"
                                 android:text="TextView"
                                 android:textStyle="bold" />
+
 
                         </LinearLayout>
 
@@ -193,6 +205,7 @@
                                 app:srcCompat="@drawable/ic_plus" />
 
                         </LinearLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -214,17 +227,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/box_home_location"
-                            android:orientation="horizontal">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_stop"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 

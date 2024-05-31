@@ -45,12 +45,8 @@ class AdapterHomeLoc(
         }
 
         holder.imgRemove.setOnClickListener {
-            if (position in listNama.indices) {  // Check if position is valid
                 onItemClickCallback.delData(position)
-                listNama.removeAt(position)
-                notifyItemRemoved(position)
-                notifyItemRangeChanged(position, listNama.size)
-            }
+
         }
     }
 }

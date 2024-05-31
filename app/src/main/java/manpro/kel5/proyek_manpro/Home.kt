@@ -35,6 +35,7 @@ class Home : AppCompatActivity() {
 
     private var normal: Boolean = true
     val listTambah = mutableListOf<String>()
+    val listStop = mutableListOf<String>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,13 +94,17 @@ class Home : AppCompatActivity() {
         val adapterP = AdapterHomeLoc(listTambah)
         _rv_stop.adapter = adapterP
 
-        _iv_tambah.setOnClickListener{
-            listTambah.add("a")
-            _rv_stop.adapter?.notifyDataSetChanged()
 
+        updateListStop()
+
+        _iv_tambah.setOnClickListener {
+            listTambah.add("a")
+            updateListStop()
+            _rv_stop.adapter?.notifyDataSetChanged()
         }
         adapterP.setOnItemClickCallback(object : AdapterHomeLoc.OnItemClickCallback {
             override fun onItemClicked(data: String) {
+                Log.d("nbnb", "masuk")
                 val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                     putExtra(SelectLocation.isAsal, true)
                     putExtra(SelectLocation.asal, _tv_asal2.text)
@@ -168,6 +173,14 @@ class Home : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+    private fun updateListStop() {
+        listStop.clear()
+        listStop.add(dataAsall)
+        listStop.addAll(listTambah)
+        listStop.add(dataTujuann)
+
+    }
+
 
 }
 

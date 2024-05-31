@@ -5,5 +5,6 @@ data class TravelSchedule(
     val tempatTujuan: String,
     val waktuBerangkat: String,
     val waktu: Int,
-    val biaya: Int
+    val biaya: Int,
+    val idTranspor : String
 )

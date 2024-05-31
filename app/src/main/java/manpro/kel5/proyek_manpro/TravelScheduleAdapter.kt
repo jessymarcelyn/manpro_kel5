@@ -50,7 +50,7 @@ class TravelScheduleAdapter : PagingDataAdapter<TravelSchedule, TravelScheduleAd
                 "$menit Menit"
             }
             tvWaktu.text = waktuFormatted
-            val formattedBiaya = NumberFormat.getCurrencyInstance().format(schedule.biaya)
+            val formattedBiaya = "Rp " + NumberFormat.getNumberInstance(Locale("id", "ID")).format(schedule.biaya)
             tvBiaya.text = formattedBiaya
         }
     }

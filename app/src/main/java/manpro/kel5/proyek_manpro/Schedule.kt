@@ -1,5 +1,6 @@
 package manpro.kel5.proyek_manpro
 
+import RutePagingSource
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -28,6 +29,9 @@ import kotlinx.coroutines.launch
 class Schedule : AppCompatActivity() {
     private lateinit var rvSchedule: RecyclerView
     private lateinit var adapter: TravelScheduleAdapter
+    private  var _filterOpt: Int = 1
+    private var bus : Boolean = false
+    private var train : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,30 +86,30 @@ class Schedule : AppCompatActivity() {
         }
 
         _btnSort.setOnClickListener {
-//            bus = _idSwitch.isChecked
-//            train = _idSwitch2.isChecked
-//
-//            //blm bisa mempertahanin kalau diclick
-//
-//            Log.d("nbnb", "bus : " + bus)
-//            Log.d("nbnb", "train : " + train)
-//            if (selectedRadioButtonId != -1) {
-//                val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
-//                val filterText = selectedRadioButton.text.toString()
-//                if(selectedRadioButtonId == _btnRadio1.id){
-//                    _filterOpt = 1
-//                    Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
-//                }
-//                else if(selectedRadioButtonId == _btnRadio2.id){
-//                    _filterOpt = 2
-//                    Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
-//                }
-//                else if(selectedRadioButtonId == _btnRadio3.id){
-//                    _filterOpt = 3
-//                    Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            fetchRutes()
+            bus = _idSwitch.isChecked
+            train = _idSwitch2.isChecked
+
+            //blm bisa mempertahanin kalau diclick
+
+            Log.d("nbnb", "bus : " + bus)
+            Log.d("nbnb", "train : " + train)
+            if (selectedRadioButtonId != -1) {
+                val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
+                val filterText = selectedRadioButton.text.toString()
+                if(selectedRadioButtonId == _btnRadio1.id){
+                    _filterOpt = 1
+                    Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
+                }
+                else if(selectedRadioButtonId == _btnRadio2.id){
+                    _filterOpt = 2
+                    Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
+                }
+                else if(selectedRadioButtonId == _btnRadio3.id){
+                    _filterOpt = 3
+                    Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
+                }
+            }
+            getTravelSchedules()
             dialog.dismiss()
         }
 
@@ -116,7 +120,7 @@ class Schedule : AppCompatActivity() {
 
     private fun getTravelSchedules() {
         val db = FirebaseFirestore.getInstance()
-        val pagingSource = { RutePagingSource(db) }
+        val pagingSource = { RutePagingSource(db, bus, train, _filterOpt) }
         val pager = Pager(
             config = PagingConfig(
                 pageSize = 10,
