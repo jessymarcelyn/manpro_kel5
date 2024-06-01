@@ -165,7 +165,8 @@ class Schedule : AppCompatActivity() {
         super.onStop()
 
         // Clear SharedPreferences
-        sharedPreferences.edit().clear().apply()
+        val specificSharedPreferences = getSharedPreferences("FilterPrefSchedule", Context.MODE_PRIVATE)
+        specificSharedPreferences.edit().clear().apply()
     }
 
 }

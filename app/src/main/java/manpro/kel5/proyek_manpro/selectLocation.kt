@@ -22,11 +22,17 @@ class SelectLocation : AppCompatActivity() {
         const val isAsal = "true"
         const val tujuan = "aaa"
         const val asal = "bbb"
+        const val isAdapter = "fdgd"
+        const val adap = "kbj"
+        const val index = "fgs"
     }
 
     private  var _isAsal: Boolean = false
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
+    private lateinit var dataAdap: String
+    private  var _isAdapter: Boolean = false
+    private var _index: Int = 0
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +72,14 @@ class SelectLocation : AppCompatActivity() {
         _isAsal = intent.getBooleanExtra(isAsal, false)
         dataAsal = intent.getStringExtra(asal) ?: ""
         dataTujuan = intent.getStringExtra(tujuan) ?: ""
-        Log.d("pipi", _isAsal.toString())
-        Log.d("pipi", "dataAsal" + dataAsal.toString())
-        Log.d("pipi", "dataTujuan : " + dataTujuan.toString())
+        dataAdap = intent.getStringExtra(adap) ?: ""
+        _isAdapter = intent.getBooleanExtra(isAdapter, false)
+        _index = intent.getIntExtra(index, 0)
+        Log.d("pipi", "dataAdap " + dataAdap.toString())
+        Log.d("pipi", "_isAdapter " + _isAdapter.toString())
+//        Log.d("pipi", _isAsal.toString())
+//        Log.d("pipi", "dataAsal" + dataAsal.toString())
+//        Log.d("pipi", "dataTujuan : " + dataTujuan.toString())
 
 
         val _btn_back = findViewById<ImageView>(R.id.btn_back)
@@ -148,14 +159,28 @@ class SelectLocation : AppCompatActivity() {
                     Log.d("pipi", "dataAsal1" + dataAsal.toString())
                     Log.d("pipi", "dataTujuan1 : " + dataTujuan.toString())
                     putExtra(Home.isAsall, true)
+                    putExtra(Home.isAdapter, false)
                 }
                 startActivity(intentWithData)
-            }else{
+            }else if(_isAdapter){
+                val intentWithData = Intent(this@SelectLocation, Home::class.java).apply {
+                    putExtra(Home.dataAsall, dataAsal)
+                    putExtra(Home.dataTujuann, dataTujuan)
+                    putExtra(Home.isAsall, false)
+                    putExtra(Home.isAdapter, true)
+                    putExtra(Home.index, _index)
+                    putExtra(Home.dataAdap, selectedItem)
+
+                }
+                startActivity(intentWithData)
+            }
+            else{
                 Log.d("pipi", "masuk2")
                 val intentWithData = Intent(this@SelectLocation, Home::class.java).apply {
                     putExtra(Home.dataAsall, dataAsal)
                     putExtra(Home.dataTujuann, selectedItem)
                     putExtra(Home.isAsall, false)
+                    putExtra(Home.isAdapter, false)
                 }
                 startActivity(intentWithData)
             }

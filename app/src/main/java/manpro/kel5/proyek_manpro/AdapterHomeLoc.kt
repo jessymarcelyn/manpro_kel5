@@ -14,7 +14,7 @@ class AdapterHomeLoc(
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: String)
+        fun onItemClicked(data: String, index : Int)
         fun delData(pos: Int)
     }
 
@@ -39,9 +39,10 @@ class AdapterHomeLoc(
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val nama = listNama[position]
         holder.tvTujuan2.text = nama
+        val index = listNama.indexOf(nama)
 
         holder.tvTujuan2.setOnClickListener {
-            onItemClickCallback.onItemClicked(listNama[position])
+            onItemClickCallback.onItemClicked(listNama[position], index)
         }
 
         holder.imgRemove.setOnClickListener {
