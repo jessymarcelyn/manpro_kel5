@@ -49,8 +49,8 @@ class SelectRute : AppCompatActivity() {
     private lateinit var _rvRute: RecyclerView
     private  var _filterOpt: Int = 1
     var ruteText = StringBuilder()
-    private var bus : Boolean = false
-    private var train : Boolean = false
+    private var bus : Boolean = true
+    private var train : Boolean = true
 
 
     @SuppressLint("MissingInflatedId")
@@ -62,8 +62,8 @@ class SelectRute : AppCompatActivity() {
         dataAsal = intent.getStringExtra(asal) ?: ""
         dataTujuan = intent.getStringExtra(tujuan) ?: ""
         _filterOpt = intent.getIntExtra(SelectRute.filterOpt, 1)
-        bus = intent.getBooleanExtra(SelectRute.filterBus, false)
-        train = intent.getBooleanExtra(SelectRute.filterTrain, false)
+        bus = intent.getBooleanExtra(SelectRute.filterBus, true)
+        train = intent.getBooleanExtra(SelectRute.filterTrain, true)
 
         Log.d("rre", "_filterOpt " + _filterOpt)
         Log.d("rre", "bus " + bus)
@@ -84,8 +84,6 @@ class SelectRute : AppCompatActivity() {
         btnFilter.setOnClickListener{
             showFilterDialog()
         }
-
-//        BottomSheetBehavior.from(sheet).ap
 
         Log.d("eueu", "dataAsal " + dataAsal)
         Log.d("eueu", "dataTujuan " +  dataTujuan)
@@ -158,11 +156,9 @@ class SelectRute : AppCompatActivity() {
 
     }
     private fun showFilterDialog() {
-        // Create a new dialog
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.filter_menu)
 
-        // Set the dialog properties
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -180,8 +176,8 @@ class SelectRute : AppCompatActivity() {
         // Retrieve the last saved state from SharedPreferences
         val sharedPreferences = getSharedPreferences("FilterPrefs", Context.MODE_PRIVATE)
         val savedFilterOpt = sharedPreferences.getInt("filterOpt", -1)
-        val savedBus = sharedPreferences.getBoolean("bus", false)
-        val savedTrain = sharedPreferences.getBoolean("train", false)
+        val savedBus = sharedPreferences.getBoolean("bus", true)
+        val savedTrain = sharedPreferences.getBoolean("train", true)
 
         // Restore the switches' states
         _idSwitch.isChecked = savedBus
@@ -196,7 +192,6 @@ class SelectRute : AppCompatActivity() {
 
         var selectedRadioButtonId = -1
 
-        // Set a checked change listener for the radio group
         _radioGroupFilter.setOnCheckedChangeListener { group, checkedId ->
             selectedRadioButtonId = checkedId
         }
@@ -243,7 +238,6 @@ class SelectRute : AppCompatActivity() {
             dialog.dismiss()
         }
 
-        // Show the dialog
         dialog.show()
     }
 

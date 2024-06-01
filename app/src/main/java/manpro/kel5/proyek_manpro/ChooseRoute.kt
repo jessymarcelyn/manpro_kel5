@@ -55,8 +55,8 @@ class ChooseRoute : AppCompatActivity() {
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
         indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
         dataFilterOpt = intent.getIntExtra(ChooseRoute.filterOpt, 1)
-        dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, false)
-        dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, false)
+        dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, true)
+        dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
 
         Log.d("fdfd", "_filterOpt " + dataFilterOpt)
         Log.d("fdfd", "bus " + dataFilterBus)

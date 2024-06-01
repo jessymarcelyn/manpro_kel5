@@ -2,6 +2,8 @@ package manpro.kel5.proyek_manpro
 
 import RutePagingSource
 import android.app.Dialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -30,8 +32,9 @@ class Schedule : AppCompatActivity() {
     private lateinit var rvSchedule: RecyclerView
     private lateinit var adapter: TravelScheduleAdapter
     private  var _filterOpt: Int = 1
-    private var bus : Boolean = false
-    private var train : Boolean = false
+    private var bus : Boolean = true
+    private var train : Boolean = true
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +62,9 @@ class Schedule : AppCompatActivity() {
     }
 
     private fun showFilterDialog() {
-        // Create a new dialog
         val dialog = Dialog(this)
-        dialog.setContentView(R.layout.filter_menu)
+        dialog.setContentView(R.layout.filter_menu_schedule)
 
-        // Set the dialog properties
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -78,9 +79,23 @@ class Schedule : AppCompatActivity() {
         val _idSwitch = dialog.findViewById<Switch>(R.id.idSwitch)
         val _idSwitch2 = dialog.findViewById<Switch>(R.id.idSwitch2)
 
+        sharedPreferences = getSharedPreferences("FilterPrefSchedule", Context.MODE_PRIVATE)
+        val savedFilterOpt = sharedPreferences.getInt("filterOptSchedule", -1)
+        val savedBus = sharedPreferences.getBoolean("busSchedule", true)
+        val savedTrain = sharedPreferences.getBoolean("trainSchedule", true)
+
+        _idSwitch.isChecked = savedBus
+        _idSwitch2.isChecked = savedTrain
+
+        when (savedFilterOpt) {
+            1 -> _btnRadio1.isChecked = true
+            2 -> _btnRadio2.isChecked = true
+            3 -> _btnRadio3.isChecked = true
+        }
+
         var selectedRadioButtonId = -1
 
-        // Set a checked change listener for the radio group
+
         _radioGroupFilter.setOnCheckedChangeListener { group, checkedId ->
             selectedRadioButtonId = checkedId
         }
@@ -89,7 +104,6 @@ class Schedule : AppCompatActivity() {
             bus = _idSwitch.isChecked
             train = _idSwitch2.isChecked
 
-            //blm bisa mempertahanin kalau diclick
 
             Log.d("nbnb", "bus : " + bus)
             Log.d("nbnb", "train : " + train)
@@ -109,12 +123,18 @@ class Schedule : AppCompatActivity() {
                     Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
                 }
             }
+            // Save the current state to SharedPreferences
+            with(sharedPreferences.edit()) {
+                putInt("filterOptSchedule", _filterOpt)
+                putBoolean("busSchedule", bus)
+                putBoolean("trainSchedule", train)
+                apply()
+            }
+
             getTravelSchedules()
             dialog.dismiss()
         }
 
-
-        // Show the dialog
         dialog.show()
     }
 
@@ -123,7 +143,7 @@ class Schedule : AppCompatActivity() {
         val pagingSource = { RutePagingSource(db, bus, train, _filterOpt) }
         val pager = Pager(
             config = PagingConfig(
-                pageSize = 10,
+                pageSize = 100,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = pagingSource
@@ -141,4 +161,11 @@ class Schedule : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+    override fun onStop() {
+        super.onStop()
+
+        // Clear SharedPreferences
+        sharedPreferences.edit().clear().apply()
+    }
+
 }
