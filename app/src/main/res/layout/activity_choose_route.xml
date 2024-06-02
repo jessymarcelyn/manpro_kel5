@@ -164,7 +164,6 @@
         android:text="Stasiun Gubeng"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="@+id/view11"
         app:layout_constraintTop_toBottomOf="@+id/tv_sampai" />
 
     <View
@@ -175,20 +174,8 @@
         android:layout_marginEnd="16dp"
         android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/tv_brgkt"
-        app:layout_constraintEnd_toStartOf="@+id/tv_durasi"
-        app:layout_constraintStart_toEndOf="@+id/tv_brgkt"
-        app:layout_constraintTop_toTopOf="@+id/tv_brgkt" />
-
-    <View
-        android:id="@+id/view11"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_brgkt"
         app:layout_constraintEnd_toStartOf="@+id/tv_sampai"
-        app:layout_constraintStart_toEndOf="@+id/tv_durasi"
+        app:layout_constraintStart_toEndOf="@+id/tv_brgkt"
         app:layout_constraintTop_toTopOf="@+id/tv_brgkt" />
 
     <TextView
@@ -343,19 +330,6 @@
         app:layout_constraintTop_toTopOf="@+id/tv_asall2" />
 
     <TextView
-        android:id="@+id/tv_durasi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="1 Jam 22 menit"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_brgkt"
-        app:layout_constraintStart_toEndOf="@+id/tv_brgkt"
-        app:layout_constraintTop_toTopOf="@+id/tv_brgkt" />
-
-    <TextView
         android:id="@+id/tv_brgkt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -380,6 +354,21 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/tv_durasi"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="1 Jam 22 menit"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_brgkt"
+        app:layout_constraintEnd_toStartOf="@+id/tv_sampai"
+        app:layout_constraintStart_toEndOf="@+id/tv_brgkt"
+        app:layout_constraintTop_toTopOf="@+id/tv_brgkt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
