@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Proyek_manpro"
         tools:targetApi="34">
         <activity
+            android:name=".track_transport"
+            android:exported="false" />
+        <activity
             android:name=".profile.DetailFAQ"
             android:exported="false" />
         <activity

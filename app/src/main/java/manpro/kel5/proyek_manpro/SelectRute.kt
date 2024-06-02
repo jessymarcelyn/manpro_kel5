@@ -88,10 +88,7 @@ class SelectRute : AppCompatActivity() {
         Log.d("eueu", "dataAsal " + dataAsal)
         Log.d("eueu", "dataTujuan " +  dataTujuan)
 
-        val btnSearch = findViewById<ImageButton>(R.id.btnSearch1)
-        btnSearch.setOnClickListener {
 
-        }
         ruteText = StringBuilder()
         trackRoute(dataAsal, dataTujuan, ruteText)
 

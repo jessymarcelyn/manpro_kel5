@@ -81,7 +81,7 @@ class ChooseRoute : AppCompatActivity() {
         _tv_asall2.text = dataAsal
         _tv_tujuan2.text = dataTujuan
         _tv_tujuann2.text = dataTujuan
-        _tv_title.text = "RUTE " + indexx.toString()
+        _tv_title.text = "Rute " + indexx.toString()
 
         Log.d("lklk", dataIntent.toString())
 
