@@ -346,13 +346,14 @@
         android:id="@+id/tv_durasi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:text="1 Jam 22 menit"
         android:textColor="@color/black"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/tv_brgkt"
-        app:layout_constraintTop_toTopOf="@+id/tv_brgkt"
-        tools:layout_editor_absoluteX="163dp" />
+        app:layout_constraintStart_toEndOf="@+id/tv_brgkt"
+        app:layout_constraintTop_toTopOf="@+id/tv_brgkt" />
 
     <TextView
         android:id="@+id/tv_brgkt"

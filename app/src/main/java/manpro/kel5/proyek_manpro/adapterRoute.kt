@@ -33,6 +33,8 @@ class adapterRoute (
         var _tv_harga : TextView = itemView.findViewById(R.id.tv_harga)
         var _btn_choose : Button = itemView.findViewById(R.id.btn_choose)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.listRute)
+        val _tv_brgkt = itemView.findViewById<TextView>(R.id.tv_brgkt)
+        val _tv_brgkt2 = itemView.findViewById<TextView>(R.id.tv_brgkt2)
 
         init {
             Log.d("adapterRoute", "ViewHolder initialized")
@@ -62,6 +64,12 @@ class adapterRoute (
         val firstJamBerangkat = rute.jam_berangkat.first()
         val lastJamSampai = rute.jam_sampai.last()
         val differenceInMinutes = calculateTimeDifference(firstJamBerangkat, lastJamSampai)
+
+        val formattedFirstJamBerangkat = formatTime(firstJamBerangkat)
+        val formattedLastJamSampai = formatTime(lastJamSampai)
+
+        holder._tv_brgkt.text = formattedFirstJamBerangkat
+        holder._tv_brgkt2.text = formattedLastJamSampai
 
         holder._tv_durasi.text = differenceInMinutes.toString() + " Menit"
 
@@ -104,5 +112,9 @@ class adapterRoute (
             // Handle case when the end time is on the next day
             endMinutes + (24 * 60) - startMinutes
         }
+    }
+    fun formatTime(time: String): String {
+        // Insert colon at the correct position
+        return time.substring(0, 2) + ":" + time.substring(2, 4)
     }
 }

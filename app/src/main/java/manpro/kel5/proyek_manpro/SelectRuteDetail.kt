@@ -1,8 +1,13 @@
 package manpro.kel5.proyek_manpro
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,10 +33,25 @@ import com.android.volley.Request
 
 
 class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback {
+    companion object{
+        const val tujuan = "gf"
+        const val asal = "df"
+        const val index = "asghas"
+        const val filterOpt = "ghgh"
+        const val filterBus = "rer"
+        const val filterTrain = "wqwe"
+    }
 
     private var myMap: GoogleMap? = null
     private var arStop = arrayListOf<Stop>()
     private var arRute = arrayListOf<Rutee>()
+    private lateinit var dataAsal: String
+    private lateinit var dataTujuan: String
+    private lateinit var indexx: String
+    private  var dataFilterOpt: Int = 0
+    private  var dataFilterBus: Boolean = false
+    private  var dataFilterTrain: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,8 +59,32 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback {
 
         val db = Firebase.firestore
         val dataIntent = intent.getParcelableExtra<Rute>("kirimData")
+        val dataIndex = intent.getStringExtra("index") ?: ""
 
+        dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
+        dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
+        indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
+        dataFilterOpt = intent.getIntExtra(ChooseRoute.filterOpt, 1)
+        dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, true)
+        dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
 
+        val _tv_title = findViewById<TextView>(R.id.tv_title)
+        val _btn_back_c_rute = findViewById<ImageView>(R.id.btn_back_c_rute)
+
+        _tv_title.text = "Rute " + dataIndex.toString()
+        _btn_back_c_rute.setOnClickListener{
+            val intentWithData = Intent(this@SelectRuteDetail, ChooseRoute::class.java).apply {
+                putExtra("kirimData", dataIntent)
+                putExtra(ChooseRoute.asal, dataAsal)
+                putExtra(ChooseRoute.tujuan, dataTujuan)
+                putExtra(ChooseRoute.filterOpt, dataFilterOpt)
+                putExtra(ChooseRoute.index, indexx);
+                putExtra(ChooseRoute.filterBus, dataFilterBus)
+                putExtra(ChooseRoute.filterTrain, dataFilterTrain)
+            }
+            startActivity(intentWithData)
+
+        }
         // Fetch all stops
         db.collection("Stop").get().addOnSuccessListener { stopResult ->
             val stopsMap = mutableMapOf<String, Stop>()

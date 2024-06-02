@@ -76,6 +76,8 @@ class ChooseRoute : AppCompatActivity() {
         val _btnView = findViewById<Button>(R.id.btnView)
         val _btnChoose = findViewById<Button>(R.id.btnChoose)
         val _tv_buss = findViewById<TextView>(R.id.tv_buss)
+        val _tv_brgkt = findViewById<TextView>(R.id.tv_brgkt)
+        val _tv_sampai = findViewById<TextView>(R.id.tv_sampai)
 
         _tv_asal2.text = dataAsal
         _tv_asall2.text = dataAsal
@@ -91,10 +93,14 @@ class ChooseRoute : AppCompatActivity() {
             for (harga in dataIntent.biaya) {
                 totalBiaya += harga
             }
-
             val firstJamBerangkat = dataIntent.jam_berangkat.first()
             val lastJamSampai = dataIntent.jam_sampai.last()
+            val formattedFirstJamBerangkat = formatTime(firstJamBerangkat)
+            val formattedLastJamSampai = formatTime(lastJamSampai)
+
             val differenceInMinutes = calculateTimeDifference(firstJamBerangkat, lastJamSampai)
+            _tv_brgkt.text = formattedFirstJamBerangkat
+            _tv_sampai.text = formattedLastJamSampai
             _tv_durasi.text = differenceInMinutes.toString()
         }
 
@@ -153,7 +159,13 @@ class ChooseRoute : AppCompatActivity() {
 
         _btnView.setOnClickListener{
             val intent = Intent(this@ChooseRoute, SelectRuteDetail::class.java)
+            intent.putExtra(ChooseRoute.asal, dataAsal)
+            intent.putExtra(ChooseRoute.tujuan, dataTujuan)
+            intent.putExtra(ChooseRoute.filterOpt, dataFilterOpt)
+            intent.putExtra(ChooseRoute.filterBus, dataFilterBus)
+            intent.putExtra(ChooseRoute.filterTrain, dataFilterTrain)
             intent.putExtra("kirimData", dataIntent)
+            intent.putExtra("index", indexx)
             startActivity(intent)
         }
     }
@@ -174,5 +186,9 @@ class ChooseRoute : AppCompatActivity() {
             // Handle case when the end time is on the next day
             endMinutes + (24 * 60) - startMinutes
         }
+    }
+    fun formatTime(time: String): String {
+        // Insert colon at the correct position
+        return time.substring(0, 2) + ":" + time.substring(2, 4)
     }
 }

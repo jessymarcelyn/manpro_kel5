@@ -43,7 +43,6 @@ class adapterChooseRoute (
         holder._tv_jamBerangkat.text = formattedJam
         holder._tv_trans.text = trans
 
-
         // NANTI HARUS GANTI KE ESTIMASI
 //        holder._tv_durasi_transit.text = nama
 //        holder._tv_jamBerangkat.text = rutee.jam_berangkat

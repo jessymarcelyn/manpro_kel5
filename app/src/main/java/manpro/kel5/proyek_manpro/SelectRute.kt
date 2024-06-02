@@ -121,7 +121,6 @@ class SelectRute : AppCompatActivity() {
                 intent.putExtra(ChooseRoute.asal, dataAsal)
                 intent.putExtra(ChooseRoute.tujuan, dataTujuan)
                 intent.putExtra(ChooseRoute.index, pos.toString());
-                // Pass the current filter settings
                 intent.putExtra(ChooseRoute.filterOpt, _filterOpt)
                 intent.putExtra(ChooseRoute.filterBus, bus)
                 intent.putExtra(ChooseRoute.filterTrain, train)
