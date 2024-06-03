@@ -221,7 +221,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16sp"
         android:text="STASIUN Z"
-        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView17"
         app:layout_constraintStart_toEndOf="@+id/imageView17"
@@ -249,8 +248,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_choose"
-        android:layout_width="354dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/vert1" />
 
