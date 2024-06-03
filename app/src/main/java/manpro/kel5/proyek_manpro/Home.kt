@@ -123,7 +123,7 @@ class Home : AppCompatActivity() {
         updateListStop()
 
         _iv_tambah.setOnClickListener {
-            listTambah.add("a")
+            listTambah.add("Tambahkan ekstra stop")
             updateListStop()
             _rv_stop.adapter?.notifyDataSetChanged()
             saveListTambah()
@@ -201,7 +201,20 @@ class Home : AppCompatActivity() {
         }
 
         btnSearch.setOnClickListener {
+            val AllStop = mutableListOf<String>()
+            AllStop.add(_tv_asal2.text.toString())
+
+            if (listTambah.isNotEmpty()) {
+                // Filter elements that are not "Tambahkan ekstra stop" and add them to AllStop
+                val filteredListTambah = listTambah.filter { it != "Tambahkan ekstra stop" }
+                AllStop.addAll(filteredListTambah)
+            }
+
+            AllStop.add(_tv_tujuan2.text as String)
+
+            Log.d("cbcb", ArrayList(AllStop).toString())
             val intentWithData = Intent(this@Home, SelectRute::class.java).apply {
+                putStringArrayListExtra(SelectRute.arrayStopp, ArrayList(AllStop))
                 putExtra(SelectRute.asal, _tv_asal2.text)
                 putExtra(SelectRute.tujuan, _tv_tujuan2.text)
             }
@@ -254,6 +267,23 @@ class Home : AppCompatActivity() {
         // Clear SharedPreferences
         val specificSharedPreferences = getSharedPreferences("PrefTambah", Context.MODE_PRIVATE)
         specificSharedPreferences.edit().clear().apply()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val _rv_stop = findViewById<RecyclerView>(R.id.rv_stop)
+
+        // Filter elements in listTambah and remove "Tambahkan ekstra stop"
+        val iterator = listTambah.iterator()
+        while (iterator.hasNext()) {
+            val item = iterator.next()
+            if (item == "Tambahkan ekstra stop") {
+                iterator.remove()
+                updateListStop()
+                _rv_stop.adapter?.notifyDataSetChanged()
+                saveListTambah()
+            }
+        }
     }
 
 

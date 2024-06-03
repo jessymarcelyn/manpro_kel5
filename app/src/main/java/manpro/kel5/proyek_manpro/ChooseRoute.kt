@@ -101,7 +101,7 @@ class ChooseRoute : AppCompatActivity() {
             val differenceInMinutes = calculateTimeDifference(firstJamBerangkat, lastJamSampai)
             _tv_brgkt.text = formattedFirstJamBerangkat
             _tv_sampai.text = formattedLastJamSampai
-            _tv_durasi.text = differenceInMinutes.toString()
+            _tv_durasi.text = differenceInMinutes.toString() + " Menit"
         }
 
         val formattedBiaya = "Rp. " + String.format("%,d", totalBiaya)

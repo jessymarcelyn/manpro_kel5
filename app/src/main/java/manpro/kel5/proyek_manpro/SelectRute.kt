@@ -37,6 +37,7 @@ class SelectRute : AppCompatActivity() {
         const val filterOpt = "sSs"
         const val filterBus = "rEe"
         const val filterTrain = "Ww"
+        const val arrayStopp = "csfg"
     }
     private  var _isAsal: Boolean = false
     private lateinit var dataAsal: String
@@ -51,6 +52,7 @@ class SelectRute : AppCompatActivity() {
     var ruteText = StringBuilder()
     private var bus : Boolean = true
     private var train : Boolean = true
+    private var arrayTujuan: ArrayList<String> = ArrayList()
 
 
     @SuppressLint("MissingInflatedId")
@@ -78,6 +80,9 @@ class SelectRute : AppCompatActivity() {
             }
             startActivity(intentWithData)
         }
+        arrayTujuan = intent.getStringArrayListExtra(SelectRute.arrayStopp) ?: ArrayList()
+        Log.d("fkfk", arrayTujuan.toString())
+
 
         val btnFilter = findViewById<ImageButton>(R.id.btnFilter1)
 
@@ -114,7 +119,7 @@ class SelectRute : AppCompatActivity() {
                 Log.d("opo", pos.toString())
 //                val intent = Intent(this@SelectRute, Map::class.java)
 //                val intent = Intent(this@SelectRute, SelectRuteDetail::class.java)
-//                intent.putExtra("kirimData", data)
+//                intent.putExtra("kirimData", data)S
                 val intent = Intent(this@SelectRute, ChooseRoute::class.java)
                 Log.d("uyuy", data.toString())
                 intent.putExtra("kirimData", data)
@@ -287,7 +292,8 @@ class SelectRute : AppCompatActivity() {
                     for (i in discoveredRoutes.indices) {
                         val route = discoveredRoutes.elementAt(i)
                         val connectionValidity = isValidRoute(route, documents)
-                        if (connectionValidity.all { it }) { // Kalau bener semua
+                        Log.d("wtwt", route.toString())
+                        if (connectionValidity.all { it } && isRouteInOrder(route, arrayTujuan, documents)) { // Kalau bener semua
                             validDiscoveredRoutes.add(route)
                         }
                     }
@@ -510,6 +516,27 @@ class SelectRute : AppCompatActivity() {
         }
 
     }
+    private fun isRouteInOrder(route: List<String>, arrayTujuan: ArrayList<String>, documents: QuerySnapshot): Boolean {
+        val stopPoints = route.mapNotNull { routeId ->
+            documents.firstOrNull { it.id == routeId }?.getString("id_stop_dest")
+        }
+        Log.d("eaea", stopPoints.toString())
+
+        var counter = 0
+        for (stop in stopPoints) {
+            for (i in 1 until arrayTujuan.size) {
+                Log.d("agag", "stop : "+ stop)
+                Log.d("agag", "arrayTujuan : "+ arrayTujuan[i])
+                if (stop == arrayTujuan[i]) {
+                    counter++
+                }
+            }
+        }
+        Log.d("eaea", (counter == arrayTujuan.size-1).toString())
+        return counter == arrayTujuan.size-1
+    }
+
+
 
 
     private fun displayRoutes(validDiscoveredRoutes: List<List<String>>) {
