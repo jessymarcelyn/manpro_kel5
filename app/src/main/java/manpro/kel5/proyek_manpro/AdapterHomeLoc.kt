@@ -28,7 +28,7 @@ class AdapterHomeLoc(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_tujuann, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.itemtujuan, parent, false)
         return ListViewHolder(view)
     }
 

@@ -136,10 +136,10 @@
                                 android:text="Stasiun Pasar Turi"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/box_home_location"
                             android:orientation="horizontal">
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -147,6 +147,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

@@ -173,23 +173,13 @@
             app:srcCompat="@drawable/ic_location_asal" />
 
         <ImageView
-            android:id="@+id/imageView33"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_brgkt2"
-            app:layout_constraintEnd_toEndOf="@+id/tv_brgkt"
-            app:layout_constraintStart_toStartOf="@+id/tv_brgkt"
-            app:layout_constraintTop_toBottomOf="@+id/tv_brgkt"
-            app:srcCompat="@drawable/ic_down_arrow" />
-
-        <ImageView
             android:id="@+id/imageView34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_brgkt2"
             app:layout_constraintEnd_toStartOf="@+id/tv_brgkt2"
+            app:layout_constraintStart_toStartOf="@+id/imageView32"
             app:layout_constraintTop_toTopOf="@+id/tv_brgkt2"
             app:srcCompat="@drawable/ic_location_tujuan" />
 
