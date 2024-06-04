@@ -7,29 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".profile.Login">
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        android:background="@drawable/box_app_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_judul_change_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_judul_change_password"
+        app:srcCompat="@drawable/ic_arrow_left" />
+
     <TextView
         android:id="@+id/tv_judul_change_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Welcome, Glad to see you again !"
-        android:textSize="24sp"
+        android:text="Masuk Akun"
+        android:textColor="@color/white"
+        android:textSize="32sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/view" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="-32dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/box_filter"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_judul_change_password">
+        app:layout_constraintTop_toBottomOf="@+id/imageView35">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -45,25 +65,25 @@
                 android:layout_marginEnd="16dp"
                 android:clipToPadding="false"
                 android:hint="Username"
-                android:textColorHint="#FFFFFF"
-                app:boxStrokeColor="#FFFFFF"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/selectedNavColor"
+                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidthFocused="2dp"
                 app:counterEnabled="false"
-                app:hintTextColor="@color/white"
+                app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:startIconDrawable="@drawable/ic_person"
-                app:startIconTint="#FFFFFF"> <!-- Adjust the padding value as per your requirement -->
+                app:startIconTint="@color/black"> <!-- Adjust the padding value as per your requirement -->
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ti_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text|textPersonName"
-                    android:textColor="#FFFFFF"
-                    android:textColorLink="#FFFFFF" />
+                    android:textColor="@color/black"
+                    android:textColorLink="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
@@ -73,7 +93,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:background="#FFFFFF"
+                android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
@@ -87,25 +107,25 @@
                 android:layout_marginEnd="16dp"
                 android:clipToPadding="false"
                 android:hint="Password"
-                android:textColorHint="#FFFFFF"
-                app:boxStrokeColor="#FFFFFF"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/selectedNavColor"
+                app:boxStrokeWidth="2dp"
+                app:boxStrokeWidthFocused="2dp"
                 app:counterEnabled="false"
-                app:hintTextColor="@color/white"
+                app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
                 app:startIconDrawable="@drawable/ic_key"
-                app:startIconTint="#FFFFFF"> <!-- Adjust the padding value as per your requirement -->
+                app:startIconTint="@color/black"> <!-- Adjust the padding value as per your requirement -->
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ti_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text|textPassword"
-                    android:textColor="#FFFFFF"
-                    android:textColorLink="#FFFFFF" />
+                    android:textColor="@color/black"
+                    android:textColorLink="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
@@ -115,7 +135,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:background="#FFFFFF"
+                android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
@@ -127,42 +147,65 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:backgroundTint="#838383"
+                android:backgroundTint="@color/selectedNavColor"
                 android:text="Masuk"
                 app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view6" />
 
-            <TextView
-                android:id="@+id/tv_daftar"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="Register Akun"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_masuk" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lupa_password">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Belum punya akun? " />
+
+                <TextView
+                    android:id="@+id/tv_daftar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center"
+                    android:text="Daftar Akun"
+                    android:textColor="@color/navigationBarColor"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_lupa_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="Lupa Password ?"
-                android:textColor="#FFFFFF"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:text="Lupa password?"
+                android:textColor="@color/navigationBarColor"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/btn_masuk"
+                app:layout_constraintStart_toStartOf="@+id/btn_masuk"
                 app:layout_constraintTop_toBottomOf="@+id/btn_masuk" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView35"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/transport" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

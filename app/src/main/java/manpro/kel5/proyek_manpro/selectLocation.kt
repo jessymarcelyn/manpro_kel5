@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
@@ -44,7 +45,7 @@ class SelectLocation : AppCompatActivity() {
             insets
         }
 
-        val _searchText = findViewById<TextInputEditText>(R.id.searchText)
+        val _searchText = findViewById<EditText>(R.id.searchInput)
 
 //        val _imageSearch = findViewById<ImageButton>(R.id.btnSearch1)
 //
