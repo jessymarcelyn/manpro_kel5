@@ -67,6 +67,8 @@ class SelectRute : AppCompatActivity() {
         bus = intent.getBooleanExtra(SelectRute.filterBus, true)
         train = intent.getBooleanExtra(SelectRute.filterTrain, true)
 
+        Log.d("egh", "dataAsal : " + dataAsal)
+        Log.d("egh", "dataTujuan : " + dataTujuan)
         Log.d("rre", "_filterOpt " + _filterOpt)
         Log.d("rre", "bus " + bus)
         Log.d("rre", "train " + train)
@@ -132,7 +134,7 @@ class SelectRute : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-
+        adapterP.notifyDataSetChanged()
 //        val recyclerView: RecyclerView = findViewById(R.id.routeSelect)
 //        recyclerView.layoutManager = LinearLayoutManager(this)
 //
@@ -252,6 +254,7 @@ class SelectRute : AppCompatActivity() {
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
+        Log.d("egh", "masuk")
         arRute.clear()
 
         db.collection("Rute")

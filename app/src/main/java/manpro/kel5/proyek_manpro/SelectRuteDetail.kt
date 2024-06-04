@@ -1,9 +1,11 @@
 package manpro.kel5.proyek_manpro
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -30,9 +32,10 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import com.android.volley.Request
+import com.google.android.gms.maps.model.Marker
 
 
-class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback {
+class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     companion object{
         const val tujuan = "gf"
         const val asal = "df"
@@ -167,14 +170,42 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         myMap = googleMap
 
+        myMap?.setOnMarkerClickListener(this)
+        myMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+            override fun getInfoWindow(marker: Marker): View? {
+                return null // Use default frame
+            }
+
+            @SuppressLint("MissingInflatedId")
+            override fun getInfoContents(marker: Marker): View {
+                // Inflate custom layout
+                val view = layoutInflater.inflate(R.layout.custom_map_info, null)
+
+                // Set information in custom layout
+                val title = view.findViewById<TextView>(R.id.info_title)
+
+                if (marker.snippet != null && marker.snippet.startsWith("B")) {
+                    title.text = "Halte " + marker.title
+                    // Customize the info window if needed
+                    view.setBackgroundColor(Color.YELLOW) // Example: Change background color
+                } else {
+                    title.text = "Stasiun " + marker.title
+                }
+
+//                snippet.text = marker.snippet
+
+                return view
+            }
+        })
+
         // Buat marker dan direction berdasarkan yang ada di dalam array rute
         for ((index, rute) in arRute.withIndex()) {
             if (index == 0) {
                 val positionSource = LatLng(rute.latitude_source, rute.longitude_source)
-                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source))
+                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.id_transportasi))
             }
             val positionDest = LatLng(rute.latitude_dest, rute.longitude_dest)
-            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest))
+            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.id_transportasi))
             if (index != arRute.size ) {
                 val url = getUrl(
                     LatLng(rute.latitude_source, rute.longitude_source),
@@ -190,6 +221,11 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback {
         myMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(sby, 16f))
 
     }
+    override fun onMarkerClick(marker: Marker): Boolean {
+        marker.showInfoWindow()
+        return true // Return true to indicate we've handled the event
+    }
+
 
     private fun direction(url: String) {
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
