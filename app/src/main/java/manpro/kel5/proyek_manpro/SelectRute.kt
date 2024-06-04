@@ -131,6 +131,7 @@ class SelectRute : AppCompatActivity() {
                 intent.putExtra(ChooseRoute.filterOpt, _filterOpt)
                 intent.putExtra(ChooseRoute.filterBus, bus)
                 intent.putExtra(ChooseRoute.filterTrain, train)
+                intent.putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
                 startActivity(intent)
             }
         })
@@ -254,7 +255,6 @@ class SelectRute : AppCompatActivity() {
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
         prevRouteDocId: String? = null
     ) {
-        Log.d("egh", "masuk")
         arRute.clear()
 
         db.collection("Rute")
@@ -300,6 +300,7 @@ class SelectRute : AppCompatActivity() {
                             validDiscoveredRoutes.add(route)
                         }
                     }
+                    Log.d("egh", "masuk")
                     Log.d("trtr", validDiscoveredRoutes.toString())
 //                    displayRoutes(validDiscoveredRoutes)
 //                        displayRoutes(validDiscoveredRoutes)
@@ -346,6 +347,7 @@ class SelectRute : AppCompatActivity() {
 
     fun fetchRutes() {
         arRute.clear()
+        Log.d("egh", "masuk2")
         Log.d("jjj", validDiscoveredRoutes.toString())
         val totalRoutes = validDiscoveredRoutes.size
         var counter = 0
@@ -476,7 +478,9 @@ class SelectRute : AppCompatActivity() {
     }
 
     fun sortRutes(arRute: ArrayList<Rute>) {
+        Log.d("egh", "masuk3")
         if (_filterOpt == 1) {
+            Log.d("egh", "masuk4")
             val timeFormat = SimpleDateFormat("HHmm", Locale.getDefault())
             arRute.sortBy { rute ->
                 // rute waktu sampai tercepat

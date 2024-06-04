@@ -25,6 +25,7 @@ class ChooseRoute : AppCompatActivity() {
         const val filterOpt = "ss"
         const val filterBus = "re"
         const val filterTrain = "w"
+        const val arrayStopp = "csasdag"
     }
 
     val listAsal = mutableListOf<String>()
@@ -37,6 +38,7 @@ class ChooseRoute : AppCompatActivity() {
     private  var dataFilterOpt: Int = 0
     private  var dataFilterBus: Boolean = false
     private  var dataFilterTrain: Boolean = false
+    private var arrayTujuan: ArrayList<String> = ArrayList()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +56,7 @@ class ChooseRoute : AppCompatActivity() {
         dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
         indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
+        arrayTujuan = intent.getStringArrayListExtra(SelectRute.arrayStopp) ?: ArrayList()
         dataFilterOpt = intent.getIntExtra(ChooseRoute.filterOpt, 1)
         dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, true)
         dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
@@ -153,6 +156,7 @@ class ChooseRoute : AppCompatActivity() {
                 putExtra(SelectRute.filterOpt, dataFilterOpt)
                 putExtra(SelectRute.filterBus, dataFilterBus)
                 putExtra(SelectRute.filterTrain, dataFilterTrain)
+                putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
             }
             startActivity(intentWithData)
         }

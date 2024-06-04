@@ -33,6 +33,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import com.android.volley.Request
 import com.google.android.gms.maps.model.Marker
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -166,6 +167,7 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         }
     }
 
+    private var jenis : String =""
     //buat google map
     override fun onMapReady(googleMap: GoogleMap?) {
         myMap = googleMap
@@ -183,14 +185,30 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
 
                 // Set information in custom layout
                 val title = view.findViewById<TextView>(R.id.info_title)
+                val info_snippet = view.findViewById<TextView>(R.id.info_snippet)
 
-                if (marker.snippet != null && marker.snippet.startsWith("B")) {
-                    title.text = "Halte " + marker.title
-                    // Customize the info window if needed
-                    view.setBackgroundColor(Color.YELLOW) // Example: Change background color
-                } else {
-                    title.text = "Stasiun " + marker.title
-                }
+                val db = FirebaseFirestore.getInstance()
+                db.collection("Stop")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            val namaStop = document.getString("nama_stop")
+                            if (namaStop == marker.snippet ) {
+                                jenis = document.getString("jenis_stop").toString()
+                            }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                    }
+
+                title.text = jenis + " " + marker.title
+                info_snippet.text = formatTime(marker.snippet)
+//                if (marker.snippet != null && marker.snippet.startsWith("B")) {
+//                    title.text = jenis + " " + marker.title
+//                    view.setBackgroundColor(Color.YELLOW)
+//                } else {
+//                    title.text = "Stasiun " + marker.title
+//                }
 
 //                snippet.text = marker.snippet
 
@@ -202,10 +220,10 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         for ((index, rute) in arRute.withIndex()) {
             if (index == 0) {
                 val positionSource = LatLng(rute.latitude_source, rute.longitude_source)
-                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.id_transportasi))
+                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.jam_berangkat))
             }
             val positionDest = LatLng(rute.latitude_dest, rute.longitude_dest)
-            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.id_transportasi))
+            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.jam_sampai))
             if (index != arRute.size ) {
                 val url = getUrl(
                     LatLng(rute.latitude_source, rute.longitude_source),
@@ -221,6 +239,12 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         myMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(sby, 16f))
 
     }
+
+    fun formatTime(time: String): String {
+        // Insert colon at the correct position
+        return time.substring(0, 2) + ":" + time.substring(2, 4)
+    }
+
     override fun onMarkerClick(marker: Marker): Boolean {
         marker.showInfoWindow()
         return true // Return true to indicate we've handled the event
