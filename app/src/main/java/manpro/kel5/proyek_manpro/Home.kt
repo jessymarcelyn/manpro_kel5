@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,10 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.common.reflect.TypeToken
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
 import manpro.kel5.proyek_manpro.BottomNav.Companion.setupBottomNavigationView
+import manpro.kel5.proyek_manpro.databinding.ActivityHomeBinding
+import manpro.kel5.proyek_manpro.profile.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -30,6 +35,11 @@ import java.util.Locale
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnSearch: Button
+    private lateinit var btnLogin : Button
+    private lateinit var label_bookmark : ListView
+
+    private lateinit var binding: ActivityHomeBinding
+    private lateinit var autentikasi : FirebaseAuth
 
     companion object{
         const val dataAsall = "GETDATA1"
@@ -221,7 +231,27 @@ class Home : AppCompatActivity() {
             startActivity(intentWithData)
         }
 
+        // BOOKMARK
+        autentikasi = FirebaseAuth.getInstance()
+        label_bookmark = findViewById(R.id.label_bookmark)
+        btnLogin = findViewById(R.id.login_button_home)
+        if(autentikasi.currentUser != null){
+            // Jika currentUser ada --> udah login
+            btnLogin.visibility = View.GONE
+            label_bookmark.visibility = View.VISIBLE
+        }
+        // belum login
+        else {
+            label_bookmark.visibility = View.GONE
+            btnLogin.setOnClickListener{
+                intent = Intent(this, Login::class.java)
+                startActivity(intent)
+            }
+        }
+
     }
+
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             else -> return super.onOptionsItemSelected(item)

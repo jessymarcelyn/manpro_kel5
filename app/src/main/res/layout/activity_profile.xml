@@ -33,7 +33,7 @@
         android:id="@+id/tv_usernameDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="username"
+        android:text="'Your username'"
         android:textAlignment="center"
         android:textColor="#FAFAFA"
         android:textSize="20sp"
@@ -44,44 +44,59 @@
 
     <Button
         android:id="@+id/btn_AddRute"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#0a88bf"
         android:text="Add Rute"
+        app:cornerRadius="10dp"
+        android:layout_marginLeft="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
     <Button
         android:id="@+id/btn_AddStop"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="76dp"
+        android:backgroundTint="#0a88bf"
         android:text="Add Stop"
+        app:cornerRadius="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_AddRute"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_AddRute" />
 
     <Button
         android:id="@+id/btn_register"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#0a88bf"
         android:text="Register"
+        app:cornerRadius="10dp"
         app:layout_constraintStart_toEndOf="@+id/btn_AddRute"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
     <Button
         android:id="@+id/btn_login"
+        style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:backgroundTint="#0a88bf"
         android:text="Login"
-        app:layout_constraintStart_toEndOf="@+id/btn_register"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
+        android:layout_marginTop="10dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_register"
+        app:layout_constraintStart_toStartOf="@+id/btn_register"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register" />
 
 
+<!--    Account Setting-->
     <TextView
         android:id="@+id/textView14"
         android:layout_width="match_parent"
@@ -355,6 +370,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
 
+    <!--        linear layout log out-->
     <LinearLayout
         android:id="@+id/linearLayout10"
         android:layout_width="0dp"
@@ -384,7 +400,7 @@
                 app:srcCompat="@drawable/ic_logout" />
         </LinearLayout>
 
-        <!--        linear layout log out-->
+
         <LinearLayout
             android:id="@+id/linearLayoutLogOut"
             android:layout_width="match_parent"
