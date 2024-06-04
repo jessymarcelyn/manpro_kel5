@@ -10,7 +10,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="110dp"
         android:background="@drawable/box_app_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:text="Apa yang bisa kami bantu?"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
