@@ -43,33 +43,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_AppName" />
 
     <Button
-        android:id="@+id/btn_AddRute"
-        style="@style/Widget.Material3.Button.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#0a88bf"
-        android:text="Add Rute"
-        app:cornerRadius="10dp"
-        android:layout_marginLeft="80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
-
-    <Button
-        android:id="@+id/btn_AddStop"
-        style="@style/Widget.Material3.Button.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#0a88bf"
-        android:text="Add Stop"
-        app:cornerRadius="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_AddRute"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_AddRute" />
-
-    <Button
         android:id="@+id/btn_register"
         style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
@@ -79,7 +52,8 @@
         android:backgroundTint="#0a88bf"
         android:text="Register"
         app:cornerRadius="10dp"
-        app:layout_constraintStart_toEndOf="@+id/btn_AddRute"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout11" />
 
     <Button
@@ -298,8 +272,9 @@
         </LinearLayout>
     </LinearLayout>
 
+<!--    Customer Service -->
     <LinearLayout
-        android:id="@+id/linearLayout9"
+        android:id="@+id/linearLayout_customer_service"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
@@ -356,6 +331,143 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!--    ADD STOP RUTE-->
+    <TextView
+        android:id="@+id/tv_judul_add_stop_rute"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="Add Rute and Add Stop"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_customer_service" />
+
+    <!--        linear layout Add Stop-->
+    <LinearLayout
+        android:id="@+id/linearLayoutAddStop"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/box_profile_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_judul_add_stop_rute">
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButtonAddStop"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_profile"
+                app:srcCompat="@drawable/ic_logout" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout16"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_add_stop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Stop" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView37"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/ic_arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--    linear layout Add Rute-->
+    <LinearLayout
+        android:id="@+id/linearLayoutAddRute"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/box_profile_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAddStop">
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton10"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_profile"
+                app:srcCompat="@drawable/ic_delete" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_add_rute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Rute" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView38"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/ic_arrow_right" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+<!--    LogOut + Delete -->
     <TextView
         android:id="@+id/textView23"
         android:layout_width="0dp"
@@ -368,7 +480,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAddRute" />
 
     <!--        linear layout log out-->
     <LinearLayout

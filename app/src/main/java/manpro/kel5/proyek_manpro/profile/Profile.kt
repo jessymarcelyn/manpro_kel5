@@ -1,6 +1,7 @@
 package manpro.kel5.proyek_manpro.profile
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -19,8 +20,9 @@ import manpro.kel5.proyek_manpro.databinding.ActivityProfileBinding
 class Profile : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var tv_usernameDisplay : TextView
-    private lateinit var btnAddRute: Button
-    private lateinit var btnAddStop : Button
+    private lateinit var tvAddStopRute : TextView
+    private lateinit var llAddRute: LinearLayout
+    private lateinit var llAddStop : LinearLayout
     private lateinit var btnMap: Button
     private lateinit var btnLogin: Button
     private lateinit var tvAccountSetting : TextView
@@ -30,11 +32,8 @@ class Profile : AppCompatActivity() {
     private lateinit var llChangePassword : LinearLayout
     private lateinit var llEditProfile : LinearLayout
     private lateinit var llFAQ : LinearLayout
+    private lateinit var llCustomerService : LinearLayout
     private lateinit var text : String
-
-
-
-
 
     private lateinit var binding: ActivityProfileBinding
     private lateinit var autentikasi : FirebaseAuth
@@ -45,41 +44,47 @@ class Profile : AppCompatActivity() {
         BottomNav.setupBottomNavigationView(this)
 
         tvAccountSetting = findViewById(R.id.textView14) // Judul Account Setting
+        llChangePassword = findViewById(R.id.LL_change_password)
         tvLogOutDelete = findViewById(R.id.textView23)
         llEditProfile = findViewById(R.id.linear_editprof)
-        llChangePassword = findViewById(R.id.LL_change_password)
+
         llLogout = findViewById(R.id.linearLayout10) // Log Out
         llDelAcc = findViewById(R.id.linearLayout11) // Delete
+
+        // Add Stop Rute
+        tvAddStopRute = findViewById(R.id.tv_judul_add_stop_rute)
+        llAddStop = findViewById(R.id.linearLayoutAddStop)
+        llAddRute = findViewById(R.id.linearLayoutAddRute)
 
         autentikasi = FirebaseAuth.getInstance()
 
         // Menghilangkan sebagian fitur profile jika belum login
         if(autentikasi.currentUser == null){
-            tvAccountSetting.visibility = View.GONE
-            tvLogOutDelete.visibility = View.GONE
-            llEditProfile.visibility = View.GONE
-            llChangePassword.visibility = View.GONE
-            llDelAcc.visibility = View.GONE
-            llLogout.visibility = View.GONE
+            logOutSetGone()
         }
+        // user telah login
         else if(autentikasi.currentUser != null){
-            tvAccountSetting.visibility = View.VISIBLE
-            tvLogOutDelete.visibility = View.VISIBLE
-            llEditProfile.visibility = View.VISIBLE
-            llChangePassword.visibility = View.VISIBLE
-            llDelAcc.visibility = View.VISIBLE
-            llLogout.visibility = View.VISIBLE
+            val email_user = autentikasi.currentUser!!.email
+            if (email_user != null) {
+                // ADMIN
+                // Admin --> username : admin, password : admin123
+                if(email_user.endsWith("@petra.ac.id")){
+                    logInAdminSetVisible()
+                }
+                // USER
+                else if (email_user.endsWith("@gmail.com")){
+                    logInUserSetVisible()
+                }
+            }
         }
 
         // Add Rute
-        btnAddRute = findViewById(R.id.btn_AddRute)
-        btnAddRute.setOnClickListener {
+        llAddRute.setOnClickListener {
             startActivity(Intent(this, AddRute::class.java))
         }
 
         // Add Stop
-        btnAddStop = findViewById(R.id.btn_AddStop)
-        btnAddStop.setOnClickListener {
+        llAddStop.setOnClickListener {
             startActivity(Intent(this, AddStop::class.java))
         }
 
@@ -100,7 +105,7 @@ class Profile : AppCompatActivity() {
             if(autentikasi.currentUser!= null){
                 autentikasi.signOut()
                 startActivity(Intent(this, Home::class.java))
-                tv_usernameDisplay.text = "<Your username>"
+                tv_usernameDisplay.text = "'Your username'"
                 Toast.makeText(this, "Log Out success", Toast.LENGTH_SHORT).show()
             }else {
                 Toast.makeText(this, "Already Logged out", Toast.LENGTH_SHORT).show()
@@ -133,7 +138,7 @@ class Profile : AppCompatActivity() {
                             autentikasi.currentUser!!.delete()
                             startActivity(Intent(this, Home::class.java))
 
-                            tv_usernameDisplay.text = "<Your username>"
+                            tv_usernameDisplay.text = "'Your username'"
                             Toast.makeText(this, "Account Deleted", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -161,16 +166,72 @@ class Profile : AppCompatActivity() {
 
         }
 
+        // FAQ
         llFAQ = findViewById(R.id.LL_FAQ)
         llFAQ.setOnClickListener{
             startActivity(Intent(this, FAQ::class.java))
         }
 
+        // Customer Service
+        llCustomerService = findViewById(R.id.linearLayout_customer_service)
+        llCustomerService.setOnClickListener{
+            val phoneNumber = "+6281231808851"
+            val message = "Hello, I need help with..."
 
+            val url = "https://api.whatsapp.com/send?phone=$phoneNumber&text=${Uri.encode(message)}"
+
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            intent.setPackage("com.whatsapp")
+        }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun logOutSetGone(){
+        tvAccountSetting.visibility = View.GONE
+        llEditProfile.visibility = View.GONE
+        llChangePassword.visibility = View.GONE
+
+        tvAddStopRute.visibility = View.GONE
+        llAddStop.visibility = View.GONE
+        llAddRute.visibility = View.GONE
+
+        tvLogOutDelete.visibility = View.GONE
+        llLogout.visibility = View.GONE
+        llDelAcc.visibility = View.GONE
+
+    }
+
+    fun logInAdminSetVisible(){
+        tvAccountSetting.visibility = View.GONE
+        llEditProfile.visibility = View.GONE
+        llChangePassword.visibility = View.GONE
+
+        tvAddStopRute.visibility = View.VISIBLE
+        llAddStop.visibility = View.VISIBLE
+        llAddRute.visibility = View.VISIBLE
+
+        tvLogOutDelete.visibility = View.VISIBLE
+        llLogout.visibility = View.VISIBLE
+        llDelAcc.visibility = View.GONE
+    }
+
+    fun logInUserSetVisible(){
+        tvAccountSetting.visibility = View.VISIBLE
+        llEditProfile.visibility = View.VISIBLE
+        llChangePassword.visibility = View.VISIBLE
+
+        tvAddStopRute.visibility = View.GONE
+        llAddStop.visibility = View.GONE
+        llAddRute.visibility = View.GONE
+
+        tvLogOutDelete.visibility = View.VISIBLE
+        llLogout.visibility = View.VISIBLE
+        llDelAcc.visibility = View.VISIBLE
     }
 }
