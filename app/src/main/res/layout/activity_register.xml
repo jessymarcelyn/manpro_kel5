@@ -85,24 +85,12 @@
                     android:textColorLink="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <View
-                android:id="@+id/view5"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:clipToPadding="false"
                 android:hint="Password"
@@ -114,7 +102,7 @@
                 app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view5"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
                 app:startIconDrawable="@drawable/ic_key"
                 app:startIconTint="@color/black"> <!-- Adjust the padding value as per your requirement -->
 
@@ -127,24 +115,12 @@
                     android:textColorLink="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <View
-                android:id="@+id/view6"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:clipToPadding="false"
                 android:hint="Email"
@@ -156,7 +132,7 @@
                 app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view6"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
                 app:startIconDrawable="@drawable/ic_key"
                 app:startIconTint="@color/black"> <!-- Adjust the padding value as per your requirement -->
 
@@ -168,18 +144,6 @@
                     android:textColor="@color/black"
                     android:textColorLink="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:id="@+id/view7"
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
             <Button
                 android:id="@+id/button_daftar"
@@ -193,7 +157,7 @@
                 app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view7" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
             <LinearLayout
                 android:layout_width="match_parent"
