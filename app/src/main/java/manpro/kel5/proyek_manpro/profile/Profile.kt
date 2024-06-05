@@ -1,5 +1,6 @@
 package manpro.kel5.proyek_manpro.profile
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import manpro.kel5.proyek_manpro.BottomNav
 import manpro.kel5.proyek_manpro.Home
 import manpro.kel5.proyek_manpro.R
 import manpro.kel5.proyek_manpro.databinding.ActivityProfileBinding
+import java.net.URLEncoder
 
 class Profile : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -178,12 +180,18 @@ class Profile : AppCompatActivity() {
             val phoneNumber = "+6281231808851"
             val message = "Hello, I need help with..."
 
-            val url = "https://api.whatsapp.com/send?phone=$phoneNumber&text=${Uri.encode(message)}"
+            val uri = Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=${URLEncoder.encode(message, "UTF-8")}")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
 
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
-            intent.setPackage("com.whatsapp")
+            try {
+                intent.setPackage("com.whatsapp")
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                // WhatsApp not installed, fallback to another method
+                Toast.makeText(this, "WhatsApp is not installed", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
