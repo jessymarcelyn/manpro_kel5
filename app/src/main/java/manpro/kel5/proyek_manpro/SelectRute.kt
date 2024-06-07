@@ -179,7 +179,7 @@ class SelectRute : AppCompatActivity() {
 
         // Retrieve the last saved state from SharedPreferences
         val sharedPreferences = getSharedPreferences("FilterPrefs", Context.MODE_PRIVATE)
-        val savedFilterOpt = sharedPreferences.getInt("filterOpt", -1)
+        val savedFilterOpt = sharedPreferences.getInt("filterOpt", 1)
         val savedBus = sharedPreferences.getBoolean("bus", true)
         val savedTrain = sharedPreferences.getBoolean("train", true)
 
@@ -187,14 +187,21 @@ class SelectRute : AppCompatActivity() {
         _idSwitch.isChecked = savedBus
         _idSwitch2.isChecked = savedTrain
 
-        // Restore the selected radio button
-        when (savedFilterOpt) {
-            1 -> _btnRadio1.isChecked = true
-            2 -> _btnRadio2.isChecked = true
-            3 -> _btnRadio3.isChecked = true
-        }
-
         var selectedRadioButtonId = -1
+        when (savedFilterOpt) {
+            1 -> {
+                _btnRadio1.isChecked = true
+                selectedRadioButtonId = _btnRadio1.id
+            }
+            2 -> {
+                _btnRadio2.isChecked = true
+                selectedRadioButtonId = _btnRadio2.id
+            }
+            3 -> {
+                _btnRadio3.isChecked = true
+                selectedRadioButtonId = _btnRadio3.id
+            }
+        }
 
         _radioGroupFilter.setOnCheckedChangeListener { group, checkedId ->
             selectedRadioButtonId = checkedId
@@ -208,26 +215,31 @@ class SelectRute : AppCompatActivity() {
             Log.d("nbnb", "train : $train")
 
             if (selectedRadioButtonId != -1) {
+                Log.d("nbnb", "masuk1")
                 val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
                 if (selectedRadioButton != null) {
                     val filterText = selectedRadioButton.text.toString()
+                    Log.d("nbnb", "masuk3")
                     when (selectedRadioButtonId) {
                         _btnRadio1.id -> {
                             _filterOpt = 1
-                            Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
                         }
                         _btnRadio2.id -> {
                             _filterOpt = 2
-                            Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
                         }
                         _btnRadio3.id -> {
                             _filterOpt = 3
-                            Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
                         }
                     }
 
+                    Log.d("nbnb", "bus2 : $bus")
+                    Log.d("nbnb", "train2 : $train")
                     // Save the current state to SharedPreferences
                     with(sharedPreferences.edit()) {
+                        Log.d("nbnb", "masuk2")
                         putInt("filterOpt", _filterOpt)
                         putBoolean("bus", bus)
                         putBoolean("train", train)
