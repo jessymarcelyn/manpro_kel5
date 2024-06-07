@@ -10,9 +10,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -28,9 +30,10 @@ import manpro.kel5.proyek_manpro.BottomNav.Companion.setupBottomNavigationView
 import manpro.kel5.proyek_manpro.databinding.ActivityHomeBinding
 import manpro.kel5.proyek_manpro.profile.*
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-
+import android.widget.ArrayAdapter
 
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
@@ -54,7 +57,7 @@ class Home : AppCompatActivity() {
     var listTambah = mutableListOf<String>()
     val listStop = mutableListOf<String>()
     var AllStop = mutableListOf<String>()
-
+    private var selectedDate : String = ""
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +65,24 @@ class Home : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setupBottomNavigationView(this)
         FirebaseApp.initializeApp(this)
+
+        val spinner: Spinner = findViewById(R.id.dateDropdown)
+        val dates = getNextSevenDays()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, dates)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedDate = parent?.getItemAtPosition(position).toString()
+                // Use the selectedDate string as needed
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle nothing selected if needed
+            }
+        }
 
         val sharedPreferences = getSharedPreferences("FilterPrefs", Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
@@ -71,21 +92,16 @@ class Home : AppCompatActivity() {
 
         loadListTambah()
 
-        //Set tanggal hari ini
-        val currentDate = Date()
-        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
-        val formattedDate = dateFormat.format(currentDate)
-        var _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
-        _tv_tanggal.text = formattedDate
-
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
 
         var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
-        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
-        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
+//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
+//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
+        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "1Test A"
+        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "1Test D"
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
         Log.d("pipi", "balik")
@@ -168,7 +184,6 @@ class Home : AppCompatActivity() {
                 putExtra(SelectLocation.isAsal, true)
                 putExtra(SelectLocation.asal, _tv_asal2.text)
                 putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
-                putExtra(SelectLocation.tujuan, "PTC")
                 putExtra(SelectLocation.isAdapter, false)
                 putExtra(SelectLocation.index, index)
                 putExtra(SelectLocation.adap, data)
@@ -179,8 +194,7 @@ class Home : AppCompatActivity() {
             val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                 putExtra(SelectLocation.isAsal, true)
                 putExtra(SelectLocation.asal, _tv_asal2.text)
-//                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
-                putExtra(SelectLocation.tujuan, "PTC")
+                putExtra(SelectLocation.tujuan, _tv_tujuan2.text)
                 putExtra(SelectLocation.isAdapter, false)
                 putExtra(SelectLocation.index, index)
                 putExtra(SelectLocation.adap, data)
@@ -227,6 +241,7 @@ class Home : AppCompatActivity() {
                 putStringArrayListExtra(SelectRute.arrayStopp, ArrayList(AllStop))
                 putExtra(SelectRute.asal, _tv_asal2.text)
                 putExtra(SelectRute.tujuan, _tv_tujuan2.text)
+                putExtra(SelectRute.tanggal, selectedDate)
             }
             startActivity(intentWithData)
         }
@@ -251,6 +266,18 @@ class Home : AppCompatActivity() {
 
     }
 
+    private fun getNextSevenDays(): List<String> {
+        val dates = mutableListOf<String>()
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
+
+        for (i in 0 until 7) {
+            dates.add(dateFormat.format(calendar.time))
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
+        return dates
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

@@ -101,11 +101,11 @@ class SelectLocation : AppCompatActivity() {
 
         val stopList = mutableListOf<String>() // List to store stop names
         val db = FirebaseFirestore.getInstance()
-        db.collection("Stop")
+        db.collection("StopBaru")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val namaStop = document.getString("nama_stop")
+                    val namaStop = document.getString("nama")
                     if (namaStop != null && namaStop.startsWith(input, ignoreCase = true)) {
                         // Check if the stop name starts with the specified string (case-insensitive)
                         stopList.add(namaStop)
@@ -124,11 +124,11 @@ class SelectLocation : AppCompatActivity() {
     private fun retrieveStopData() {
         val stopList = mutableListOf<String>() // List to store stop names
         val db = FirebaseFirestore.getInstance()
-        db.collection("Stop")
+        db.collection("StopBaru")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val namaStop = document.getString("nama_stop")
+                    val namaStop = document.getString("nama")
                     if (namaStop != null) {
                         stopList.add(namaStop)
                     }
