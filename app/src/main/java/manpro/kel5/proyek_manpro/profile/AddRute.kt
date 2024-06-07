@@ -170,7 +170,12 @@ class AddRute : AppCompatActivity() {
                     val hari_berangkat_raw = etStartDate.text.toString()
                     val hari_sampai_raw = etFinishDate.text.toString()
                     val hari_berangkat_final = convertDateFormat(hari_berangkat_raw).toInt()
-                    val hari_sampai_final = convertDateFormat(hari_sampai_raw).toInt()
+                    var hari_sampai_final = 0   // default null
+                    if(hari_sampai_raw != ""){
+                        hari_sampai_final = convertDateFormat(hari_sampai_raw).toInt()
+                    } else {
+                        hari_sampai_final = 0
+                    }
 
                     // Jenis kendaraan = kereta
                     if(document.getString("jenis") == "kereta") {
