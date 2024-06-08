@@ -29,8 +29,7 @@ class ChooseRoute : AppCompatActivity() {
     }
 
     val listAsal = mutableListOf<String>()
-    val listJamBerangkat = mutableListOf<Int>()
-    val listJamSampai = mutableListOf<Int>()
+    val listJamBerangkat = mutableListOf<String>()
     val listTranspor = mutableListOf<String>()
     val listDurasi = mutableListOf<Int>()
     private lateinit var dataAsal: String
@@ -99,8 +98,6 @@ class ChooseRoute : AppCompatActivity() {
             }
             val firstJamBerangkat = dataIntent.jam_berangkat.first()
             val lastJamSampai = dataIntent.jam_sampai.last()
-            Log.d("sgsg", firstJamBerangkat.toString())
-            Log.d("sgsg", lastJamSampai.toString())
             val formattedFirstJamBerangkat = formatTime(firstJamBerangkat)
             val formattedLastJamSampai = formatTime(lastJamSampai)
 
@@ -136,11 +133,6 @@ class ChooseRoute : AppCompatActivity() {
                     listJamBerangkat.add(data)
                 }
             }
-            dataIntent.jam_sampai.forEachIndexed { index, data ->
-                if (index != 0) {
-                    listJamSampai.add(data)
-                }
-            }
             dataIntent.id_transportasi.forEachIndexed { index, data ->
                 if (index != 0) {
                     listTranspor.add(data)
@@ -152,7 +144,7 @@ class ChooseRoute : AppCompatActivity() {
                 }
             }
             _rv_choose.layoutManager = LinearLayoutManager(this)
-            val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listJamSampai, listTranspor)
+            val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listTranspor)
             _rv_choose.adapter = adapterP
         }
 
@@ -178,7 +170,6 @@ class ChooseRoute : AppCompatActivity() {
             intent.putExtra(ChooseRoute.filterTrain, dataFilterTrain)
             intent.putExtra("kirimData", dataIntent)
             intent.putExtra("index", indexx)
-            intent.putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
             startActivity(intent)
         }
     }
@@ -189,19 +180,19 @@ class ChooseRoute : AppCompatActivity() {
         return hours * 60 + minutes
     }
 
-    fun formatTime(timeInMinutes: Int): String {
-        val hours = timeInMinutes / 100
-        val minutes = timeInMinutes % 100
-        return String.format("%02d:%02d", hours, minutes)
-    }
-
     // Calculate the difference between two times in minutes
-    fun calculateTimeDifference(start: Int, end: Int): Int {
-        return if (end >= start) {
-            end - start
+    fun calculateTimeDifference(start: String, end: String): Int {
+        val startMinutes = convertToMinutes(start)
+        val endMinutes = convertToMinutes(end)
+        return if (endMinutes >= startMinutes) {
+            endMinutes - startMinutes
         } else {
             // Handle case when the end time is on the next day
-            end + (24 * 60) - start
+            endMinutes + (24 * 60) - startMinutes
         }
+    }
+    fun formatTime(time: String): String {
+        // Insert colon at the correct position
+        return time.substring(0, 2) + ":" + time.substring(2, 4)
     }
 }
