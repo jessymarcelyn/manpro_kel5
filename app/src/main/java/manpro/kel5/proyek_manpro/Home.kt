@@ -1,6 +1,7 @@
 package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -30,14 +31,17 @@ import manpro.kel5.proyek_manpro.profile.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
+import android.widget.ArrayAdapter
+import java.util.Calendar
+import java.util.TimeZone
 
 class Home : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var btnSearch: Button
     private lateinit var btnLogin : Button
     private lateinit var label_bookmark : ListView
-
+    private lateinit var tv_tanggal : TextView
+    private lateinit var iv_tanggal : ImageView
     private lateinit var binding: ActivityHomeBinding
     private lateinit var autentikasi : FirebaseAuth
 
@@ -68,6 +72,37 @@ class Home : AppCompatActivity() {
             clear()
             apply()
         }
+
+        val tvTanggal: TextView = findViewById(R.id.tv_tanggal)
+        val ivTanggal: ImageView = findViewById(R.id.imageView6)
+        val calendarClickListener = View.OnClickListener {
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"))
+            val tahun = calendar.get(Calendar.YEAR)
+            val bulan = calendar.get(Calendar.MONTH)
+            val tanggal = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val selectedYear = year
+                val selectedMonth = month
+                val selectedDay = dayOfMonth
+
+                val monthFormat = SimpleDateFormat("MMMM", Locale("in", "ID"))
+                val monthName = monthFormat.format(Calendar.getInstance().apply {
+                    set(Calendar.MONTH, selectedMonth)
+                }.time)
+
+                tvTanggal.text = "$selectedDay $monthName $selectedYear"
+            }, tahun, bulan, tanggal)
+
+            datePickerDialog.show()
+        }
+        tvTanggal.setOnClickListener(calendarClickListener)
+        ivTanggal.setOnClickListener(calendarClickListener)
+        val defaultCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7"))
+        val defaultYear = defaultCalendar.get(Calendar.YEAR)
+        val defaultMonth = SimpleDateFormat("MMMM", Locale("in", "ID")).format(defaultCalendar.time)
+        val defaultDay = defaultCalendar.get(Calendar.DAY_OF_MONTH)
+        tvTanggal.text = "$defaultDay $defaultMonth $defaultYear"
 
         loadListTambah()
 
