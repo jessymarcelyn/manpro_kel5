@@ -103,9 +103,9 @@ class Login : AppCompatActivity() {
         }
 
         // Pindah ke Lupa password
-        tv_lupa_pass = findViewById(R.id.tv_lupa_password)
+        tv_lupa_pass = findViewById(R.id.tv_lupa_pass)
         tv_lupa_pass.setOnClickListener {
-            startActivity(Intent(this, ChangePassword::class.java))
+            startActivity(Intent(this, LupaPassword::class.java))
         }
     }
 

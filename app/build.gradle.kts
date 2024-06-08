@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -39,6 +41,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packagingOptions {
+        exclude("/META-INF/LICENSE.md")
+        exclude("/META-INF/NOTICE.md")
+    }
+
 }
 
 dependencies {
@@ -62,6 +70,9 @@ dependencies {
     implementation ("com.google.android.gms:play-services-maps:17.0.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("com.sun.mail:android-mail:1.6.6")
+    implementation ("com.sun.mail:android-activation:1.6.6")
 
 
 
