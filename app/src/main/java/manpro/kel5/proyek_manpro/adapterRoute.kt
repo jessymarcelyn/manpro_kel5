@@ -44,6 +44,7 @@ class adapterRoute (
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        Log.d("vv", listRute.toString())
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_selectroute,parent,false)
         return ListViewHolder(view)
     }
@@ -67,6 +68,11 @@ class adapterRoute (
 
         val formattedFirstJamBerangkat = formatTime(firstJamBerangkat)
         val formattedLastJamSampai = formatTime(lastJamSampai)
+
+        Log.d("oou", firstJamBerangkat.toString())
+        Log.d("oou", lastJamSampai.toString())
+        Log.d("oou", formattedFirstJamBerangkat.toString())
+        Log.d("oou", formattedLastJamSampai.toString())
 
         holder._tv_brgkt.text = formattedFirstJamBerangkat
         holder._tv_brgkt2.text = formattedLastJamSampai
@@ -102,10 +108,7 @@ class adapterRoute (
         return hours * 60 + minutes
     }
 
-    // Calculate the difference between two times in minutes
-    fun calculateTimeDifference(start: String, end: String): Int {
-        val startMinutes = convertToMinutes(start)
-        val endMinutes = convertToMinutes(end)
+    fun calculateTimeDifference(startMinutes: Int, endMinutes: Int): Int {
         return if (endMinutes >= startMinutes) {
             endMinutes - startMinutes
         } else {
@@ -113,8 +116,12 @@ class adapterRoute (
             endMinutes + (24 * 60) - startMinutes
         }
     }
-    fun formatTime(time: String): String {
-        // Insert colon at the correct position
-        return time.substring(0, 2) + ":" + time.substring(2, 4)
+
+    fun formatTime(timeInMinutes: Int): String {
+        val hours = timeInMinutes / 100
+        val minutes = timeInMinutes % 100
+        return String.format("%02d:%02d", hours, minutes)
     }
+
+
 }

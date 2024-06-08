@@ -81,26 +81,39 @@
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tv_tanggal"
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_tanggal"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="5 Agustus 2024"-->
+<!--                            android:textColor="#FFFFFFFF"-->
+<!--                            android:textSize="16sp"-->
+<!--                            android:textStyle="bold" />-->
+
+                        <Spinner
+                            android:id="@+id/dateDropdown"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="5 Agustus 2024"
-                            android:textColor="#FFFFFFFF"
+                            android:textColor="#FFFFFF"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="6dp"
-                            android:layout_weight="1"
-                            app:srcCompat="@drawable/ic_down" />
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView6"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:layout_marginEnd="6dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            app:srcCompat="@drawable/ic_down" />-->
                     </LinearLayout>
 
                     <LinearLayout

@@ -44,6 +44,7 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         const val filterOpt = "ghgh"
         const val filterBus = "rer"
         const val filterTrain = "wqwe"
+        const val tanggal = "e"
     }
 
     private var myMap: GoogleMap? = null
@@ -55,6 +56,8 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
     private  var dataFilterOpt: Int = 0
     private  var dataFilterBus: Boolean = false
     private  var dataFilterTrain: Boolean = false
+    private var arrayTujuan: ArrayList<String> = ArrayList()
+    private lateinit var tanggalDate:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,10 +70,11 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
 
         dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
-        indexx = intent.getStringExtra(ChooseRoute.index) ?: ""
         dataFilterOpt = intent.getIntExtra(ChooseRoute.filterOpt, 1)
         dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, true)
         dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
+        arrayTujuan = intent.getStringArrayListExtra(SelectRute.arrayStopp) ?: ArrayList()
+        tanggalDate = intent.getStringExtra(ChooseRoute.tanggal) ?: ""
 
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         val _btn_back_c_rute = findViewById<ImageView>(R.id.btn_back_c_rute)
@@ -82,24 +86,27 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                 putExtra(ChooseRoute.asal, dataAsal)
                 putExtra(ChooseRoute.tujuan, dataTujuan)
                 putExtra(ChooseRoute.filterOpt, dataFilterOpt)
-                putExtra(ChooseRoute.index, indexx);
+                putExtra(ChooseRoute.index, dataIndex);
                 putExtra(ChooseRoute.filterBus, dataFilterBus)
                 putExtra(ChooseRoute.filterTrain, dataFilterTrain)
+                putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
+                putExtra(ChooseRoute.tanggal, tanggalDate)
+
             }
             startActivity(intentWithData)
 
         }
         // Fetch all stops
-        db.collection("Stop").get().addOnSuccessListener { stopResult ->
+        db.collection("StopBaru").get().addOnSuccessListener { stopResult ->
             val stopsMap = mutableMapOf<String, Stop>()
 
             for (stopDocument in stopResult) {
                 val docId = stopDocument.id
                 val idStop = stopDocument.getString("id_stop") ?: ""
-                val namaStop = stopDocument.getString("nama_stop") ?: ""
-                val latitudeStop = stopDocument.getDouble("latitude_stop") ?: 0.0
-                val longitudeStop = stopDocument.getDouble("longitude_stop") ?: 0.0
-                val jenisStop = stopDocument.getString("jenis_stop") ?: ""
+                val namaStop = stopDocument.getString("nama") ?: ""
+                val latitudeStop = stopDocument.getDouble("latitude") ?: 0.0
+                val longitudeStop = stopDocument.getDouble("longitude") ?: 0.0
+                val jenisStop = stopDocument.getString("jenis") ?: ""
 
                 val stop = Stop(docId, idStop, namaStop, latitudeStop, longitudeStop, jenisStop)
                 stopsMap[namaStop] = stop
@@ -110,7 +117,7 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
             arRute.clear()
             if (dataIntent != null) {
                 for (rute in dataIntent.doc_rute) {
-                    db.collection("Rute").get().addOnSuccessListener { routeResult ->
+                    db.collection("RuteBaru").get().addOnSuccessListener { routeResult ->
                         for (routeDocument in routeResult) {
                             val docId = routeDocument.id
                             if (docId == rute)
@@ -120,10 +127,10 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                                 val idDest = routeDocument.getString("id_stop_dest") ?: ""
                                 val idTransport = routeDocument.getString("id_transportasi") ?: ""
                                 val jarak = routeDocument.getLong("jarak")?.toInt() ?: 0
-                                val durasi = routeDocument.getLong("durasi")?.toInt() ?: 0
-                                val biaya = routeDocument.getLong("biaya")?.toInt() ?: 0
-                                val jamBerangkat = routeDocument.getString("jam_berangkat") ?: ""
-                                val jamSampai = routeDocument.getString("jam_sampai") ?: ""
+                                val durasi = routeDocument.getLong("estimasi")?.toInt() ?: 0
+                                val biaya = routeDocument.getLong("price")?.toInt() ?: 0
+                                val jamBerangkat = routeDocument.getLong("jam_berangkat")?.toInt() ?: 0
+                                val jamSampai = routeDocument.getLong("jam_sampai")?.toInt() ?: 0
 
                                 // Ambil detail dari stop
                                 val sourceStop = stopsMap[idSource]
@@ -188,13 +195,13 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                 val info_snippet = view.findViewById<TextView>(R.id.info_snippet)
 
                 val db = FirebaseFirestore.getInstance()
-                db.collection("Stop")
+                db.collection("StopBaru")
                     .get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
-                            val namaStop = document.getString("nama_stop")
+                            val namaStop = document.getString("nama")
                             if (namaStop == marker.snippet ) {
-                                jenis = document.getString("jenis_stop").toString()
+                                jenis = document.getString("jenis").toString()
                             }
                         }
                     }
@@ -220,10 +227,10 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         for ((index, rute) in arRute.withIndex()) {
             if (index == 0) {
                 val positionSource = LatLng(rute.latitude_source, rute.longitude_source)
-                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.jam_berangkat))
+                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.jam_berangkat.toString()))
             }
             val positionDest = LatLng(rute.latitude_dest, rute.longitude_dest)
-            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.jam_sampai))
+            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.jam_sampai.toString()))
             if (index != arRute.size ) {
                 val url = getUrl(
                     LatLng(rute.latitude_source, rute.longitude_source),

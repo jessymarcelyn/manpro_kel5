@@ -73,8 +73,8 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
                             val jarak = routeDocument.getLong("jarak")?.toInt() ?: 0
                             val durasi = routeDocument.getLong("durasi")?.toInt() ?: 0
                             val biaya = routeDocument.getLong("biaya")?.toInt() ?: 0
-                            val jamBerangkat = routeDocument.getString("jam_berangkat") ?: ""
-                            val jamSampai = routeDocument.getString("jam_sampai") ?: ""
+                            val jamBerangkat =routeDocument.getLong("jam_berangkat")?.toInt() ?: 0
+                            val jamSampai = routeDocument.getLong("jam_sampai")?.toInt() ?: 0
 
                             // Ambil detail dari stop
                             val sourceStop = stopsMap[idSource]
