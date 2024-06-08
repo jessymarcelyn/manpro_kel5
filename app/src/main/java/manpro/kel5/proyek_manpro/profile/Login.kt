@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -24,6 +25,7 @@ class Login : AppCompatActivity() {
     private lateinit var ti_username: TextInputEditText
     private lateinit var ti_password: TextInputEditText
     private lateinit var button_masuk: Button
+    private lateinit var btn_back : ImageView
 
     private lateinit var binding : ActivityLoginBinding
     private lateinit var autentikasi : FirebaseAuth
@@ -38,13 +40,16 @@ class Login : AppCompatActivity() {
             insets
         }
 
-        ti_username = findViewById(R.id.ti_username)
-        ti_password = findViewById(R.id.ti_password)
-        button_masuk = findViewById(R.id.btn_masuk)
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         autentikasi = FirebaseAuth.getInstance()
+
+        ti_username = findViewById(R.id.ti_username)
+        ti_password = findViewById(R.id.ti_password)
+        button_masuk = findViewById(R.id.btn_masuk)
+        btn_back = findViewById(R.id.btn_back_login)
+
+
 
         binding.btnMasuk.setOnClickListener {
             val username = binding.tiUsername.text.toString()
@@ -84,12 +89,20 @@ class Login : AppCompatActivity() {
                 }
         }
 
+        // Back
+        btn_back.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
+        }
 
+
+        // Pindah ke Register
         tv_daftar = findViewById(R.id.tv_daftar)
         tv_daftar.setOnClickListener {
             startActivity(Intent(this, Register::class.java))
         }
 
+        // Pindah ke Lupa password
         tv_lupa_pass = findViewById(R.id.tv_lupa_password)
         tv_lupa_pass.setOnClickListener {
             startActivity(Intent(this, ChangePassword::class.java))

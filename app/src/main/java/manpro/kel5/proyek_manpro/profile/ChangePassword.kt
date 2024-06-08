@@ -3,11 +3,13 @@ package manpro.kel5.proyek_manpro.profile
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import manpro.kel5.proyek_manpro.Home
+import manpro.kel5.proyek_manpro.R
 import manpro.kel5.proyek_manpro.databinding.ActivityChangePasswordBinding
 
 class ChangePassword : AppCompatActivity() {
@@ -18,11 +20,15 @@ class ChangePassword : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_change_password)
+
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         autentikasi = FirebaseAuth.getInstance()
 
+        // Change Password
         binding.btnChangePassword.setOnClickListener {
             val username = binding.tiUsername.text.toString()
             val oldPassword = binding.tiOldPassword.text.toString()
@@ -33,6 +39,12 @@ class ChangePassword : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Back
+        binding.btnBackChangePass.setOnClickListener{
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
         }
     }
 

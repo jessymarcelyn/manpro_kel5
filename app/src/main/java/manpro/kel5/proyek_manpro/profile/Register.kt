@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +24,7 @@ class Register : AppCompatActivity() {
     private lateinit var ti_username: TextInputEditText
     private lateinit var ti_password: TextInputEditText
     private lateinit var ti_email: TextInputEditText
+    private lateinit var btn_back: ImageView
     private lateinit var btn_daftar : Button
     private lateinit var tv_login : TextView
     private lateinit var binding : ActivityRegisterBinding
@@ -46,6 +48,7 @@ class Register : AppCompatActivity() {
         ti_password = findViewById(R.id.ti_password)
         ti_email = findViewById(R.id.ti_email)
         btn_daftar = findViewById(R.id.button_daftar)
+        btn_back = findViewById(R.id.btn_back)
 
 
         // Register
@@ -84,6 +87,12 @@ class Register : AppCompatActivity() {
                 Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
             }
 
+        }
+
+        // Back
+        btn_back.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
         }
 
         // Text : sudah punya akun ?

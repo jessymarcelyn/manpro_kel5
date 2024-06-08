@@ -174,6 +174,7 @@ class AddRute : AppCompatActivity() {
                     if(hari_sampai_raw != ""){
                         hari_sampai_final = convertDateFormat(hari_sampai_raw).toInt()
                     } else {
+                        // hari sampai == null
                         hari_sampai_final = 0
                     }
 

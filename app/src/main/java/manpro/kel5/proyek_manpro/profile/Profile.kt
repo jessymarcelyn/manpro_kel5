@@ -25,7 +25,7 @@ class Profile : AppCompatActivity() {
     private lateinit var tvAddStopRute : TextView
     private lateinit var llAddRute: LinearLayout
     private lateinit var llAddStop : LinearLayout
-    private lateinit var btnMap: Button
+    private lateinit var btnRegister: Button
     private lateinit var btnLogin: Button
     private lateinit var tvAccountSetting : TextView
     private lateinit var tvLogOutDelete : TextView
@@ -45,6 +45,7 @@ class Profile : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         BottomNav.setupBottomNavigationView(this)
 
+        // SET ID XML
         tvAccountSetting = findViewById(R.id.textView14) // Judul Account Setting
         llChangePassword = findViewById(R.id.LL_change_password)
         tvLogOutDelete = findViewById(R.id.textView23)
@@ -57,6 +58,9 @@ class Profile : AppCompatActivity() {
         tvAddStopRute = findViewById(R.id.tv_judul_add_stop_rute)
         llAddStop = findViewById(R.id.linearLayoutAddStop)
         llAddRute = findViewById(R.id.linearLayoutAddRute)
+
+        btnRegister = findViewById(R.id.btn_register)
+        btnLogin = findViewById(R.id.btn_login)
 
         autentikasi = FirebaseAuth.getInstance()
 
@@ -91,13 +95,12 @@ class Profile : AppCompatActivity() {
         }
 
         // Register
-        btnMap = findViewById(R.id.btn_register)
-        btnMap.setOnClickListener {
+        btnRegister.setOnClickListener {
 //            startActivity(Intent(this, Map::class.java))
             startActivity(Intent(this, Register::class.java))
         }
 
-        btnLogin = findViewById(R.id.btn_login)
+        // Login
         btnLogin.setOnClickListener{
             startActivity(Intent(this, Login::class.java))
         }
@@ -213,6 +216,8 @@ class Profile : AppCompatActivity() {
         llLogout.visibility = View.GONE
         llDelAcc.visibility = View.GONE
 
+        btnRegister.visibility = View.VISIBLE
+        btnLogin.visibility = View.VISIBLE
     }
 
     fun logInAdminSetVisible(){
@@ -227,11 +232,14 @@ class Profile : AppCompatActivity() {
         tvLogOutDelete.visibility = View.VISIBLE
         llLogout.visibility = View.VISIBLE
         llDelAcc.visibility = View.GONE
+
+        btnRegister.visibility = View.GONE
+        btnLogin.visibility = View.GONE
     }
 
     fun logInUserSetVisible(){
         tvAccountSetting.visibility = View.VISIBLE
-        llEditProfile.visibility = View.VISIBLE
+        llEditProfile.visibility = View.GONE        // EDIT PROFILE FITUR DIHAPUS
         llChangePassword.visibility = View.VISIBLE
 
         tvAddStopRute.visibility = View.GONE
@@ -241,5 +249,8 @@ class Profile : AppCompatActivity() {
         tvLogOutDelete.visibility = View.VISIBLE
         llLogout.visibility = View.VISIBLE
         llDelAcc.visibility = View.VISIBLE
+
+        btnRegister.visibility = View.GONE
+        btnLogin.visibility = View.GONE
     }
 }
