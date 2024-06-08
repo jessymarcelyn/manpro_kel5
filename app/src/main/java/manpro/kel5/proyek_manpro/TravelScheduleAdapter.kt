@@ -33,24 +33,31 @@ class TravelScheduleAdapter : PagingDataAdapter<TravelSchedule, TravelScheduleAd
         private val tvWaktu: TextView = itemView.findViewById(R.id.tv_waktu)
         private val tvBiaya: TextView = itemView.findViewById(R.id.tv_biaya)
         private val tv_transportasi: TextView = itemView.findViewById(R.id.tv_transportasi)
+        private val tv_tanggal: TextView = itemView.findViewById(R.id.tv_tanggal)
+
 
         fun bind(schedule: TravelSchedule) {
             tvTempatAsal.text = schedule.tempatAsal
             tvTempatTujuan.text = schedule.tempatTujuan
-
-
-            val originalFormat = SimpleDateFormat("HHmm", Locale.getDefault())
-            val targetFormat = SimpleDateFormat("HH.mm", Locale.getDefault())
+            tv_tanggal.text = schedule.tanggal
 
             val waktuBerangkat = schedule.waktuBerangkat
-            val date = originalFormat.parse(waktuBerangkat)
-            val formattedTime = targetFormat.format(date)
-            tvWaktuBerangkat.text = formattedTime + " WIB"
+            val waktuSampai = schedule.waktuSampai
 
-            val firstJamBerangkat = schedule.waktuBerangkat.toDouble()
-            val lastJamSampai = schedule.waktuSampai.toDouble()
-            Log.d("ijij", "schedule.waktuBerangkat $firstJamBerangkat")
-            Log.d("ijij", "schedule.waktuSampai $lastJamSampai")
+            val firstJamBerangkat = waktuBerangkat.toDouble()
+            val lastJamSampai = waktuSampai.toDouble()
+
+            val formattedTimeBerangkat = formatTime(waktuBerangkat)
+            tvWaktuBerangkat.text = "$formattedTimeBerangkat WIB"
+
+            Log.d("kgkg", "tvTempatAsal " +schedule.docId)
+            Log.d("kgkg", "tvTempatAsal " +schedule.tempatAsal)
+            Log.d("kgkg", "tvTempatTujuan " +schedule.tempatTujuan)
+            Log.d("kgkg", "firstJamBerangkat $firstJamBerangkat")
+            Log.d("kgkg", "formattedTimeBerangkat $formattedTimeBerangkat")
+
+//            val formattedTimeSampai = formatTime(waktuSampai)
+//            tvWaktuSampai.text = "$formattedTimeSampai WIB"
 
             val (hours, minutes) = calculateTimeDifference(firstJamBerangkat, lastJamSampai)
 
@@ -66,26 +73,27 @@ class TravelScheduleAdapter : PagingDataAdapter<TravelSchedule, TravelScheduleAd
             tv_transportasi.text = schedule.idTranspor
         }
 
-        fun convertToMinutes(time: Double): Int {
-            val timeString = String.format("%04d", time.toInt())
-            val hours = timeString.substring(0, 2).toInt()
-            val minutes = timeString.substring(2).toInt()
-            return hours * 60 + minutes
+        fun formatTime(time: Int): String {
+            val timeStr = time.toString().padStart(4, '0')
+            val hours = timeStr.substring(0, 2).toInt()
+            val minutes = timeStr.substring(2).toInt()
+            return String.format("%02d:%02d", hours, minutes)
         }
 
-        // Calculate the difference between two times and return the result as hours and minutes
+        // Function to calculate the time difference in hours and minutes
         fun calculateTimeDifference(start: Double, end: Double): Pair<Int, Int> {
-            val startMinutes = convertToMinutes(start)
-            val endMinutes = convertToMinutes(end)
-            val totalMinutes = if (endMinutes >= startMinutes) {
-                endMinutes - startMinutes
-            } else {
-                // Handle case when the end time is on the next day
-                endMinutes + (24 * 60) - startMinutes
-            }
+            val startStr = formatTime(start.toInt())
+            val endStr = formatTime(end.toInt())
 
-            val hours = totalMinutes / 60
-            val minutes = totalMinutes % 60
+            val originalFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val dateStart = originalFormat.parse(startStr)
+            val dateEnd = originalFormat.parse(endStr)
+
+            val diff = dateEnd.time - dateStart.time
+            val diffMinutes = (diff / (60 * 1000)).toInt()
+            val hours = diffMinutes / 60
+            val minutes = diffMinutes % 60
+
             return Pair(hours, minutes)
         }
     }

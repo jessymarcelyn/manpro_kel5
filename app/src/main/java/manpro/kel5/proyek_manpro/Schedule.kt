@@ -10,11 +10,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Spinner
 import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,32 +31,51 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class Schedule : AppCompatActivity() {
     private lateinit var rvSchedule: RecyclerView
     private lateinit var adapter: TravelScheduleAdapter
-    private  var _filterOpt: Int = 1
-    private var bus : Boolean = true
-    private var train : Boolean = true
+    private var _filterOpt: Int = 1
+    private var bus: Boolean = true
+    private var train: Boolean = true
     private lateinit var sharedPreferences: SharedPreferences
+    private var selectedDate: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
         BottomNav.setupBottomNavigationView(this)
 
+        val spinner: Spinner = findViewById(R.id.dateDropdownSchedule)
+        val dates = getNextSevenDays()
+        val adapterSpin = ArrayAdapter(this, android.R.layout.simple_spinner_item, dates)
+        adapterSpin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapterSpin
+
+        val initialPosition = 0
+        if (initialPosition != -1) {
+            spinner.setSelection(initialPosition)
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedDate = parent?.getItemAtPosition(position).toString()
+                reloadSchedules()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         rvSchedule = findViewById(R.id.rv_schedule)
         rvSchedule.layoutManager = LinearLayoutManager(this)
-        rvSchedule.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                LinearLayoutManager.VERTICAL
-            )
-        )
+        rvSchedule.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         val btnFilter = findViewById<ImageButton>(R.id.btnFilter1)
-
-        btnFilter.setOnClickListener{
+        btnFilter.setOnClickListener {
             showFilterDialog()
         }
 
@@ -61,10 +84,26 @@ class Schedule : AppCompatActivity() {
         getTravelSchedules()
     }
 
+    private fun getNextSevenDays(): List<String> {
+        val dates = mutableListOf<String>()
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
+
+        for (i in 0 until 7) {
+            dates.add(dateFormat.format(calendar.time))
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
+        return dates
+    }
+
+    private fun reloadSchedules() {
+        adapter.refresh()
+    }
+
     private fun showFilterDialog() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.filter_menu_schedule)
-
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -95,7 +134,6 @@ class Schedule : AppCompatActivity() {
 
         var selectedRadioButtonId = -1
 
-
         _radioGroupFilter.setOnCheckedChangeListener { group, checkedId ->
             selectedRadioButtonId = checkedId
         }
@@ -104,26 +142,19 @@ class Schedule : AppCompatActivity() {
             bus = _idSwitch.isChecked
             train = _idSwitch2.isChecked
 
-
-            Log.d("nbnb", "bus : " + bus)
-            Log.d("nbnb", "train : " + train)
             if (selectedRadioButtonId != -1) {
                 val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
                 val filterText = selectedRadioButton.text.toString()
-                if(selectedRadioButtonId == _btnRadio1.id){
-                    _filterOpt = 1
-                    Toast.makeText(this, "Filter applied1: $filterText", Toast.LENGTH_SHORT).show()
+                _filterOpt = when (selectedRadioButtonId) {
+                    _btnRadio1.id -> 1
+                    _btnRadio2.id -> 2
+                    _btnRadio3.id -> 3
+                    else -> _filterOpt
                 }
-                else if(selectedRadioButtonId == _btnRadio2.id){
-                    _filterOpt = 2
-                    Toast.makeText(this, "Filter applied2: $filterText", Toast.LENGTH_SHORT).show()
-                }
-                else if(selectedRadioButtonId == _btnRadio3.id){
-                    _filterOpt = 3
-                    Toast.makeText(this, "Filter applied3: $filterText", Toast.LENGTH_SHORT).show()
-                }
+
+                Toast.makeText(this, "Filter applied: $filterText", Toast.LENGTH_SHORT).show()
             }
-            // Save the current state to SharedPreferences
+
             with(sharedPreferences.edit()) {
                 putInt("filterOptSchedule", _filterOpt)
                 putBoolean("busSchedule", bus)
@@ -131,7 +162,7 @@ class Schedule : AppCompatActivity() {
                 apply()
             }
 
-            getTravelSchedules()
+            reloadSchedules()
             dialog.dismiss()
         }
 
@@ -140,12 +171,9 @@ class Schedule : AppCompatActivity() {
 
     private fun getTravelSchedules() {
         val db = FirebaseFirestore.getInstance()
-        val pagingSource = { RutePagingSource(db, bus, train, _filterOpt) }
+        val pagingSource = { RutePagingSource(db, bus, train, _filterOpt, selectedDate) }
         val pager = Pager(
-            config = PagingConfig(
-                pageSize = 100,
-                enablePlaceholders = false
-            ),
+            config = PagingConfig(pageSize = 100, enablePlaceholders = false),
             pagingSourceFactory = pagingSource
         )
 
@@ -156,17 +184,15 @@ class Schedule : AppCompatActivity() {
             }
         }
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            else -> return super.onOptionsItemSelected(item)
-        }
+        return super.onOptionsItemSelected(item)
     }
+
     override fun onStop() {
         super.onStop()
-
-        // Clear SharedPreferences
         val specificSharedPreferences = getSharedPreferences("FilterPrefSchedule", Context.MODE_PRIVATE)
         specificSharedPreferences.edit().clear().apply()
     }
-
 }
+
