@@ -44,7 +44,7 @@
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -57,11 +57,11 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#0a88bf"
         android:text="Login"
-        android:layout_marginTop="10dp"
         app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="@+id/btn_register"
         app:layout_constraintStart_toStartOf="@+id/btn_register"
