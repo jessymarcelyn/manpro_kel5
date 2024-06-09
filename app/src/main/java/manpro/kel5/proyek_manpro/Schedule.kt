@@ -51,8 +51,8 @@ class Schedule : AppCompatActivity() {
 
         val spinner: Spinner = findViewById(R.id.dateDropdownSchedule)
         val dates = getNextSevenDays()
-        val adapterSpin = ArrayAdapter(this, android.R.layout.simple_spinner_item, dates)
-        adapterSpin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapterSpin = ArrayAdapter(this, R.layout.dropdown_item_sch, dates)
+        adapterSpin.setDropDownViewResource(R.layout.dropdown_item_sch)
         spinner.adapter = adapterSpin
 
         val initialPosition = 0

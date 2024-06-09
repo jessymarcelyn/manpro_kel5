@@ -69,8 +69,8 @@ class Home : AppCompatActivity() {
 
         val spinner: Spinner = findViewById(R.id.dateDropdown)
         val dates = getNextSevenDays()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, dates)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, R.layout.dropdrown_item, dates)
+        adapter.setDropDownViewResource(R.layout.dropdrown_item)
         spinner.adapter = adapter
 
         val tanggalDate = intent.getStringExtra(Home.tanggal) ?: ""

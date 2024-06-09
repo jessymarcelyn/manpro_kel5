@@ -39,7 +39,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Tanggal berangkat"
@@ -64,14 +63,15 @@
                     android:id="@+id/dateDropdownSchedule"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_centerInParent="false"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="5 Agustus 2024"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:theme="@style/colored_input_text" />
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/imageView6"-->
@@ -179,7 +179,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/botnavmenu" />
+                app:menu="@menu/botnavmenu" >
+
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
