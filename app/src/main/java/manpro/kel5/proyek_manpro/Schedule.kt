@@ -183,6 +183,7 @@ class Schedule : AppCompatActivity() {
                 adapter.submitData(pagingData)
             }
         }
+        reloadSchedules()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

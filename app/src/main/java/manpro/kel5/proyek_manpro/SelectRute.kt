@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
@@ -58,6 +59,9 @@ class SelectRute : AppCompatActivity() {
     private lateinit var tanggalDate: String
     private var ruteBaruStartDateParsed : String =""
     private var ruteBaruFinishDateParsed : String = ""
+    private lateinit var _tv_kosong1: TextView
+    private lateinit var _tv_kosong2: TextView
+    private lateinit var _iv_kosong: ImageView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,9 +113,18 @@ class SelectRute : AppCompatActivity() {
         Log.d("eueu", "dataAsal " + dataAsal)
         Log.d("eueu", "dataTujuan " +  dataTujuan)
 
+        _tv_kosong1 = findViewById<TextView>(R.id.tv_kosong1)
+        _tv_kosong2 = findViewById<TextView>(R.id.tv_kosong2)
+        _iv_kosong = findViewById<ImageView>(R.id.iv_kosong)
+
+        _tv_kosong1.visibility = View.INVISIBLE
+        _tv_kosong2.visibility = View.INVISIBLE
+        _iv_kosong.visibility = View.INVISIBLE
+
 
         ruteText = StringBuilder()
         trackRoute(dataAsal, dataTujuan, ruteText)
+
 
         _rvRute = findViewById(R.id.rvRute)
         _rvRute.layoutManager = LinearLayoutManager(this)
@@ -515,6 +528,11 @@ class SelectRute : AppCompatActivity() {
 
 
     fun fetchRutes() {
+        if(validDiscoveredRoutes.isEmpty()){
+            _tv_kosong1.visibility = View.VISIBLE
+            _tv_kosong2.visibility = View.VISIBLE
+            _iv_kosong.visibility = View.VISIBLE
+        }
         arRute.clear()
         Log.d("emem", "masuk4")
         Log.d("egh", "masuk2")

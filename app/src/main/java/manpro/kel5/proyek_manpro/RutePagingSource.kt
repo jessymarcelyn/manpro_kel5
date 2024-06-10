@@ -58,7 +58,7 @@ class RutePagingSource(
 //                }
 //                val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
 //                val tanggalDateParsed = dateFormat.parse(tanggalDate)
-//
+////
 //                val ruteBaruStartDateParsed = formatDate(ruteBaruStartDateInt)
 //                val ruteBaruFinishDateParsed = if (ruteBaruFinishDateInt != 0) {
 //                    formatDate(ruteBaruFinishDateInt)
@@ -73,6 +73,15 @@ class RutePagingSource(
 //                    null
 //                }
 //
+//                Log.d("cbcb", "---------------------------------------------------------")
+//                Log.d("cbcb", "ruteBaruStartDateInt " + ruteBaruStartDateInt.toString())
+//                Log.d("cbcb", "ruteBaruFinishDateInt " + ruteBaruFinishDateInt.toString())
+//                Log.d("cbcb", "tanggalDateParsed " + tanggalDateParsed.toString())
+//                Log.d("cbcb", "ruteBaruStartDateParsed " + ruteBaruStartDateParsed.toString())
+//                Log.d("cbcb", "ruteBaruFinishDateParsed " + ruteBaruFinishDateParsed.toString())
+//                Log.d("cbcb", "ruteBaruStartDateDate " + ruteBaruStartDateDate.toString())
+//                Log.d("cbcb", "ruteBaruFinishDateDate " + ruteBaruFinishDateDate.toString())
+////
 //                Log.d("mimi", "docId : " + document.id)
 //                Log.d("mimi", "ruteBaruStartDateDate : $ruteBaruStartDateDate")
 //                Log.d("mimi", "ruteBaruFinishDateDate : $ruteBaruFinishDateDate")
@@ -88,7 +97,9 @@ class RutePagingSource(
                     price.toInt(),
                     idTransportasi, tanggalDate
                 )
+
 //
+
 //                if (ruteBaruFinishDateDate == null) {
 //                    if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
 //                        Log.d("mimi", "masuk1")
@@ -158,6 +169,42 @@ class RutePagingSource(
             LoadResult.Error(e)
         }
     }
+
+    fun compareDateStrings(date1: String, date2: String): Int {
+        val monthMap = mapOf(
+            "Januari" to 1,
+            "Februari" to 2,
+            "Maret" to 3,
+            "April" to 4,
+            "Mei" to 5,
+            "Juni" to 6,
+            "Juli" to 7,
+            "Agustus" to 8,
+            "September" to 9,
+            "Oktober" to 10,
+            "November" to 11,
+            "Desember" to 12
+        )
+
+        val date1Parts = date1.split(" ")
+        val date2Parts = date2.split(" ")
+
+        val day1 = date1Parts[0].toInt()
+        val month1 = monthMap[date1Parts[1]] ?: 0
+        val year1 = date1Parts[2].toInt()
+
+        val day2 = date2Parts[0].toInt()
+        val month2 = monthMap[date2Parts[1]] ?: 0
+        val year2 = date2Parts[2].toInt()
+
+        return when {
+            year1 != year2 -> year1 - year2
+            month1 != month2 -> month1 - month2
+            else -> day1 - day2
+        }
+    }
+
+
 
 
     fun padDateString(dateString: String): String {
