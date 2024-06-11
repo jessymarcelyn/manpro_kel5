@@ -63,7 +63,7 @@ class Schedule : AppCompatActivity() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedDate = parent?.getItemAtPosition(position).toString()
-                reloadSchedules()
+                getTravelSchedules()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -162,7 +162,7 @@ class Schedule : AppCompatActivity() {
                 apply()
             }
 
-            reloadSchedules()
+            getTravelSchedules()
             dialog.dismiss()
         }
 

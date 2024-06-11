@@ -45,47 +45,34 @@ class RutePagingSource(
                 val ruteBaruStartDate = document.get("startDate")
                 val ruteBaruFinishDate = document.get("finishDate")
 
-//                val ruteBaruStartDateInt = if (ruteBaruStartDate is Number) {
-//                    ruteBaruStartDate.toInt()
-//                } else {
-//                    0
-//                }
-//
-//                val ruteBaruFinishDateInt = if (ruteBaruFinishDate is Number) {
-//                    ruteBaruFinishDate.toInt()
-//                } else {
-//                    0
-//                }
-//                val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
-//                val tanggalDateParsed = dateFormat.parse(tanggalDate)
-////
-//                val ruteBaruStartDateParsed = formatDate(ruteBaruStartDateInt)
-//                val ruteBaruFinishDateParsed = if (ruteBaruFinishDateInt != 0) {
-//                    formatDate(ruteBaruFinishDateInt)
-//                } else {
-//                    ""
-//                }
-//
-//                val ruteBaruStartDateDate = dateFormat.parse(ruteBaruStartDateParsed)
-//                val ruteBaruFinishDateDate = if (ruteBaruFinishDateParsed != "") {
-//                    dateFormat.parse(ruteBaruFinishDateParsed)
-//                } else {
-//                    null
-//                }
-//
-//                Log.d("cbcb", "---------------------------------------------------------")
-//                Log.d("cbcb", "ruteBaruStartDateInt " + ruteBaruStartDateInt.toString())
-//                Log.d("cbcb", "ruteBaruFinishDateInt " + ruteBaruFinishDateInt.toString())
-//                Log.d("cbcb", "tanggalDateParsed " + tanggalDateParsed.toString())
-//                Log.d("cbcb", "ruteBaruStartDateParsed " + ruteBaruStartDateParsed.toString())
-//                Log.d("cbcb", "ruteBaruFinishDateParsed " + ruteBaruFinishDateParsed.toString())
-//                Log.d("cbcb", "ruteBaruStartDateDate " + ruteBaruStartDateDate.toString())
-//                Log.d("cbcb", "ruteBaruFinishDateDate " + ruteBaruFinishDateDate.toString())
-////
-//                Log.d("mimi", "docId : " + document.id)
-//                Log.d("mimi", "ruteBaruStartDateDate : $ruteBaruStartDateDate")
-//                Log.d("mimi", "ruteBaruFinishDateDate : $ruteBaruFinishDateDate")
-//                Log.d("mimi", "tanggalDateParsed : $tanggalDateParsed")
+                val ruteBaruStartDateInt = if (ruteBaruStartDate is Number) {
+                    ruteBaruStartDate.toInt()
+                } else {
+                    0
+                }
+
+                val ruteBaruFinishDateInt = if (ruteBaruFinishDate is Number) {
+                    ruteBaruFinishDate.toInt()
+                } else {
+                    0
+                }
+                val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
+                val tanggalDateParsed = dateFormat.parse(tanggalDate)
+
+                val ruteBaruStartDateParsed = formatDate(ruteBaruStartDateInt)
+                val ruteBaruFinishDateParsed = if (ruteBaruFinishDateInt != 0) {
+                    formatDate(ruteBaruFinishDateInt)
+                } else {
+                    ""
+                }
+                Log.d("meme", "docId : "+ document.id)
+                val ruteBaruStartDateDate = dateFormat.parse(ruteBaruStartDateParsed)
+
+                val ruteBaruFinishDateDate = if (ruteBaruFinishDateParsed != "") {
+                    dateFormat.parse(ruteBaruFinishDateParsed)
+                } else {
+                    null
+                }
 
                 travelSchedule = TravelSchedule(
                     document.id,
@@ -98,64 +85,102 @@ class RutePagingSource(
                     idTransportasi, tanggalDate
                 )
 
-//
-
-//                if (ruteBaruFinishDateDate == null) {
-//                    if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
-//                        Log.d("mimi", "masuk1")
-//                        //isi
-//                        if ((bus && train) || (!bus && !train)) {
-//                            travelSchedules.add(travelSchedule)
-//                        } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
-//                            travelSchedules.add(travelSchedule)
-//                        } else if (train && travelSchedule.idTranspor.startsWith("T")) {
-//                            travelSchedules.add(travelSchedule)
-//                        }
-//                    }
-//                } else {
-//                    if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
-//                        tanggalDateParsed.before(ruteBaruFinishDateDate)
-//                    ) {
-//                        Log.d("mimi", "masuk2")
-//                        //isi
-//                        if ((bus && train) || (!bus && !train)) {
+                if (ruteBaruFinishDateDate == null) {
+                    if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
+                        if ((bus && train) || (!bus && !train)) {
+                            travelSchedules.add(travelSchedule)
+                        } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
+                            travelSchedules.add(travelSchedule)
+                        } else if (train && travelSchedule.idTranspor.startsWith("T")) {
+                            travelSchedules.add(travelSchedule)
+                        }
+                    }
+                } else {
+                    if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
+                        tanggalDateParsed.before(ruteBaruFinishDateDate)
+                    ) {
+                        if ((bus && train) || (!bus && !train)) {
 //                            Log.d("mimi", "masuk3")
-//                            travelSchedules.add(travelSchedule)
-//                        } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
+                            travelSchedules.add(travelSchedule)
+                        } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
 //                            Log.d("mimi", "masuk4")
-//                            travelSchedules.add(travelSchedule)
-//                        } else if (train && travelSchedule.idTranspor.startsWith("T")) {
+                            travelSchedules.add(travelSchedule)
+                        } else if (train && travelSchedule.idTranspor.startsWith("K")) {
 //                            Log.d("mimi", "masuk5")
-//                            travelSchedules.add(travelSchedule)
-//                        }
-//                    }
-//                }
-
-                if ((bus && train) || (!bus && !train)) {
-                    Log.d("mimi", "masuk3")
-                    travelSchedules.add(travelSchedule)
-                } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
-                    Log.d("mimi", "masuk4")
-                    travelSchedules.add(travelSchedule)
-                } else if (train && travelSchedule.idTranspor.startsWith("T")) {
-                    Log.d("mimi", "masuk5")
-                    travelSchedules.add(travelSchedule)
+                            travelSchedules.add(travelSchedule)
+                        }
+                    }
                 }
 
-                Log.d("min", "docId : " + document.id)
-                Log.d("min", "jamBerangkatStr : " + jamBerangkatStr)
-                Log.d("min", "jamSampai : " + jamSampai)
-                Log.d("mdmd", "TravelSchedules: $travelSchedules")
             }
 
-           // Ensure this log is before any sorting or filtering
-            Log.d("dvdv", "Filter Option: $filterOpt, Before Sorting: ${travelSchedules.size}")
+            // Durasi tercepat
+            if (filterOpt == 1) {
+                val timeFormat = SimpleDateFormat("HHmm", Locale.getDefault())
+                travelSchedules.sortBy { schedule ->
+                    try {
+                        val jamBerangkat = schedule.waktuBerangkat
+                        val jamSampai = schedule.waktuSampai
 
-            // Apply filtering and sorting as needed...
+                        val departureDate = timeFormat.parse(jamBerangkat.toString())
+                        val departureCalendar = Calendar.getInstance().apply { time = departureDate }
+                        val departureHours = departureCalendar.get(Calendar.HOUR_OF_DAY)
+                        val departureMinutes = departureCalendar.get(Calendar.MINUTE)
+                        val departureMinutesOfDay = departureHours * 60 + departureMinutes
 
-            // Log the number of schedules after sorting
+                        val arrivalDate = timeFormat.parse(jamSampai.toString())
+                        val arrivalCalendar = Calendar.getInstance().apply { time = arrivalDate }
+                        val arrivalHours = arrivalCalendar.get(Calendar.HOUR_OF_DAY)
+                        val arrivalMinutes = arrivalCalendar.get(Calendar.MINUTE)
+                        val arrivalMinutesOfDay = arrivalHours * 60 + arrivalMinutes
+
+                        // Calculate duration
+                        val duration = if (arrivalMinutesOfDay >= departureMinutesOfDay) {
+                            arrivalMinutesOfDay - departureMinutesOfDay
+                        } else {
+                            (24 * 60 - departureMinutesOfDay) + arrivalMinutesOfDay // Handle next day arrival
+                        }
+
+                        duration
+                    } catch (e: Exception) {
+                        Log.e("dvdv", "Error parsing time: ${schedule.waktuBerangkat} - ${schedule.waktuSampai}", e)
+                        Int.MAX_VALUE // Sort invalid times to the end
+                    }
+                }
+                //biaya termurah
+            }  else if (filterOpt == 2) {
+                val sortedRute = travelSchedules.sortedBy { schedule ->
+                    schedule.biaya
+                }
+
+                travelSchedules.clear()
+                travelSchedules.addAll(sortedRute)
+
+                //waktu berangkat terpagi
+            }  else if (filterOpt == 3) {
+                travelSchedules.sortBy { schedule ->
+                    try {
+                        // Extract hours and minutes from the departure time
+                        val jamBerangkat = schedule.waktuBerangkat.toString()
+                        val hours = jamBerangkat.substring(0, jamBerangkat.length - 2).toInt()
+                        val minutes = jamBerangkat.substring(jamBerangkat.length - 2).toInt()
+
+                        Log.d("mbmb", "jamBerangkat : $jamBerangkat")
+                        Log.d("mbmb", "hours : $hours")
+                        Log.d("mbmb", "minutes : $minutes")
+
+                        // Convert hours and minutes into minutes of the day
+                        val departureMinutesOfDay = hours * 60 + minutes
+                        departureMinutesOfDay
+                    } catch (e: Exception) {
+                        Log.e("dvdv", "Error parsing time: ${schedule.waktuBerangkat}", e)
+                        Int.MAX_VALUE // Sort invalid times to the end
+                    }
+                }
+            }
+
+
             Log.d("dvdv", "After Sorting: ${travelSchedules.size}")
-
             val lastDocumentSnapshot = currentPage.documents.lastOrNull()
             val nextKey = lastDocumentSnapshot
 
@@ -169,43 +194,6 @@ class RutePagingSource(
             LoadResult.Error(e)
         }
     }
-
-    fun compareDateStrings(date1: String, date2: String): Int {
-        val monthMap = mapOf(
-            "Januari" to 1,
-            "Februari" to 2,
-            "Maret" to 3,
-            "April" to 4,
-            "Mei" to 5,
-            "Juni" to 6,
-            "Juli" to 7,
-            "Agustus" to 8,
-            "September" to 9,
-            "Oktober" to 10,
-            "November" to 11,
-            "Desember" to 12
-        )
-
-        val date1Parts = date1.split(" ")
-        val date2Parts = date2.split(" ")
-
-        val day1 = date1Parts[0].toInt()
-        val month1 = monthMap[date1Parts[1]] ?: 0
-        val year1 = date1Parts[2].toInt()
-
-        val day2 = date2Parts[0].toInt()
-        val month2 = monthMap[date2Parts[1]] ?: 0
-        val year2 = date2Parts[2].toInt()
-
-        return when {
-            year1 != year2 -> year1 - year2
-            month1 != month2 -> month1 - month2
-            else -> day1 - day2
-        }
-    }
-
-
-
 
     fun padDateString(dateString: String): String {
         return if (dateString.length == 7) {
