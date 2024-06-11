@@ -63,6 +63,8 @@ class SelectRute : AppCompatActivity() {
     private lateinit var _tv_kosong2: TextView
     private lateinit var _iv_kosong: ImageView
     private var isFetchRutesCalled = false
+    private lateinit var tanggalDateParsed : Date
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -367,7 +369,7 @@ class SelectRute : AppCompatActivity() {
                     val newRoute = currentRoute + currentRouteDocId
                     if (idStopSource == tempatAwal && idStopDest != null) {
                         val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
-                        val tanggalDateParsed = dateFormat.parse(tanggalDate)
+                        tanggalDateParsed = dateFormat.parse(tanggalDate)
 
                         val ruteBaruStartDateParsed = formatDate(ruteBaruStartDateInt)
                         val ruteBaruFinishDateParsed = if (ruteBaruFinishDateInt != 0) {
@@ -392,7 +394,7 @@ class SelectRute : AppCompatActivity() {
                             // Cek antar route apakah sudah benar
                             if(ruteBaruFinishDateDate == null){
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
-                                    val connectionValidity = isValidRoute(newRoute, documents)
+                                    val connectionValidity = isValidRoute(newRoute, documents, tanggalDateParsed)
                                     if (connectionValidity.all { it }) { // Kalau bener semua
                                         discoveredRoutes.add(newRoute)
                                     }
@@ -401,7 +403,7 @@ class SelectRute : AppCompatActivity() {
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
                                     tanggalDateParsed.before(ruteBaruFinishDateDate)
                                 ) {
-                                    val connectionValidity = isValidRoute(newRoute, documents)
+                                    val connectionValidity = isValidRoute(newRoute, documents, tanggalDateParsed)
                                     if (connectionValidity.all { it }) { // Kalau bener semua
                                         discoveredRoutes.add(newRoute)
                                     }
@@ -430,7 +432,8 @@ class SelectRute : AppCompatActivity() {
                                         )
                                         discoveredRoutes.addAll(newDiscoveredRoutesLocal)
                                     }
-                                } else {
+                                }
+                                else {
                                     if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
                                         val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
                                         trackRoute(
@@ -452,7 +455,7 @@ class SelectRute : AppCompatActivity() {
                 if (discoveredRoutes.isNotEmpty()) {
                     for (i in discoveredRoutes.indices) {
                         val route = discoveredRoutes.elementAt(i)
-                        val connectionValidity = isValidRoute(route, documents)
+                        val connectionValidity = isValidRoute(route, documents, tanggalDateParsed)
                         if (connectionValidity.all { it } && isRouteInOrder(route, arrayTujuan, documents)) { // Kalau bener semua
                             validDiscoveredRoutes.add(route)
                         }
@@ -498,37 +501,69 @@ class SelectRute : AppCompatActivity() {
 
     private fun isValidRoute(
         currentRoute: List<String>,
-        documents: QuerySnapshot
+        documents: QuerySnapshot,
+        tanggalDateParsed: Date
     ): List<Boolean> {
         val connectionValidity = mutableListOf<Boolean>()
+
+        if (currentRoute.isEmpty()) return connectionValidity
+
+        // Get the current date
+        val currentDate = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+
+        // Check if tanggalDateParsed is the same as the current date
+        if (tanggalDateParsed == currentDate) {
+            // Get the current time in hours and minutes
+            val currentTime = Calendar.getInstance()
+            val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
+            val currentMinute = currentTime.get(Calendar.MINUTE)
+            val currentTimeInMinutes = currentHour * 60 + currentMinute
+
+            // Check the first departure time
+            val firstRouteDocId = currentRoute.first()
+            val firstDepartureTime = documents.firstOrNull { it.id == firstRouteDocId }
+                ?.getLong("jam_berangkat")?.toInt() ?: 0
+
+            if (firstDepartureTime <= currentTimeInMinutes) {
+                // If the first departure time is not greater than the current time, mark the entire route as invalid
+                return currentRoute.map { false }
+            }
+        }
+
         for (i in 0 until currentRoute.size - 1) {
             val prevRouteDocId = currentRoute[i]
             val nextRouteDocId = currentRoute[i + 1]
 
-            var isValid = true;
+            var isValid = true
             for (document in documents) {
                 if (document.id == prevRouteDocId) {
                     val prevArrivalTime = document.getLong("jam_sampai")?.toInt() ?: 0
                     if (prevArrivalTime != null) {
                         for (nextDocument in documents) {
                             if (nextDocument.id == nextRouteDocId) {
-                                val nextDepartureTime =
-                                    nextDocument.getLong("jam_berangkat")?.toInt() ?: 0
+                                val nextDepartureTime = nextDocument.getLong("jam_berangkat")?.toInt() ?: 0
                                 if (nextDepartureTime != null && prevArrivalTime > nextDepartureTime) {
-                                    isValid = false;
-                                    break;
+                                    isValid = false
+                                    break
                                 }
-                                break;
+                                break
                             }
                         }
                     }
-                    break;
+                    break
                 }
             }
-            connectionValidity.add(isValid);
+            connectionValidity.add(isValid)
         }
-        return connectionValidity;
+        return connectionValidity
     }
+
+
 
 
     fun fetchRutes() {
