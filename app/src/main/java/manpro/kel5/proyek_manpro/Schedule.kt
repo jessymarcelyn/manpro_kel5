@@ -7,6 +7,8 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
@@ -15,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -43,11 +46,37 @@ class Schedule : AppCompatActivity() {
     private var train: Boolean = true
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedDate: String = ""
+    private var userInput: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
         BottomNav.setupBottomNavigationView(this)
+
+        val _searchText = findViewById<EditText>(R.id.searchTujuan)
+        val _btnSearch1 = findViewById<ImageButton>(R.id.btnSearch1)
+
+        Log.d("kk", "_searchText "+ _searchText.text.toString())
+//        _btnSearch1.setOnClickListener{
+//            userInput = _searchText.text.toString()
+//            Log.d("kk", "_searchText: $userInput")
+//            getTravelSchedules()
+//        }
+
+        _searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                userInput = s.toString()
+                Log.d("ukuk", "User input: $userInput")
+                getTravelSchedules()
+                reloadSchedules()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
 
         val spinner: Spinner = findViewById(R.id.dateDropdownSchedule)
         val dates = getNextSevenDays()
@@ -171,7 +200,7 @@ class Schedule : AppCompatActivity() {
 
     private fun getTravelSchedules() {
         val db = FirebaseFirestore.getInstance()
-        val pagingSource = { RutePagingSource(db, bus, train, _filterOpt, selectedDate) }
+        val pagingSource = { RutePagingSource(db, bus, train, _filterOpt, selectedDate, userInput) }
         val pager = Pager(
             config = PagingConfig(pageSize = 100, enablePlaceholders = false),
             pagingSourceFactory = pagingSource

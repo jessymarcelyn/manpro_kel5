@@ -15,7 +15,8 @@ class RutePagingSource(
     private val bus: Boolean,
     private val train: Boolean,
     private val filterOpt: Int,
-    private val tanggalDate : String
+    private val tanggalDate : String,
+    private val userInput : String
 ) : PagingSource<DocumentSnapshot, TravelSchedule>() {
 
     private lateinit var travelSchedule: TravelSchedule
@@ -35,6 +36,7 @@ class RutePagingSource(
 
             val travelSchedules = mutableListOf<TravelSchedule>()
             for (document in currentPage.documents) {
+                val documentId = document.id
                 val idStopSource = document.getString("id_stop_source") ?: ""
                 val idStopDest = document.getString("id_stop_dest") ?: ""
                 val jamBerangkatStr = document.getLong("jam_berangkat")?.toInt() ?: 0
@@ -65,7 +67,7 @@ class RutePagingSource(
                 } else {
                     ""
                 }
-                Log.d("meme", "docId : "+ document.id)
+                Log.d("meme", "docId : " + document.id)
                 val ruteBaruStartDateDate = dateFormat.parse(ruteBaruStartDateParsed)
 
                 val ruteBaruFinishDateDate = if (ruteBaruFinishDateParsed != "") {
@@ -85,33 +87,41 @@ class RutePagingSource(
                     idTransportasi, tanggalDate
                 )
 
-                if (ruteBaruFinishDateDate == null) {
-                    if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
-                        if ((bus && train) || (!bus && !train)) {
-                            travelSchedules.add(travelSchedule)
-                        } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
-                            travelSchedules.add(travelSchedule)
-                        } else if (train && travelSchedule.idTranspor.startsWith("T")) {
-                            travelSchedules.add(travelSchedule)
-                        }
-                    }
-                } else {
-                    if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
-                        tanggalDateParsed.before(ruteBaruFinishDateDate)
-                    ) {
-                        if ((bus && train) || (!bus && !train)) {
-//                            Log.d("mimi", "masuk3")
-                            travelSchedules.add(travelSchedule)
-                        } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
-//                            Log.d("mimi", "masuk4")
-                            travelSchedules.add(travelSchedule)
-                        } else if (train && travelSchedule.idTranspor.startsWith("K")) {
-//                            Log.d("mimi", "masuk5")
-                            travelSchedules.add(travelSchedule)
-                        }
-                    }
-                }
+                Log.d("mau", "userInput : "+ userInput)
+                Log.d("mau", "idStopDest : "+ idStopDest)
+                val test = userInput.startsWith(idStopDest)
+                Log.d("mau", "userInput : "+ test)
 
+                if (userInput == "" || (userInput != "" && idStopDest.startsWith(userInput))) {
+                    Log.d("mau", "masuk1")
+                    if (ruteBaruFinishDateDate == null) {
+                        if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
+                            if ((bus && train) || (!bus && !train)) {
+                                travelSchedules.add(travelSchedule)
+                            } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
+                                travelSchedules.add(travelSchedule)
+                            } else if (train && travelSchedule.idTranspor.startsWith("T")) {
+                                travelSchedules.add(travelSchedule)
+                            }
+                        }
+                    } else {
+                        if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
+                            tanggalDateParsed.before(ruteBaruFinishDateDate)
+                        ) {
+                            if ((bus && train) || (!bus && !train)) {
+//                            Log.d("mimi", "masuk3")
+                                travelSchedules.add(travelSchedule)
+                            } else if (bus && travelSchedule.idTranspor.startsWith("B")) {
+//                            Log.d("mimi", "masuk4")
+                                travelSchedules.add(travelSchedule)
+                            } else if (train && travelSchedule.idTranspor.startsWith("K")) {
+//                            Log.d("mimi", "masuk5")
+                                travelSchedules.add(travelSchedule)
+                            }
+                        }
+                    }
+
+                }
             }
 
             // Durasi tercepat
