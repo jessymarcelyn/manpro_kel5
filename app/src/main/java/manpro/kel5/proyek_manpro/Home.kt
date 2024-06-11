@@ -52,6 +52,7 @@ class Home : AppCompatActivity() {
         const val index = "adf"
         const val dataAdap = "asdsd"
         const val tanggal = "mmm"
+        const val username = "fsf"
     }
 
     private var normal: Boolean = true
@@ -59,6 +60,9 @@ class Home : AppCompatActivity() {
     val listStop = mutableListOf<String>()
     var AllStop = mutableListOf<String>()
     private var selectedDate : String = ""
+
+    private lateinit var adapterBookmark: AdapterBookmarkHome
+    private lateinit var bookmarks: MutableList<BookmarkData>
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,7 +118,8 @@ class Home : AppCompatActivity() {
         Log.d("pipi", "terimaDataAsal" + terimaDataAsal)
         Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)
         val _isAsall = intent.getBooleanExtra(isAsall, false)
-
+        val username = intent.getStringExtra(Home.username) ?: ""
+        Log.d("mxmx", "username Home " + username)
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
 
@@ -248,6 +253,7 @@ class Home : AppCompatActivity() {
                 putExtra(SelectRute.asal, _tv_asal2.text)
                 putExtra(SelectRute.tujuan, _tv_tujuan2.text)
                 putExtra(SelectRute.tanggal, selectedDate)
+                putExtra(SelectRute.username, username)
             }
             startActivity(intentWithData)
         }
@@ -256,10 +262,17 @@ class Home : AppCompatActivity() {
         autentikasi = FirebaseAuth.getInstance()
         label_bookmark = findViewById(R.id.label_bookmark)
         btnLogin = findViewById(R.id.login_button_home)
+
+        bookmarks = mutableListOf()
+        adapterBookmark = AdapterBookmarkHome(this, bookmarks)
+        label_bookmark.adapter = adapterBookmark
+
         if(autentikasi.currentUser != null){
             // Jika currentUser ada --> udah login
             btnLogin.visibility = View.GONE
             label_bookmark.visibility = View.VISIBLE
+//            fetchBookmarks(username)
+            fetchBookmarks("admin2")
         }
         // belum login
         else {
@@ -270,7 +283,77 @@ class Home : AppCompatActivity() {
             }
         }
 
+        var _viewAll = findViewById<TextView>(R.id.viewAll)
+
+        _viewAll.setOnClickListener {
+            val intentWithData = Intent(this@Home, Bookmark::class.java).apply {
+//                putExtra(SelectRute.username, username)
+                putExtra(Home.username, "admin2")
+            }
+            startActivity(intentWithData)
+        }
+
+
     }
+    // Modify the fetchBookmarks function to only add the first two bookmarks to the list
+    private fun fetchBookmarks(userId: String) {
+        db.collection("Bookmark")
+            .whereEqualTo("id_user", userId)
+            .get()
+            .addOnSuccessListener { documents ->
+                bookmarks.clear() // Clear the list to avoid duplicates
+                var count = 0
+                for (document in documents) {
+                    if (count >= 2) break // Exit the loop if two bookmarks have been added
+                    val idRuteList = document.get("id_rute") as? List<String>
+                    val idStopDest = document.getString("id_stop_dest")
+                    val idStopSource = document.getString("id_stop_source")
+
+                    // Check if all necessary fields are not null
+                    if (idStopSource != null && idStopDest != null && idRuteList != null) {
+                        // Create a new BookmarkData object and add it to the list
+                        val bookmark = BookmarkData(document.id, idStopSource, idStopDest, userId, idRuteList)
+                        bookmarks.add(bookmark)
+                        count++
+                    }
+                }
+                Log.d("fafa", bookmarks.toString())
+                adapterBookmark.notifyDataSetChanged() // Notify adapter of changes
+            }
+            .addOnFailureListener { e ->
+                Log.w("FirestoreError", "Error getting documents", e)
+            }
+    }
+
+
+//    private fun fetchBookmarks(userId: String) {
+//        db.collection("Bookmark")
+//            .whereEqualTo("id_user", userId)
+//            .get()
+//            .addOnSuccessListener { documents ->
+//                bookmarks.clear() // Clear the list to avoid duplicates
+//                for (document in documents) {
+//                    Log.d("uquq", "ada")
+//                    Log.d("uquq", "docId : "+ document.id)
+//                    val idRuteList = document.get("id_rute") as? List<String>
+//                    val idStopDest = document.getString("id_stop_dest")
+//                    val idStopSource = document.getString("id_stop_source")
+//
+//                    // Check if all necessary fields are not null
+//                    if (idStopSource != null && idStopDest != null && idRuteList != null) {
+//                        // Create a new BookmarkData object and add it to the list
+//                        val bookmark = BookmarkData(idStopSource, idStopDest, userId, idRuteList)
+//                        bookmarks.add(bookmark)
+//                        Log.d("uquq", "bookmarks :  " + bookmarks)
+//                    }
+//                }
+//
+//                adapterBookmark.notifyDataSetChanged() // Notify adapter of changes
+//            }
+//            .addOnFailureListener { e ->
+//                Log.w("FirestoreError", "Error getting documents", e)
+//            }
+//    }
 
     private fun getNextSevenDays(): List<String> {
         val dates = mutableListOf<String>()

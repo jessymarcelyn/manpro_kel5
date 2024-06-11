@@ -2,6 +2,7 @@ package manpro.kel5.proyek_manpro.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import manpro.kel5.proyek_manpro.Home
 import manpro.kel5.proyek_manpro.R
+import manpro.kel5.proyek_manpro.SelectLocation
 import manpro.kel5.proyek_manpro.databinding.ActivityLoginBinding
 
 class Login : AppCompatActivity() {
@@ -68,6 +70,8 @@ class Login : AppCompatActivity() {
                                     if (signInTask.isSuccessful) {
                                         Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                                         val intent = Intent(this, Home::class.java)
+                                        Log.d("mxmx", "username Login : " + username)
+                                        intent. putExtra(Home.username, username)
                                         startActivity(intent)
                                     } else {
                                         // Handle sign-in failure

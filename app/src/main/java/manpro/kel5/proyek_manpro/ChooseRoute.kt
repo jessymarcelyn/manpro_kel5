@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 
 class ChooseRoute : AppCompatActivity() {
@@ -27,6 +28,7 @@ class ChooseRoute : AppCompatActivity() {
         const val filterTrain = "w"
         const val arrayStopp = "csasdag"
         const val tanggal = "e"
+        const val username = "err"
     }
 
     val listAsal = mutableListOf<String>()
@@ -42,6 +44,7 @@ class ChooseRoute : AppCompatActivity() {
     private  var dataFilterTrain: Boolean = false
     private var arrayTujuan: ArrayList<String> = ArrayList()
     private lateinit var tanggalDate:String
+    private lateinit var db: FirebaseFirestore
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +57,7 @@ class ChooseRoute : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val db = Firebase.firestore
+        db = Firebase.firestore
         val dataIntent = intent.getParcelableExtra<Rute>("kirimData")
         dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
         dataTujuan = intent.getStringExtra(ChooseRoute.tujuan) ?: ""
@@ -64,8 +67,8 @@ class ChooseRoute : AppCompatActivity() {
         dataFilterBus = intent.getBooleanExtra(ChooseRoute.filterBus, true)
         dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
         tanggalDate = intent.getStringExtra(ChooseRoute.tanggal) ?: ""
-
-        Log.d("mxmx", "masuk2")
+        val username = intent.getStringExtra(ChooseRoute.username) ?: ""
+        Log.d("mxmx", "username ChooseRoute " + username)
         Log.d("sfsf", "tanggal ChooseRoute: " + tanggalDate)
 
         Log.d("fdfd", "_filterOpt " + dataFilterOpt)
@@ -89,6 +92,7 @@ class ChooseRoute : AppCompatActivity() {
         val _tv_brgkt = findViewById<TextView>(R.id.tv_brgkt)
         val _tv_sampai = findViewById<TextView>(R.id.tv_sampai)
         val _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
+        val _iv_bookmark = findViewById<ImageView>(R.id.iv_bookmark)
 
         _tv_asal2.text = dataAsal
         _tv_asall2.text = dataAsal
@@ -107,8 +111,7 @@ class ChooseRoute : AppCompatActivity() {
             }
             val firstJamBerangkat = dataIntent.jam_berangkat.first()
             val lastJamSampai = dataIntent.jam_sampai.last()
-            Log.d("sgsg", firstJamBerangkat.toString())
-            Log.d("sgsg", lastJamSampai.toString())
+
             val formattedFirstJamBerangkat = formatTime(firstJamBerangkat)
             val formattedLastJamSampai = formatTime(lastJamSampai)
 
@@ -162,6 +165,13 @@ class ChooseRoute : AppCompatActivity() {
             _rv_choose.layoutManager = LinearLayoutManager(this)
             val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listJamSampai, listTranspor)
             _rv_choose.adapter = adapterP
+
+            _iv_bookmark.setOnClickListener {
+                _iv_bookmark.setImageResource(R.drawable.baseline_star_rate_24)
+                addBookmark(dataAsal, dataTujuan, username, dataIntent.doc_rute)
+//                Log.d("mcmc", dataIntent.doc_rute.toString())
+
+            }
         }
 
         val _btn_back = findViewById<ImageView>(R.id.btn_back_c_rute)
@@ -174,6 +184,7 @@ class ChooseRoute : AppCompatActivity() {
                 putExtra(SelectRute.filterTrain, dataFilterTrain)
                 putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
                 putExtra(SelectRute.tanggal, tanggalDate)
+                putExtra(SelectRute.username, username)
             }
             startActivity(intentWithData)
         }
@@ -189,6 +200,7 @@ class ChooseRoute : AppCompatActivity() {
             intent.putExtra("index", indexx)
             intent.putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
             intent.putExtra(ChooseRoute.tanggal, tanggalDate)
+            intent.putExtra(ChooseRoute.username, username)
             startActivity(intent)
         }
 
@@ -203,10 +215,36 @@ class ChooseRoute : AppCompatActivity() {
             intent.putExtra("index", indexx)
             intent.putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
             intent.putExtra(ChooseRoute.tanggal, tanggalDate)
+            intent.putExtra(ChooseRoute.username, username)
             startActivity(intent)
         }
 
     }
+    private fun addBookmark(
+        idStopSource: String,
+        idStopDest: String,
+        idUser : String,
+        idRute: List <String>
+    ) {
+
+        val route = hashMapOf(
+            "id_stop_source" to idStopSource,
+            "id_stop_dest" to idStopDest,
+            "id_user" to idUser,
+            "id_rute" to idRute
+        )
+
+        db.collection("Bookmark")
+            .add(route)
+            .addOnSuccessListener { documentReference ->
+                Log.d("kuku", "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w("kuku", "Error adding document", e)
+            }
+    }
+
+
     // Convert "HHMM" string format to total minutes since midnight
     fun convertToMinutes(time: String): Int {
         val hours = time.substring(0, 2).toInt()

@@ -45,6 +45,7 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         const val filterBus = "rer"
         const val filterTrain = "wqwe"
         const val tanggal = "e"
+        const val username = "kkk"
     }
 
     private var myMap: GoogleMap? = null
@@ -75,7 +76,9 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
         arrayTujuan = intent.getStringArrayListExtra(SelectRute.arrayStopp) ?: ArrayList()
         tanggalDate = intent.getStringExtra(ChooseRoute.tanggal) ?: ""
+        val username = intent.getStringExtra(ChooseRoute.username) ?: ""
 
+        Log.d("mxmx", "username SelectRuteDetail " + username)
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         val _btn_back_c_rute = findViewById<ImageView>(R.id.btn_back_c_rute)
 

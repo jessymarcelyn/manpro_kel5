@@ -297,9 +297,9 @@
         android:text="Pilih"
         app:cornerRadius="12dp"
         app:icon="@drawable/ic_pointer"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView30"
-        app:layout_constraintEnd_toStartOf="@+id/imageView30"
-        app:layout_constraintTop_toTopOf="@+id/imageView30" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bookmark"
+        app:layout_constraintEnd_toStartOf="@+id/iv_bookmark"
+        app:layout_constraintTop_toTopOf="@+id/iv_bookmark" />
 
     <ImageView
         android:id="@+id/imageView19"
@@ -373,7 +373,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_brgkt" />
 
     <ImageView
-        android:id="@+id/imageView30"
+        android:id="@+id/iv_bookmark"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"

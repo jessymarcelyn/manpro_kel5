@@ -23,6 +23,7 @@ class track_route : AppCompatActivity() {
         const val filterBus = "rer"
         const val filterTrain = "wqwe"
         const val tanggal = "e"
+        const val username = "kkk"
     }
     private var arStop = arrayListOf<Stop>()
     private var arRute = arrayListOf<Rutee>()
@@ -73,6 +74,9 @@ class track_route : AppCompatActivity() {
         val _rv_track = findViewById<RecyclerView>(R.id.rv_track)
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         _tv_title.text = "Rute " + dataIndex.toString()
+
+        val username = intent.getStringExtra(ChooseRoute.username) ?: ""
+
 
         if (dataIntent != null) {
             var jamStr = dataIntent.jam_berangkat.get(0).toString().padStart(4, '0')
@@ -128,6 +132,7 @@ class track_route : AppCompatActivity() {
                 putExtra(ChooseRoute.filterTrain, dataFilterTrain)
                 putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
                 putExtra(ChooseRoute.tanggal, tanggalDate)
+                putExtra(ChooseRoute.username, username)
 
             }
             startActivity(intentWithData)

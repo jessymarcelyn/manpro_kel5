@@ -40,6 +40,7 @@ class SelectRute : AppCompatActivity() {
         const val filterBus = "rEe"
         const val filterTrain = "Ww"
         const val arrayStopp = "csfg"
+        const val username = "fdgdg"
     }
     private  var _isAsal: Boolean = false
     private lateinit var dataAsal: String
@@ -86,6 +87,9 @@ class SelectRute : AppCompatActivity() {
 //        val dateFormat = SimpleDateFormat("d MMMM yyyy", Locale("id", "ID"))
 //        tanggalDate = dateFormat.parse(tanggal)!!
 
+        val username = intent.getStringExtra(SelectRute.username) ?: ""
+
+        Log.d("mxmx", "username SelctRute " + username)
 
         Log.d("sfsf", "tanggal SelectRute: " + tanggalDate)
         Log.d("egh", "dataAsal : " + dataAsal)
@@ -101,6 +105,7 @@ class SelectRute : AppCompatActivity() {
                 putExtra(Home.dataTujuann, dataTujuan)
                 putExtra(Home.isAsall, false)
                 putExtra(Home.tanggal, tanggalDate)
+                putExtra(Home.username, username)
             }
             startActivity(intentWithData)
         }
@@ -163,6 +168,7 @@ class SelectRute : AppCompatActivity() {
                 intent.putExtra(ChooseRoute.filterTrain, train)
                 intent.putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
                 intent.putExtra(ChooseRoute.tanggal, tanggalDate)
+                intent.putExtra(ChooseRoute.username, username)
                 startActivity(intent)
             }
         })

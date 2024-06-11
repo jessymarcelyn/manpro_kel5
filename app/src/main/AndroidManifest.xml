@@ -21,7 +21,7 @@
             android:name=".track_route"
             android:exported="false" />
         <activity
-            android:name=".track_transport"
+            android:name=".Bookmark"
             android:exported="false" />
         <activity
             android:name=".profile.DetailFAQ"
@@ -47,9 +47,9 @@
         <activity
             android:name=".SelectLocation"
             android:exported="false" />
-        <activity
-            android:name=".list_view_bookmarks"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".list_view_bookmarks"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".SelectRute"
             android:exported="false" />
