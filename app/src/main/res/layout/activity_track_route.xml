@@ -14,7 +14,7 @@
         android:text="Jam Sampai"
         android:textColor="#777777"
         app:layout_constraintBottom_toBottomOf="@+id/tv_tujuann2"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/rv_track"
         app:layout_constraintTop_toTopOf="@+id/tv_tujuann2" />
 
     <TextView
@@ -172,11 +172,11 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/rv_track"
         app:srcCompat="@drawable/circle_track" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rv_track"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

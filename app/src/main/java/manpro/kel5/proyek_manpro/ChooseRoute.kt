@@ -191,6 +191,21 @@ class ChooseRoute : AppCompatActivity() {
             intent.putExtra(ChooseRoute.tanggal, tanggalDate)
             startActivity(intent)
         }
+
+        _btnChoose.setOnClickListener{
+            val intent = Intent(this@ChooseRoute, track_route::class.java)
+            intent.putExtra(ChooseRoute.asal, dataAsal)
+            intent.putExtra(ChooseRoute.tujuan, dataTujuan)
+            intent.putExtra(ChooseRoute.filterOpt, dataFilterOpt)
+            intent.putExtra(ChooseRoute.filterBus, dataFilterBus)
+            intent.putExtra(ChooseRoute.filterTrain, dataFilterTrain)
+            intent.putExtra("kirimData", dataIntent)
+            intent.putExtra("index", indexx)
+            intent.putStringArrayListExtra(SelectRute.arrayStopp, arrayTujuan)
+            intent.putExtra(ChooseRoute.tanggal, tanggalDate)
+            startActivity(intent)
+        }
+
     }
     // Convert "HHMM" string format to total minutes since midnight
     fun convertToMinutes(time: String): Int {

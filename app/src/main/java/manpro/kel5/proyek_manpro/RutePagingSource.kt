@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class RutePagingSource(
     private val db: FirebaseFirestore,
@@ -95,14 +96,20 @@ class RutePagingSource(
                 }.time
 
                 if (currentDate == tanggalDateParsed) {
+                    val jamBerangkatHours = jamBerangkatStr / 100
+                    val jamBerangkatMinutes = jamBerangkatStr % 100
+                    val jamBerangkatInMinutes = jamBerangkatHours * 60 + jamBerangkatMinutes
+
                     // Get the current time in hours and minutes
-                    val currentTime = Calendar.getInstance()
+                    val currentTime = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
                     val currentHour = currentTime.get(Calendar.HOUR_OF_DAY)
                     val currentMinute = currentTime.get(Calendar.MINUTE)
                     val currentTimeInMinutes = currentHour * 60 + currentMinute
 
+                    Log.d("mumu", "currentTimeInMinutes " + currentTimeInMinutes)
+                    Log.d("mumu", "jamBerangkatStr " + jamBerangkatStr)
                     // Compare current time with jamBerangkatStr
-                    if (currentTimeInMinutes <= jamBerangkatStr) {
+                    if (currentTimeInMinutes <= jamBerangkatInMinutes) {
                         if (userInput == "" || (userInput != "" && idStopDest.startsWith(userInput))) {
                             Log.d("mau", "masuk1")
                             if (ruteBaruFinishDateDate == null) {

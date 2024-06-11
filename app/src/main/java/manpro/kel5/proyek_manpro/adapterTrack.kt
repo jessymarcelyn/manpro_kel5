@@ -12,9 +12,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 
-class adapterChooseRoute (
+class adapterTrack (
     private val listNama: MutableList<String>, private val listJamB: MutableList<Int>, private val listJamS: MutableList<Int>, private val listTranspor: MutableList<String>
-): RecyclerView.Adapter<adapterChooseRoute.ListViewHolder>(){
+): RecyclerView.Adapter<adapterTrack.ListViewHolder>(){
 
     inner class ListViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         var _tv_lokasi : TextView = itemView.findViewById(R.id.tv_lokasi)
@@ -24,7 +24,7 @@ class adapterChooseRoute (
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.list_choose_route, parent, false)
+        val view : View = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
         return ListViewHolder(view)
     }
 
@@ -46,7 +46,7 @@ class adapterChooseRoute (
         holder._tv_trans.text = trans
 
         val duration = calculateTimeDifference(jamB, jamS)
-
+        // NANTI HARUS GANTI KE ESTIMASI
         holder._tv_durasi_transit.text = duration.toString() + " Menit"
         Log.d("pem", jamB.toString())
         Log.d("pem", jamS.toString())
