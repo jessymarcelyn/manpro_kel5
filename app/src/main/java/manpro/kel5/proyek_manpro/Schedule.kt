@@ -56,7 +56,7 @@ class Schedule : AppCompatActivity() {
         val _searchText = findViewById<EditText>(R.id.searchTujuan)
         val _btnSearch1 = findViewById<ImageButton>(R.id.btnSearch1)
 
-        Log.d("kk", "_searchText "+ _searchText.text.toString())
+
 //        _btnSearch1.setOnClickListener{
 //            userInput = _searchText.text.toString()
 //            Log.d("kk", "_searchText: $userInput")
@@ -69,7 +69,6 @@ class Schedule : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 userInput = s.toString()
-                Log.d("ukuk", "User input: $userInput")
                 getTravelSchedules()
                 reloadSchedules()
             }

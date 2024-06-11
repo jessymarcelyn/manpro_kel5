@@ -62,6 +62,7 @@ class SelectRute : AppCompatActivity() {
     private lateinit var _tv_kosong1: TextView
     private lateinit var _tv_kosong2: TextView
     private lateinit var _iv_kosong: ImageView
+    private var isFetchRutesCalled = false
 
 
     @SuppressLint("MissingInflatedId")
@@ -531,17 +532,20 @@ class SelectRute : AppCompatActivity() {
 
 
     fun fetchRutes() {
-        if(validDiscoveredRoutes.isEmpty()){
-            _tv_kosong1.visibility = View.VISIBLE
-            _tv_kosong2.visibility = View.VISIBLE
-            _iv_kosong.visibility = View.VISIBLE
-        }
+        Log.d("mvmv", validDiscoveredRoutes.toString())
         arRute.clear()
         Log.d("emem", "masuk4")
         Log.d("egh", "masuk2")
         Log.d("jjj", validDiscoveredRoutes.toString())
+
+        if (validDiscoveredRoutes.isEmpty()) {
+            updateVisibility(false)
+            return
+        }
+
         val totalRoutes = validDiscoveredRoutes.size
         var counter = 0
+        var processCounter = 0
 
         fun processRoute(innerList: List<String>) {
             val listId = mutableListOf<String>()
@@ -648,6 +652,8 @@ class SelectRute : AppCompatActivity() {
                                             Log.d("mmm",arRute.toString())
                                             sortRutes(arRute)
                                             _rvRute.adapter?.notifyDataSetChanged()
+
+                                            updateVisibility(arRute.isNotEmpty())
                                         }
                                     }
                                 }
@@ -656,6 +662,11 @@ class SelectRute : AppCompatActivity() {
                     }
                     .addOnFailureListener { exception ->
                         // Handle failure
+                    }.addOnCompleteListener {
+                        processCounter++
+                        if (processCounter == totalRoutes) {
+                            updateVisibility(arRute.isNotEmpty())
+                        }
                     }
             }
         }
@@ -668,6 +679,20 @@ class SelectRute : AppCompatActivity() {
             processRoute(innerList)
         }
     }
+
+
+    private fun updateVisibility(hasRoutes: Boolean) {
+        if (hasRoutes) {
+            _tv_kosong1.visibility = View.GONE
+            _tv_kosong2.visibility = View.GONE
+            _iv_kosong.visibility = View.GONE
+        } else {
+            _tv_kosong1.visibility = View.VISIBLE
+            _tv_kosong2.visibility = View.VISIBLE
+            _iv_kosong.visibility = View.VISIBLE
+        }
+    }
+
 
     fun sortRutes(arRute: ArrayList<Rute>) {
         Log.d("emem", "masuk6")
