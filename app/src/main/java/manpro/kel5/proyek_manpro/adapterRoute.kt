@@ -98,6 +98,7 @@ class adapterRoute (
         holder.recyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
 
         holder._btn_choose.setOnClickListener {
+            Log.d("mxmx", "masuk0")
             onItemClickCallback.gotoDetail(rute, position+1)
         }
     }

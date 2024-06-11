@@ -63,6 +63,7 @@ class SelectRute : AppCompatActivity() {
     private lateinit var _tv_kosong2: TextView
     private lateinit var _iv_kosong: ImageView
 
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,6 +114,7 @@ class SelectRute : AppCompatActivity() {
         Log.d("eueu", "dataAsal " + dataAsal)
         Log.d("eueu", "dataTujuan " +  dataTujuan)
 
+
         _tv_kosong1 = findViewById<TextView>(R.id.tv_kosong1)
         _tv_kosong2 = findViewById<TextView>(R.id.tv_kosong2)
         _iv_kosong = findViewById<ImageView>(R.id.iv_kosong)
@@ -121,10 +123,8 @@ class SelectRute : AppCompatActivity() {
         _tv_kosong2.visibility = View.INVISIBLE
         _iv_kosong.visibility = View.INVISIBLE
 
-
         ruteText = StringBuilder()
         trackRoute(dataAsal, dataTujuan, ruteText)
-
 
         _rvRute = findViewById(R.id.rvRute)
         _rvRute.layoutManager = LinearLayoutManager(this)
@@ -382,7 +382,12 @@ class SelectRute : AppCompatActivity() {
                             null
                         }
 
+                        Log.d("pepe", "documentId : " + document.id)
                         if (idStopDest == tempatTujuan) {
+                            Log.d("pepe", "masuk1")
+                            Log.d("pepe", "tanggalDateParsed : " + tanggalDateParsed)
+                            Log.d("pepe", "ruteBaruStartDateDate : " + ruteBaruStartDateDate)
+                            Log.d("pepe", "ruteBaruFinishDateDate : " + ruteBaruStartDateDate)
                             // Cek antar route apakah sudah benar
                             if(ruteBaruFinishDateDate == null){
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
@@ -395,7 +400,6 @@ class SelectRute : AppCompatActivity() {
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
                                     tanggalDateParsed.before(ruteBaruFinishDateDate)
                                 ) {
-                                    Log.d("vrvr", "masuk12")
                                     val connectionValidity = isValidRoute(newRoute, documents)
                                     if (connectionValidity.all { it }) { // Kalau bener semua
                                         discoveredRoutes.add(newRoute)
@@ -404,14 +408,16 @@ class SelectRute : AppCompatActivity() {
 
                             }
 
-                        } else if (idStopDest !in currentRoute) { //sini
-                            Log.d("vrvr", "masuk2")
+                        } else if (idStopDest !in currentRoute) {
+                            Log.d("pepe", "masuk2")
+                            Log.d("pepe", "tanggalDateParsed : " + tanggalDateParsed)
+                            Log.d("pepe", "ruteBaruStartDateDate : " + ruteBaruStartDateDate)
+                            Log.d("pepe", "ruteBaruFinishDateDate : " + ruteBaruStartDateDate)
                             if (tanggalDateParsed != null && ruteBaruStartDateDate != null) {
                                 if (ruteBaruFinishDateDate != null) {
                                     if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
                                         tanggalDateParsed.before(ruteBaruFinishDateDate)
                                     ) {
-                                        Log.d("vrvr", "masuk21")
                                         val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
                                         trackRoute(
                                             idStopDest,
@@ -425,7 +431,6 @@ class SelectRute : AppCompatActivity() {
                                     }
                                 } else {
                                     if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
-                                        Log.d("vrvr", "masuk22")
                                         val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
                                         trackRoute(
                                             idStopDest,
@@ -447,12 +452,10 @@ class SelectRute : AppCompatActivity() {
                     for (i in discoveredRoutes.indices) {
                         val route = discoveredRoutes.elementAt(i)
                         val connectionValidity = isValidRoute(route, documents)
-                        Log.d("wtwt", route.toString())
                         if (connectionValidity.all { it } && isRouteInOrder(route, arrayTujuan, documents)) { // Kalau bener semua
                             validDiscoveredRoutes.add(route)
                         }
                     }
-                    Log.d("egh", "masuk")
                     Log.d("trtr", validDiscoveredRoutes.toString())
 //                    displayRoutes(validDiscoveredRoutes)
 //                        displayRoutes(validDiscoveredRoutes)

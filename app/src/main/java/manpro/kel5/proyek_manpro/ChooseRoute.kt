@@ -65,6 +65,7 @@ class ChooseRoute : AppCompatActivity() {
         dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
         tanggalDate = intent.getStringExtra(ChooseRoute.tanggal) ?: ""
 
+        Log.d("mxmx", "masuk2")
         Log.d("sfsf", "tanggal ChooseRoute: " + tanggalDate)
 
         Log.d("fdfd", "_filterOpt " + dataFilterOpt)
