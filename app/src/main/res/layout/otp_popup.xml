@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btn_kirim_otp"
+        android:id="@+id/btn_verifikasi_otp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/judul_verifikasi_otp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,8 +40,8 @@
         android:layout_marginEnd="16dp"
         android:text="Kami telah mengirimkan kode OTP ke email : "
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+        app:layout_constraintStart_toStartOf="@+id/judul_verifikasi_otp"
+        app:layout_constraintTop_toBottomOf="@+id/judul_verifikasi_otp" />
 
     <LinearLayout
         android:id="@+id/linearLayout17"
@@ -53,7 +53,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView30">
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_email_verifikasi_otp">
 
         <EditText
             android:id="@+id/editTextNumber"
@@ -105,7 +105,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView30"
+        android:id="@+id/tv_show_email_verifikasi_otp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="xxxx@gmail.com"

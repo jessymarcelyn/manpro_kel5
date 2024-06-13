@@ -25,7 +25,7 @@ class EmailSender(private val email: String, private val subject: String, privat
                 val session = Session.getInstance(properties, object : Authenticator() {
                     override fun getPasswordAuthentication(): PasswordAuthentication {
                         // Use your Gmail email and app-specific password here
-                        return PasswordAuthentication("manproakun@gmail.com", "zjjl lbuu pwwt feyu")
+                        return PasswordAuthentication("manproakun@gmail.com", "oeaa rgru ezro zdiy")
                     }
                 })
 
