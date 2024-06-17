@@ -460,50 +460,7 @@ override fun onMapReady(googleMap: GoogleMap?) {
 //        // Tambahkan request ke RequestQueue.
 //        Volley.newRequestQueue(this).add(jsonObjectRequest)
 //    }
-//private fun direction(url: String, color: Int) {
-//    val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
-//        { response ->
-//            try {
-//                val status = response.getString("status")
-//                if (status.equals("OK", ignoreCase = true)) {
-//                    val routes = response.getJSONArray("routes")
-//                    val points = ArrayList<LatLng>()
-//                    var polylineOptions: PolylineOptions? = null
-//
-//                    for (i in 0 until routes.length()) {
-//                        val legs = routes.getJSONObject(i).getJSONArray("legs")
-//                        for (j in 0 until legs.length()) {
-//                            val steps = legs.getJSONObject(i).getJSONArray("steps")
-//                            for (k in 0 until steps.length()) {
-//                                val polyline = steps.getJSONObject(k).getJSONObject("polyline")
-//                                    .getString("points")
-//                                val list = decodePoly(polyline)
-//                                for (l in list) {
 //                                    val position = LatLng(l.latitude, l.longitude)
-//                                    points.add(position)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    polylineOptions = PolylineOptions()
-//                    polylineOptions.addAll(points)
-//                    polylineOptions.width(10f)
-//                    polylineOptions.color(ContextCompat.getColor(this, R.color.red)) // Use the passed color
-//                    polylineOptions.geodesic(true)
-//
-//                    myMap?.addPolyline(polylineOptions)
-//                }
-//            } catch (e: JSONException) {
-//                Log.e("Map", "Error parsing JSON: $e")
-//            }
-//        },
-//        { error ->
-//            Log.e("Map", "Error fetching JSON response: $error")
-//        })
-//
-//    // Tambahkan request ke RequestQueue.
-//    Volley.newRequestQueue(this).add(jsonObjectRequest)
-//}
 
 
     // untuk nyusun url api google map direction
