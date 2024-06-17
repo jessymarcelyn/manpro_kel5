@@ -460,7 +460,7 @@ override fun onMapReady(googleMap: GoogleMap?) {
 //        // Tambahkan request ke RequestQueue.
 //        Volley.newRequestQueue(this).add(jsonObjectRequest)
 //    }
-//                                    val position = LatLng(l.latitude, l.longitude)
+
 
 
     // untuk nyusun url api google map direction
