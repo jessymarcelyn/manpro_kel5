@@ -112,6 +112,8 @@ class Home : AppCompatActivity() {
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
         val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "1Test A"
         val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "1Test D"
+//        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Surabaya Kota"
+//        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Gubeng"
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
         Log.d("pipi", "balik")

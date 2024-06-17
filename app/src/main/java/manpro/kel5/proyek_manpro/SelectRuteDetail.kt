@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.blue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -59,6 +60,8 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
     private  var dataFilterTrain: Boolean = false
     private var arrayTujuan: ArrayList<String> = ArrayList()
     private lateinit var tanggalDate:String
+    private lateinit var url:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,76 +182,181 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
 
     private var jenis : String =""
     //buat google map
-    override fun onMapReady(googleMap: GoogleMap?) {
-        myMap = googleMap
 
-        myMap?.setOnMarkerClickListener(this)
-        myMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            override fun getInfoWindow(marker: Marker): View? {
-                return null // Use default frame
-            }
 
-            @SuppressLint("MissingInflatedId")
-            override fun getInfoContents(marker: Marker): View {
-                // Inflate custom layout
-                val view = layoutInflater.inflate(R.layout.custom_map_info, null)
+//    override fun onMapReady(googleMap: GoogleMap?) {
+//        myMap = googleMap
+//
+//        myMap?.setOnMarkerClickListener(this)
+//        myMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+//            override fun getInfoWindow(marker: Marker): View? {
+//                return null // Use default frame
+//            }
+//
+//            @SuppressLint("MissingInflatedId")
+//            override fun getInfoContents(marker: Marker): View {
+//                // Inflate custom layout
+//                val view = layoutInflater.inflate(R.layout.custom_map_info, null)
+//
+//                // Set information in custom layout
+//                val title = view.findViewById<TextView>(R.id.info_title)
+//                val info_snippet = view.findViewById<TextView>(R.id.info_snippet)
+//
+//                val db = FirebaseFirestore.getInstance()
+//                db.collection("StopBaru")
+//                    .get()
+//                    .addOnSuccessListener { documents ->
+//                        for (document in documents) {
+//                            val namaStop = document.getString("nama")
+//                            if (namaStop == marker.snippet ) {
+//                                jenis = document.getString("jenis").toString()
+//                            }
+//                        }
+//                    }
+//                    .addOnFailureListener { exception ->
+//                    }
+//
+//                title.text = jenis + " " + marker.title
+//                info_snippet.text = formatTime(marker.snippet)
+////                if (marker.snippet != null && marker.snippet.startsWith("B")) {
+////                    title.text = jenis + " " + marker.title
+////                    view.setBackgroundColor(Color.YELLOW)
+////                } else {
+////                    title.text = "Stasiun " + marker.title
+////                }
+//
+////                snippet.text = marker.snippet
+//
+//                return view
+//            }
+//        })
+//
+//        // Buat marker dan direction berdasarkan yang ada di dalam array rute
+//        for ((index, rute) in arRute.withIndex()) {
+//            if (index == 0) {
+//                val positionSource = LatLng(rute.latitude_source, rute.longitude_source)
+//                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.jam_berangkat.toString()))
+//            }
+//            val positionDest = LatLng(rute.latitude_dest, rute.longitude_dest)
+//            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.jam_sampai.toString()))
+//            if (index != arRute.size ) {
+//                val url = getUrl(
+//                    LatLng(rute.latitude_source, rute.longitude_source),
+//                    LatLng(rute.latitude_dest, rute.longitude_dest),
+//                    "driving"
+//                )
+//                direction(url)
+//            }
+//        }
+//
+//        // Pindah fokus kamera ke titik awal
+//        val sby = LatLng(arRute.get(0).latitude_source, arRute.get(0).longitude_source)
+//        myMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(sby, 16f))
+//
+//    }
+override fun onMapReady(googleMap: GoogleMap?) {
+    myMap = googleMap
 
-                // Set information in custom layout
-                val title = view.findViewById<TextView>(R.id.info_title)
-                val info_snippet = view.findViewById<TextView>(R.id.info_snippet)
-
-                val db = FirebaseFirestore.getInstance()
-                db.collection("StopBaru")
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            val namaStop = document.getString("nama")
-                            if (namaStop == marker.snippet ) {
-                                jenis = document.getString("jenis").toString()
-                            }
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                    }
-
-                title.text = jenis + " " + marker.title
-                info_snippet.text = formatTime(marker.snippet)
-//                if (marker.snippet != null && marker.snippet.startsWith("B")) {
-//                    title.text = jenis + " " + marker.title
-//                    view.setBackgroundColor(Color.YELLOW)
-//                } else {
-//                    title.text = "Stasiun " + marker.title
-//                }
-
-//                snippet.text = marker.snippet
-
-                return view
-            }
-        })
-
-        // Buat marker dan direction berdasarkan yang ada di dalam array rute
-        for ((index, rute) in arRute.withIndex()) {
-            if (index == 0) {
-                val positionSource = LatLng(rute.latitude_source, rute.longitude_source)
-                myMap?.addMarker(MarkerOptions().position(positionSource).title(rute.nama_source).snippet(rute.jam_berangkat.toString()))
-            }
-            val positionDest = LatLng(rute.latitude_dest, rute.longitude_dest)
-            myMap?.addMarker(MarkerOptions().position(positionDest).title(rute.nama_dest).snippet(rute.jam_sampai.toString()))
-            if (index != arRute.size ) {
-                val url = getUrl(
-                    LatLng(rute.latitude_source, rute.longitude_source),
-                    LatLng(rute.latitude_dest, rute.longitude_dest),
-                    "driving"
-                )
-                direction(url)
-            }
+    myMap?.setOnMarkerClickListener(this)
+    myMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+        override fun getInfoWindow(marker: Marker): View? {
+            return null // Use default frame
         }
 
-        // Pindah fokus kamera ke titik awal
-        val sby = LatLng(arRute.get(0).latitude_source, arRute.get(0).longitude_source)
-        myMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(sby, 16f))
+        @SuppressLint("MissingInflatedId")
+        override fun getInfoContents(marker: Marker): View {
+            // Inflate custom layout
+            val view = layoutInflater.inflate(R.layout.custom_map_info, null)
 
+            // Set information in custom layout
+            val title = view.findViewById<TextView>(R.id.info_title)
+            val info_snippet = view.findViewById<TextView>(R.id.info_snippet)
+
+            val db = FirebaseFirestore.getInstance()
+            db.collection("StopBaru")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        val namaStop = document.getString("nama")
+                        if (namaStop == marker.snippet) {
+                            jenis = document.getString("jenis").toString()
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                }
+
+            title.text = jenis + " " + marker.title
+            info_snippet.text = formatTime(marker.snippet)
+
+            return view
+        }
+    })
+
+    // Create a map of id_transportasi to colors
+    val colorMap = mutableMapOf<String, Int>()
+    var currentColorIndex = 0
+    val colors = listOf(
+        Color.RED,
+        Color.GREEN,
+        Color.BLUE,
+        Color.YELLOW,
+        Color.CYAN,
+        Color.MAGENTA,
+        Color.DKGRAY,
+        Color.LTGRAY,
+        Color.BLACK
+    )
+
+    // Create markers and directions based on the arRute array
+    for ((index, rute) in arRute.withIndex()) {
+        val idTransportasi = rute.id_transportasi
+        val color = colorMap.getOrPut(idTransportasi) {
+            colors[currentColorIndex++ % colors.size]
+        }
+
+        if (index == 0) {
+            val positionSource = LatLng(rute.latitude_source, rute.longitude_source)
+            myMap?.addMarker(
+                MarkerOptions()
+                    .position(positionSource)
+                    .title(rute.nama_source)
+                    .snippet(rute.jam_berangkat.toString())
+            )
+        }
+
+        val positionDest = LatLng(rute.latitude_dest, rute.longitude_dest)
+        myMap?.addMarker(
+            MarkerOptions()
+                .position(positionDest)
+                .title(rute.nama_dest)
+                .snippet(rute.jam_sampai.toString())
+        )
+
+        if (index != arRute.size) {
+            if(arRute[index].id_transportasi.startsWith("K")){
+                 url = getUrl(
+                    LatLng(rute.latitude_source, rute.longitude_source),
+                    LatLng(rute.latitude_dest, rute.longitude_dest),
+                    "transit","train"
+                )
+            }else{
+                 url = getUrl(
+                    LatLng(rute.latitude_source, rute.longitude_source),
+                    LatLng(rute.latitude_dest, rute.longitude_dest),
+                    "driving", "bus")
+            }
+
+            Log.d("lili", "url : " + url)
+            direction(url, color) // Pass the color to the direction function
+        }
     }
+
+    // Move camera focus to the starting point
+    val sby = LatLng(arRute[0].latitude_source, arRute[0].longitude_source)
+    myMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(sby, 16f))
+}
+
 
     fun formatTime(time: String): String {
         // Insert colon at the correct position
@@ -260,16 +368,13 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         return true // Return true to indicate we've handled the event
     }
 
-
-    private fun direction(url: String) {
+    private fun direction(url: String, color: Int) {
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 try {
                     val status = response.getString("status")
                     if (status.equals("OK", ignoreCase = true)) {
-                        Log.d("kiki", "masuk")
                         val routes = response.getJSONArray("routes")
-                        Log.d("kiki", "routes $routes")
                         val points = ArrayList<LatLng>()
                         var polylineOptions: PolylineOptions? = null
 
@@ -277,7 +382,6 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                             val legs = routes.getJSONObject(i).getJSONArray("legs")
                             for (j in 0 until legs.length()) {
                                 val steps = legs.getJSONObject(i).getJSONArray("steps")
-                                Log.d("kiki", "steps $steps")
                                 for (k in 0 until steps.length()) {
                                     val polyline = steps.getJSONObject(k).getJSONObject("polyline")
                                         .getString("points")
@@ -292,7 +396,7 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                         polylineOptions = PolylineOptions()
                         polylineOptions.addAll(points)
                         polylineOptions.width(10f)
-                        polylineOptions.color(ContextCompat.getColor(this, R.color.red))
+                        polylineOptions.color(color) // Use the passed color
                         polylineOptions.geodesic(true)
 
                         myMap?.addPolyline(polylineOptions)
@@ -305,22 +409,117 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                 Log.e("Map", "Error fetching JSON response: $error")
             })
 
-        // Tambahkan request ke RequestQueue.
+        // Add request to the RequestQueue
         Volley.newRequestQueue(this).add(jsonObjectRequest)
     }
+
+//    private fun direction(url: String) {
+//        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+//            { response ->
+//                try {
+//                    val status = response.getString("status")
+//                    if (status.equals("OK", ignoreCase = true)) {
+//                        Log.d("kiki", "masuk")
+//                        val routes = response.getJSONArray("routes")
+//                        Log.d("kiki", "routes $routes")
+//                        val points = ArrayList<LatLng>()
+//                        var polylineOptions: PolylineOptions? = null
+//
+//                        for (i in 0 until routes.length()) {
+//                            val legs = routes.getJSONObject(i).getJSONArray("legs")
+//                            for (j in 0 until legs.length()) {
+//                                val steps = legs.getJSONObject(i).getJSONArray("steps")
+//                                Log.d("kiki", "steps $steps")
+//                                for (k in 0 until steps.length()) {
+//                                    val polyline = steps.getJSONObject(k).getJSONObject("polyline")
+//                                        .getString("points")
+//                                    val list = decodePoly(polyline)
+//                                    for (l in list) {
+//                                        val position = LatLng(l.latitude, l.longitude)
+//                                        points.add(position)
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        polylineOptions = PolylineOptions()
+//                        polylineOptions.addAll(points)
+//                        polylineOptions.width(10f)
+//                        polylineOptions.color(ContextCompat.getColor(this, R.color.red))
+//                        polylineOptions.geodesic(true)
+//
+//                        myMap?.addPolyline(polylineOptions)
+//                    }
+//                } catch (e: JSONException) {
+//                    Log.e("Map", "Error parsing JSON: $e")
+//                }
+//            },
+//            { error ->
+//                Log.e("Map", "Error fetching JSON response: $error")
+//            })
+//
+//        // Tambahkan request ke RequestQueue.
+//        Volley.newRequestQueue(this).add(jsonObjectRequest)
+//    }
+//private fun direction(url: String, color: Int) {
+//    val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+//        { response ->
+//            try {
+//                val status = response.getString("status")
+//                if (status.equals("OK", ignoreCase = true)) {
+//                    val routes = response.getJSONArray("routes")
+//                    val points = ArrayList<LatLng>()
+//                    var polylineOptions: PolylineOptions? = null
+//
+//                    for (i in 0 until routes.length()) {
+//                        val legs = routes.getJSONObject(i).getJSONArray("legs")
+//                        for (j in 0 until legs.length()) {
+//                            val steps = legs.getJSONObject(i).getJSONArray("steps")
+//                            for (k in 0 until steps.length()) {
+//                                val polyline = steps.getJSONObject(k).getJSONObject("polyline")
+//                                    .getString("points")
+//                                val list = decodePoly(polyline)
+//                                for (l in list) {
+//                                    val position = LatLng(l.latitude, l.longitude)
+//                                    points.add(position)
+//                                }
+//                            }
+//                        }
+//                    }
+//                    polylineOptions = PolylineOptions()
+//                    polylineOptions.addAll(points)
+//                    polylineOptions.width(10f)
+//                    polylineOptions.color(ContextCompat.getColor(this, R.color.red)) // Use the passed color
+//                    polylineOptions.geodesic(true)
+//
+//                    myMap?.addPolyline(polylineOptions)
+//                }
+//            } catch (e: JSONException) {
+//                Log.e("Map", "Error parsing JSON: $e")
+//            }
+//        },
+//        { error ->
+//            Log.e("Map", "Error fetching JSON response: $error")
+//        })
+//
+//    // Tambahkan request ke RequestQueue.
+//    Volley.newRequestQueue(this).add(jsonObjectRequest)
+//}
+
 
     // untuk nyusun url api google map direction
     private fun getUrl(
         origin: LatLng,
         dest: LatLng,
-        directionMode: String
+        directionMode: String,
+        transitMode: String
     ): String {
         val str_origin = "origin=${origin.latitude},${origin.longitude}"
         val str_dest = "destination=${dest.latitude},${dest.longitude}"
         val mode = "mode=$directionMode"
+        val transit_mode = "transit_mode=$transitMode"
         val apiKey =
             getString(R.string.my_map_api_key)
-        val parameters = "$str_origin&$str_dest&$mode&key=$apiKey"
+        val parameters = "$str_origin&$str_dest&$mode&$transit_mode&key=$apiKey"
         val output = "json"
         return "https://maps.googleapis.com/maps/api/directions/$output?$parameters"
     }

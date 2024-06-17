@@ -2,8 +2,10 @@ package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -45,6 +47,8 @@ class ChooseRoute : AppCompatActivity() {
     private var arrayTujuan: ArrayList<String> = ArrayList()
     private lateinit var tanggalDate:String
     private lateinit var db: FirebaseFirestore
+    private lateinit var transpor_first:String
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +97,9 @@ class ChooseRoute : AppCompatActivity() {
         val _tv_sampai = findViewById<TextView>(R.id.tv_sampai)
         val _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
         val _iv_bookmark = findViewById<ImageView>(R.id.iv_bookmark)
+        val _vert1 = findViewById<View>(R.id.vert1)
+
+        _vert1.setBackgroundColor(Color.RED)
 
         _tv_asal2.text = dataAsal
         _tv_asall2.text = dataAsal
@@ -153,7 +160,10 @@ class ChooseRoute : AppCompatActivity() {
                 }
             }
             dataIntent.id_transportasi.forEachIndexed { index, data ->
-                if (index != 0) {
+                if(index == 0){
+                    transpor_first = data
+                }
+                else if (index != 0) {
                     listTranspor.add(data)
                 }
             }
@@ -163,7 +173,7 @@ class ChooseRoute : AppCompatActivity() {
                 }
             }
             _rv_choose.layoutManager = LinearLayoutManager(this)
-            val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listJamSampai, listTranspor)
+            val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listJamSampai, listTranspor, transpor_first)
             _rv_choose.adapter = adapterP
 
             _iv_bookmark.setOnClickListener {

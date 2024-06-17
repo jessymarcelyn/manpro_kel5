@@ -1,5 +1,6 @@
 package manpro.kel5.proyek_manpro
 
+import android.graphics.Color
 import android.media.browse.MediaBrowser.ItemCallback
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,14 +14,29 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class adapterChooseRoute (
-    private val listNama: MutableList<String>, private val listJamB: MutableList<Int>, private val listJamS: MutableList<Int>, private val listTranspor: MutableList<String>
+    private val listNama: MutableList<String>, private val listJamB: MutableList<Int>, private val listJamS: MutableList<Int>, private val listTranspor: MutableList<String>, private val transpor_first: String
 ): RecyclerView.Adapter<adapterChooseRoute.ListViewHolder>(){
+
+    private val colorMap = mutableMapOf<String, Int>()
+    private var currentColorIndex = 0
+    private val colors = listOf(
+        Color.RED,
+        Color.GREEN,
+        Color.BLUE,
+        Color.YELLOW,
+        Color.CYAN,
+        Color.MAGENTA,
+        Color.DKGRAY,
+        Color.LTGRAY,
+        Color.BLACK
+    )
 
     inner class ListViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         var _tv_lokasi : TextView = itemView.findViewById(R.id.tv_lokasi)
         var _tv_jamBerangkat : TextView = itemView.findViewById(R.id.tv_jamBerangkat)
         var _tv_trans : TextView = itemView.findViewById(R.id.tv_bus)
         var _tv_durasi_transit : TextView = itemView.findViewById(R.id.tv_durasi_transit)
+        var _view_garis : View = itemView.findViewById(R.id.view_garis)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -53,6 +69,15 @@ class adapterChooseRoute (
         Log.d("pem", duration.toString())
 //        holder._tv_jamBerangkat.text = rutee.jam_berangkat
 
+        val color = colorMap.getOrPut(trans) {
+            if(trans == transpor_first){
+                colors[0]
+            }else{
+                colors[currentColorIndex++ % colors.size + 1]
+            }
+
+        }
+        holder._view_garis.setBackgroundColor(color)
     }
 
     // Convert "HHMM" string format to total minutes since midnight

@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/listImage" />
 
     <View
-        android:id="@+id/view9"
+        android:id="@+id/view_garis"
         android:layout_width="1dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
@@ -73,7 +73,7 @@
         android:id="@+id/iv_transport"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view9"
+        app:layout_constraintBottom_toBottomOf="@+id/view_garis"
         app:layout_constraintStart_toStartOf="@+id/tv_lokasi"
         app:layout_constraintTop_toBottomOf="@+id/listImage"
         app:srcCompat="@drawable/ic_bus" />
