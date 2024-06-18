@@ -272,79 +272,28 @@ class SelectRute : AppCompatActivity() {
         dialog.show()
     }
 
-//    private fun trackRoute(
-//        tempatAwal: String,
-//        tempatTujuan: String,
-//        ruteText: StringBuilder,
-//        currentRoute: List<String> = listOf(),
-//        discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
-//        prevRouteDocId: String? = null
-//    ) {
-//        arRute.clear()
-//
-//        db.collection("RuteBaru")
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                for (document in documents) {
-//                    val idStopSource = document.getString("id_stop_source")
-//                    val idStopDest = document.getString("id_stop_dest")
-//                    val departureTimeSource = document.getLong("jam_berangkat")?.toInt() ?: 0
-//                    val arrivalTimeDest = document.getLong("jam_sampai")?.toInt() ?: 0
-//                    val currentRouteDocId = document.id
-//
-//                    newRoute = currentRoute + currentRouteDocId
-//                    if (idStopSource == tempatAwal && idStopDest != null) {
-//                        if (idStopDest == tempatTujuan && departureTimeSource != null && arrivalTimeDest != null) {
-//                            // Cek antar route apakah sudah benar
-//                            val connectionValidity = isValidRoute(newRoute, documents)
-//                            if (connectionValidity.all { it }) { // Kalau bener semua
-//                                discoveredRoutes.add(newRoute)
-//                            }
-//                        } else if (idStopDest !in currentRoute) {
-//                            val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
-//                            trackRoute(
-//                                idStopDest,
-//                                tempatTujuan,
-//                                ruteText,
-//                                newRoute,
-//                                newDiscoveredRoutesLocal,
-//                                currentRouteDocId
-//                            )
-//                            discoveredRoutes.addAll(newDiscoveredRoutesLocal)
-////                            Log.d("dfdf", "newDiscoveredRoutesLocal " + newDiscoveredRoutesLocal.toString() )
-//                        }
-//                    }
-//                }
-//                // Pastiin lagi discovered routenya udah bener atau gk
-//                if (discoveredRoutes.isNotEmpty()) {
-//                    for (i in discoveredRoutes.indices) {
-//                        val route = discoveredRoutes.elementAt(i)
-//                        val connectionValidity = isValidRoute(route, documents)
-//                        Log.d("wtwt", route.toString())
-//                        if (connectionValidity.all { it } && isRouteInOrder(route, arrayTujuan, documents)) { // Kalau bener semua
-//                            validDiscoveredRoutes.add(route)
-//                        }
-//                    }
-//                    Log.d("egh", "masuk")
-//                    Log.d("trtr", validDiscoveredRoutes.toString())
-////                    displayRoutes(validDiscoveredRoutes)
-////                        displayRoutes(validDiscoveredRoutes)
-//
-//                }
-//                fetchRutes()
-//            }
-//            .addOnFailureListener {
-//            }
-//    }
-
     private fun trackRoute(
         tempatAwal: String,
         tempatTujuan: String,
         ruteText: StringBuilder,
         currentRoute: List<String> = listOf(),
         discoveredRoutes: MutableSet<List<String>> = mutableSetOf(),
-        prevRouteDocId: String? = null
+        prevRouteDocId: String? = null,
+        depth: Int = 0,
+        maxDepth: Int = 5 // Set a reasonable maximum depth
     ) {
+        Log.d("hbhb", "masuk0")
+        Log.d("hbhb", "depth : " + depth)
+        Log.d("hbhb", "maxDepth : " + maxDepth)
+        if (depth > maxDepth) {
+            Log.d("hbhb", "masuk1")
+            // Prevents excessive recursion
+            if (validDiscoveredRoutes.isEmpty()) {
+                updateVisibility(false)
+            }
+            return
+        }
+
         arRute.clear()
 
         db.collection("RuteBaru")
@@ -397,24 +346,24 @@ class SelectRute : AppCompatActivity() {
                             Log.d("pepe", "tanggalDateParsed : " + tanggalDateParsed)
                             Log.d("pepe", "ruteBaruStartDateDate : " + ruteBaruStartDateDate)
                             Log.d("pepe", "ruteBaruFinishDateDate : " + ruteBaruStartDateDate)
-                            // Cek antar route apakah sudah benar
-                            if(ruteBaruFinishDateDate == null){
+                            if (ruteBaruFinishDateDate == null) {
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
-                                    val connectionValidity = isValidRoute(newRoute, documents, tanggalDateParsed)
-                                    if (connectionValidity.all { it }) { // Kalau bener semua
+                                    val connectionValidity =
+                                        isValidRoute(newRoute, documents, tanggalDateParsed)
+                                    if (connectionValidity.all { it }) {
                                         discoveredRoutes.add(newRoute)
                                     }
                                 }
-                            }else{
+                            } else {
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
                                     tanggalDateParsed.before(ruteBaruFinishDateDate)
                                 ) {
-                                    val connectionValidity = isValidRoute(newRoute, documents, tanggalDateParsed)
-                                    if (connectionValidity.all { it }) { // Kalau bener semua
+                                    val connectionValidity =
+                                        isValidRoute(newRoute, documents, tanggalDateParsed)
+                                    if (connectionValidity.all { it }) {
                                         discoveredRoutes.add(newRoute)
                                     }
                                 }
-
                             }
 
                         } else if (idStopDest !in currentRoute) {
@@ -434,12 +383,13 @@ class SelectRute : AppCompatActivity() {
                                             ruteText,
                                             newRoute,
                                             newDiscoveredRoutesLocal,
-                                            currentRouteDocId
+                                            currentRouteDocId,
+                                            depth + 1, // Increase depth
+                                            maxDepth
                                         )
                                         discoveredRoutes.addAll(newDiscoveredRoutesLocal)
                                     }
-                                }
-                                else {
+                                } else {
                                     if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
                                         val newDiscoveredRoutesLocal = mutableSetOf<List<String>>()
                                         trackRoute(
@@ -448,7 +398,9 @@ class SelectRute : AppCompatActivity() {
                                             ruteText,
                                             newRoute,
                                             newDiscoveredRoutesLocal,
-                                            currentRouteDocId
+                                            currentRouteDocId,
+                                            depth + 1, // Increase depth
+                                            maxDepth
                                         )
                                         discoveredRoutes.addAll(newDiscoveredRoutesLocal)
                                     }
@@ -457,26 +409,29 @@ class SelectRute : AppCompatActivity() {
                         }
                     }
                 }
-                // Pastiin lagi discovered routenya udah bener atau gk
                 if (discoveredRoutes.isNotEmpty()) {
                     for (i in discoveredRoutes.indices) {
                         val route = discoveredRoutes.elementAt(i)
                         val connectionValidity = isValidRoute(route, documents, tanggalDateParsed)
-                        if (connectionValidity.all { it } && isRouteInOrder(route, arrayTujuan, documents)) { // Kalau bener semua
+                        if (connectionValidity.all { it } && isRouteInOrder(
+                                route,
+                                arrayTujuan,
+                                documents
+                            )) {
                             validDiscoveredRoutes.add(route)
                         }
                     }
                     Log.d("trtr", validDiscoveredRoutes.toString())
-//                    displayRoutes(validDiscoveredRoutes)
-//                        displayRoutes(validDiscoveredRoutes)
 
                 }
                 fetchRutes()
+
             }
             .addOnFailureListener {
                 Log.e("FirebaseError", "Error getting documents", it)
             }
     }
+
 
     fun padDateString(dateString: String): String {
         return if (dateString.length == 7) {
@@ -569,20 +524,18 @@ class SelectRute : AppCompatActivity() {
         return connectionValidity
     }
 
-
-
-
     fun fetchRutes() {
+        Log.d("hbhb", "masuk2")
         Log.d("mvmv", validDiscoveredRoutes.toString())
         arRute.clear()
         Log.d("emem", "masuk4")
         Log.d("egh", "masuk2")
         Log.d("jjj", validDiscoveredRoutes.toString())
 
-        if (validDiscoveredRoutes.isEmpty()) {
-            updateVisibility(false)
-            return
-        }
+//        if (validDiscoveredRoutes.isEmpty()) {
+//            updateVisibility(false)
+//            return
+//        }
 
         val totalRoutes = validDiscoveredRoutes.size
         var counter = 0
@@ -689,12 +642,9 @@ class SelectRute : AppCompatActivity() {
                                                 arRute.addAll(filteredRoutes)
                                             }
 
-
-                                            Log.d("mmm",arRute.toString())
-                                            sortRutes(arRute)
-                                            _rvRute.adapter?.notifyDataSetChanged()
-
-                                            updateVisibility(arRute.isNotEmpty())
+                                                Log.d("mmm",arRute.toString())
+                                                sortRutes(arRute)
+                                                _rvRute.adapter?.notifyDataSetChanged()
                                         }
                                     }
                                 }
@@ -704,21 +654,22 @@ class SelectRute : AppCompatActivity() {
                     .addOnFailureListener { exception ->
                         // Handle failure
                     }.addOnCompleteListener {
-                        processCounter++
-                        if (processCounter == totalRoutes) {
-                            updateVisibility(arRute.isNotEmpty())
-                        }
+//                        processCounter++
+//                        if (processCounter == totalRoutes) {
+//                            updateVisibility(arRute.isNotEmpty())
+//                        }
                     }
             }
         }
 
 
         // Process each route
-        for (innerList in validDiscoveredRoutes) {
-            Log.d("lll", validDiscoveredRoutes.toString())
-            Log.d("iii", innerList.toString())
-            processRoute(innerList)
-        }
+            for (innerList in validDiscoveredRoutes) {
+                Log.d("lll", validDiscoveredRoutes.toString())
+                Log.d("iii", innerList.toString())
+                processRoute(innerList)
+            }
+
     }
 
 
