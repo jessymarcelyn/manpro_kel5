@@ -292,14 +292,14 @@
         android:id="@+id/btnChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="72dp"
         android:backgroundTint="@color/selectedNavColor"
         android:text="Pilih"
         app:cornerRadius="12dp"
         app:icon="@drawable/ic_pointer"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_bookmark"
-        app:layout_constraintEnd_toStartOf="@+id/iv_bookmark"
-        app:layout_constraintTop_toTopOf="@+id/iv_bookmark" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_jamSampai" />
 
     <ImageView
         android:id="@+id/imageView19"
@@ -380,6 +380,15 @@
         app:layout_constraintEnd_toEndOf="@+id/rv_choose"
         app:layout_constraintTop_toBottomOf="@+id/tv_jamSampai"
         app:srcCompat="@drawable/ic_star_empty" />
+
+    <ImageView
+        android:id="@+id/iv_unbookmark"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/rv_choose"
+        app:layout_constraintTop_toBottomOf="@+id/tv_jamSampai"
+        app:srcCompat="@drawable/ic_star" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

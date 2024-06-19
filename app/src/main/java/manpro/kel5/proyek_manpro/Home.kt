@@ -269,12 +269,33 @@ class Home : AppCompatActivity() {
         adapterBookmark = AdapterBookmarkHome(this, bookmarks)
         label_bookmark.adapter = adapterBookmark
 
+
+
+        if (autentikasi.currentUser != null) {
+
+        }
+
         if(autentikasi.currentUser != null){
-            // Jika currentUser ada --> udah login
-            btnLogin.visibility = View.GONE
-            label_bookmark.visibility = View.VISIBLE
+            val email = autentikasi.currentUser!!.email
+            db.collection("User")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val user = documents.first().toObject(User::class.java)
+                        val username = user.username
+
+                        btnLogin.visibility = View.GONE
+                        label_bookmark.visibility = View.VISIBLE
 //            fetchBookmarks(username)
-            fetchBookmarks("admin2")
+                        fetchBookmarks(username)
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.w("kuku", "Error getting user document", e)
+                }
+
+            // Jika currentUser ada --> udah login
         }
         // belum login
         else {

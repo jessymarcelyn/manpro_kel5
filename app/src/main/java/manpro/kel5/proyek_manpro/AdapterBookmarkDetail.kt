@@ -22,13 +22,13 @@ class AdapterBookmarkDetail(context: Context, private var bookmarks: MutableList
         val lokasiAsalTextView = view.findViewById<TextView>(R.id.tv_lokasi_asal)
         val lokasiTujuanTextView = view.findViewById<TextView>(R.id.tv_lokasi_tujuan)
         val labelTextView = view.findViewById<TextView>(R.id.tv_label)
-        val ic_remove = view.findViewById<ImageView>(R.id.ic_remove)
+        val iv_unbookmark = view.findViewById<ImageView>(R.id.iv_unbookmark)
 
         lokasiAsalTextView.text = bookmark?.idStopSource
         lokasiTujuanTextView.text = bookmark?.idStopDest
         labelTextView.text = "Bookmark"
 
-        ic_remove.setOnClickListener {
+        iv_unbookmark.setOnClickListener {
             if (bookmark != null) {
                 Log.d("mgmg", bookmark.docId)
             }

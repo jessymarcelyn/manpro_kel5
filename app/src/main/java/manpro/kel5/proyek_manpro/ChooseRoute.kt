@@ -17,8 +17,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import manpro.kel5.proyek_manpro.profile.User
 
 class ChooseRoute : AppCompatActivity() {
     companion object{
@@ -47,7 +49,9 @@ class ChooseRoute : AppCompatActivity() {
     private var arrayTujuan: ArrayList<String> = ArrayList()
     private lateinit var tanggalDate:String
     private lateinit var db: FirebaseFirestore
+    private lateinit var autentikasi : FirebaseAuth
     private lateinit var transpor_first:String
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -61,6 +65,7 @@ class ChooseRoute : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        autentikasi = FirebaseAuth.getInstance()
         db = Firebase.firestore
         val dataIntent = intent.getParcelableExtra<Rute>("kirimData")
         dataAsal = intent.getStringExtra(ChooseRoute.asal) ?: ""
@@ -97,6 +102,7 @@ class ChooseRoute : AppCompatActivity() {
         val _tv_sampai = findViewById<TextView>(R.id.tv_sampai)
         val _tv_tanggal = findViewById<TextView>(R.id.tv_tanggal)
         val _iv_bookmark = findViewById<ImageView>(R.id.iv_bookmark)
+        val _iv_unbookmark = findViewById<ImageView>(R.id.iv_unbookmark)
         val _vert1 = findViewById<View>(R.id.vert1)
 
         _vert1.setBackgroundColor(Color.RED)
@@ -176,11 +182,35 @@ class ChooseRoute : AppCompatActivity() {
             val adapterP = adapterChooseRoute(listAsal, listJamBerangkat, listJamSampai, listTranspor, transpor_first)
             _rv_choose.adapter = adapterP
 
-            _iv_bookmark.setOnClickListener {
-                _iv_bookmark.setImageResource(R.drawable.baseline_star_rate_24)
-                addBookmark(dataAsal, dataTujuan, username, dataIntent.doc_rute)
-//                Log.d("mcmc", dataIntent.doc_rute.toString())
+            _iv_bookmark.visibility = View.VISIBLE
+            _iv_unbookmark.visibility = View.GONE
 
+            if (autentikasi.currentUser != null) {
+                val email = autentikasi.currentUser!!.email
+                db.collection("User")
+                    .whereEqualTo("email", email)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (!documents.isEmpty) {
+                            val user = documents.first().toObject(User::class.java)
+                            val usrname = user.username
+
+                            _iv_bookmark.setOnClickListener {
+                                addBookmark(dataAsal, dataTujuan, usrname, dataIntent.doc_rute)
+                                _iv_bookmark.visibility = View.GONE
+                                _iv_unbookmark.visibility = View.VISIBLE
+                            }
+
+                            _iv_unbookmark.setOnClickListener {
+                                deleteBookmark(dataAsal, dataTujuan, usrname, dataIntent.doc_rute)
+                                _iv_bookmark.visibility = View.VISIBLE
+                                _iv_unbookmark.visibility = View.GONE
+                            }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("kuku", "Error getting user document", e)
+                    }
             }
         }
 
@@ -253,6 +283,43 @@ class ChooseRoute : AppCompatActivity() {
                 Log.w("kuku", "Error adding document", e)
             }
     }
+
+    private fun deleteBookmark(
+        idStopSource: String,
+        idStopDest: String,
+        idUser: String,
+        idRute: List<String>
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Bookmark")
+            .whereEqualTo("id_stop_source", idStopSource)
+            .whereEqualTo("id_stop_dest", idStopDest)
+            .whereEqualTo("id_user", idUser)
+            .whereEqualTo("id_rute", idRute)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    for (document in querySnapshot.documents) {
+                        db.collection("Bookmark")
+                            .document(document.id)
+                            .delete()
+                            .addOnSuccessListener {
+                                Log.d("kuku", "DocumentSnapshot successfully deleted!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("kuku", "Error deleting document", e)
+                            }
+                    }
+                } else {
+                    Log.d("kuku", "No matching documents found.")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("kuku", "Error searching for bookmark", e)
+            }
+    }
+
+
 
 
     // Convert "HHMM" string format to total minutes since midnight
