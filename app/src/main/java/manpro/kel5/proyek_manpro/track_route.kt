@@ -138,11 +138,6 @@ class track_route : AppCompatActivity() {
             startActivity(intentWithData)
 
         }
-
-
-
-
-
     }
     fun formatTime(timeInMinutes: Int): String {
         val hours = timeInMinutes / 100

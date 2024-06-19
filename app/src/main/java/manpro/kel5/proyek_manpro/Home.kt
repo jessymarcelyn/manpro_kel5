@@ -318,6 +318,7 @@ class Home : AppCompatActivity() {
 
 
     }
+
     // Modify the fetchBookmarks function to only add the first two bookmarks to the list
     private fun fetchBookmarks(userId: String) {
         db.collection("Bookmark")
@@ -347,6 +348,7 @@ class Home : AppCompatActivity() {
                 Log.w("FirestoreError", "Error getting documents", e)
             }
     }
+
 
 
 //    private fun fetchBookmarks(userId: String) {
@@ -440,6 +442,28 @@ class Home : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        if(autentikasi.currentUser != null){
+            val email = autentikasi.currentUser!!.email
+            db.collection("User")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val user = documents.first().toObject(User::class.java)
+                        val username = user.username
+
+                        btnLogin.visibility = View.GONE
+                        label_bookmark.visibility = View.VISIBLE
+//            fetchBookmarks(username)
+                        fetchBookmarks(username)
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.w("kuku", "Error getting user document", e)
+                }
+        }
+        val userId = "your_user_id"
+
         val _rv_stop = findViewById<RecyclerView>(R.id.rv_stop)
 
         // Filter elements in listTambah and remove "Tambahkan ekstra stop"
@@ -454,10 +478,8 @@ class Home : AppCompatActivity() {
             }
         }
     }
-
-
-
 }
+
 
 
 
