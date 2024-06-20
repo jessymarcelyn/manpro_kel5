@@ -206,10 +206,56 @@ class ChooseRoute : AppCompatActivity() {
                                 _iv_bookmark.visibility = View.VISIBLE
                                 _iv_unbookmark.visibility = View.GONE
                             }
+
+                            Log.d("BookmarkCheck", "Checking bookmark for user: $usrname, dataAsal: $dataAsal, dataTujuan: $dataTujuan, doc_rute: ${dataIntent.doc_rute}")
+
+                            // Check if the bookmark already exists
+                            db.collection("Bookmark")
+                                .get()
+                                .addOnSuccessListener { bookmarkDocuments ->
+                                    Log.d("BookmarkCheck", "Bookmark check successful, documents found: ${bookmarkDocuments.size()}")
+
+                                    var bookmarkExists = false
+                                    for (document in bookmarkDocuments) {
+                                        val idUser = document.getString("id_user")
+                                        val idStopSource = document.getString("id_stop_source")
+                                        val idStopDest = document.getString("id_stop_dest")
+                                        val idRuteList = document.get("id_rute") as? List<String>
+                                        val dataIntentRuteList = dataIntent.doc_rute as? List<String>
+
+                                        if (idUser == usrname && idStopSource == dataAsal && idStopDest == dataTujuan) {
+                                            if (idRuteList != null && dataIntentRuteList != null && idRuteList.size == dataIntentRuteList.size) {
+                                                var listsMatch = true
+                                                for (i in idRuteList.indices) {
+                                                    if (idRuteList[i] != dataIntentRuteList[i]) {
+                                                        listsMatch = false
+                                                        break
+                                                    }
+                                                }
+                                                if (listsMatch) {
+                                                    bookmarkExists = true
+                                                    break
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (bookmarkExists) {
+                                        Log.d("BookmarkCheck", "Bookmark exists. Setting _iv_bookmark visibility to GONE and _iv_unbookmark visibility to VISIBLE")
+                                        _iv_bookmark.visibility = View.GONE
+                                        _iv_unbookmark.visibility = View.VISIBLE
+                                    } else {
+                                        Log.d("BookmarkCheck", "Bookmark does not exist. Setting _iv_bookmark visibility to VISIBLE and _iv_unbookmark visibility to GONE")
+                                        _iv_bookmark.visibility = View.VISIBLE
+                                        _iv_unbookmark.visibility = View.GONE
+                                    }
+                                    }
+                        } else {
+                            Log.w("BookmarkCheck", "No user document found")
                         }
                     }
                     .addOnFailureListener { e ->
-                        Log.w("kuku", "Error getting user document", e)
+                        Log.w("BookmarkCheck", "Error getting user document", e)
                     }
             }
         }
