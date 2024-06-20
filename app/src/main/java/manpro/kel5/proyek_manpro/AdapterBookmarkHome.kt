@@ -20,7 +20,7 @@ class AdapterBookmarkHome(context: Context, private val bookmarks: List<Bookmark
 
         lokasiAsalTextView.text = bookmark?.idStopSource
         lokasiTujuanTextView.text = bookmark?.idStopDest
-        labelTextView.text = "Bookmark"
+        labelTextView.text = bookmark?.bookmarkName
 
         return view
     }

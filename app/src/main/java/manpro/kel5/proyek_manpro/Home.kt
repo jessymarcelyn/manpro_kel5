@@ -2,9 +2,7 @@ package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,22 +14,18 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.common.reflect.TypeToken
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
 import manpro.kel5.proyek_manpro.BottomNav.Companion.setupBottomNavigationView
 import manpro.kel5.proyek_manpro.databinding.ActivityHomeBinding
 import manpro.kel5.proyek_manpro.profile.*
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 import android.widget.ArrayAdapter
 
@@ -332,11 +326,12 @@ class Home : AppCompatActivity() {
                     val idRuteList = document.get("id_rute") as? List<String>
                     val idStopDest = document.getString("id_stop_dest")
                     val idStopSource = document.getString("id_stop_source")
+                    val bookmarkName = document.getString("bookmarkName")
 
                     // Check if all necessary fields are not null
                     if (idStopSource != null && idStopDest != null && idRuteList != null) {
                         // Create a new BookmarkData object and add it to the list
-                        val bookmark = BookmarkData(document.id, idStopSource, idStopDest, userId, idRuteList)
+                        val bookmark = BookmarkData(document.id, idStopSource, idStopDest, userId, idRuteList, bookmarkName)
                         bookmarks.add(bookmark)
                         count++
                     }

@@ -4,14 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -77,9 +73,17 @@ class Bookmark : AppCompatActivity() {
                     val idRuteList = document.get("id_rute") as? List<String>
                     val idStopDest = document.getString("id_stop_dest")
                     val idStopSource = document.getString("id_stop_source")
+                    val bookmarkName = document.getString("bookmarkName")
 
                     if (idStopSource != null && idStopDest != null && idRuteList != null) {
-                        val bookmark = BookmarkData(document.id, idStopSource, idStopDest, userId, idRuteList)
+                        val bookmark = BookmarkData(
+                            document.id,
+                            idStopSource,
+                            idStopDest,
+                            userId,
+                            idRuteList,
+                            bookmarkName
+                        )
                         bookmarks.add(bookmark)
                         Log.d("uquq", "bookmarks :  " + bookmarks)
                     }

@@ -26,7 +26,7 @@ class AdapterBookmarkDetail(context: Context, private var bookmarks: MutableList
 
         lokasiAsalTextView.text = bookmark?.idStopSource
         lokasiTujuanTextView.text = bookmark?.idStopDest
-        labelTextView.text = "Bookmark"
+        labelTextView.text = bookmark?.bookmarkName
 
         iv_unbookmark.setOnClickListener {
             if (bookmark != null) {

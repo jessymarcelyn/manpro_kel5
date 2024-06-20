@@ -4,13 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -51,6 +55,7 @@ class ChooseRoute : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private lateinit var autentikasi : FirebaseAuth
     private lateinit var transpor_first:String
+    private var bookmarkName: String = ""
 
 
 
@@ -196,12 +201,31 @@ class ChooseRoute : AppCompatActivity() {
                             val usrname = user.username
 
                             _iv_bookmark.setOnClickListener {
-                                addBookmark(dataAsal, dataTujuan, usrname, dataIntent.doc_rute)
-                                _iv_bookmark.visibility = View.GONE
-                                _iv_unbookmark.visibility = View.VISIBLE
+                                val builder = AlertDialog.Builder(this)
+                                builder.setTitle("Enter Bookmark Name")
+
+                                val input = EditText(this)
+                                input.inputType = InputType.TYPE_CLASS_TEXT
+                                builder.setView(input)
+
+                                builder.setPositiveButton("OK") { dialog, which ->
+                                    val bookmarkName = input.text.toString()
+                                    if (bookmarkName.isNotEmpty()) {
+                                        addBookmark(dataAsal, dataTujuan, usrname, dataIntent.doc_rute, bookmarkName)
+                                        _iv_bookmark.visibility = View.GONE
+                                        _iv_unbookmark.visibility = View.VISIBLE
+                                    } else {
+                                        Toast.makeText(this, "Bookmark name cannot be empty", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                builder.setNegativeButton("Cancel") { dialog, which ->
+                                    dialog.cancel()
+                                }
+                                builder.show()
                             }
 
                             _iv_unbookmark.setOnClickListener {
+                                Log.d("BookmarkName", "Bookmark Name: $bookmarkName")
                                 deleteBookmark(dataAsal, dataTujuan, usrname, dataIntent.doc_rute)
                                 _iv_bookmark.visibility = View.VISIBLE
                                 _iv_unbookmark.visibility = View.GONE
@@ -310,14 +334,16 @@ class ChooseRoute : AppCompatActivity() {
         idStopSource: String,
         idStopDest: String,
         idUser : String,
-        idRute: List <String>
+        idRute: List <String>,
+        bookmarkName: String
     ) {
 
         val route = hashMapOf(
             "id_stop_source" to idStopSource,
             "id_stop_dest" to idStopDest,
             "id_user" to idUser,
-            "id_rute" to idRute
+            "id_rute" to idRute,
+            "bookmarkName" to bookmarkName
         )
 
         db.collection("Bookmark")
@@ -334,7 +360,7 @@ class ChooseRoute : AppCompatActivity() {
         idStopSource: String,
         idStopDest: String,
         idUser: String,
-        idRute: List<String>
+        idRute: List<String>,
     ) {
         val db = FirebaseFirestore.getInstance()
         db.collection("Bookmark")
