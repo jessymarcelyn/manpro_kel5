@@ -16,11 +16,15 @@ import manpro.kel5.proyek_manpro.profile.User
 
 class Bookmark : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
+
     private var db = FirebaseFirestore.getInstance()
     private lateinit var autentikasi : FirebaseAuth
     private lateinit var adapterBookmark: AdapterBookmarkDetail
     private lateinit var bookmarks: MutableList<BookmarkData>
     private lateinit var label_bookmark : ListView
+    private lateinit var dataAsal: String
+    private lateinit var dataTujuan: String
+    private lateinit var tanggalDate: String
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +52,18 @@ class Bookmark : AppCompatActivity() {
                     Log.w("kuku", "Error getting user document", e)
                 }
         }
+        dataAsal = intent.getStringExtra(SelectRute.asal) ?: ""
+        dataTujuan = intent.getStringExtra(SelectRute.tujuan) ?: ""
+        tanggalDate = intent.getStringExtra(SelectRute.tanggal) ?: ""
+        val username = intent.getStringExtra(SelectRute.username) ?: ""
 
         val btnBack = findViewById<ImageView>(R.id.btn_back)
         btnBack.setOnClickListener {
             val intent = Intent(this, Home::class.java)
+            intent.putExtra(Home.dataAsall, dataAsal)
+            intent.putExtra(Home.dataTujuann, dataTujuan)
+            intent.putExtra(Home.tanggal, tanggalDate)
+            intent.putExtra(Home.username, username)
             startActivity(intent)
         }
 

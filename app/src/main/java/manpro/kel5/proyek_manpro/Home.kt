@@ -304,8 +304,12 @@ class Home : AppCompatActivity() {
 
         _viewAll.setOnClickListener {
             val intentWithData = Intent(this@Home, Bookmark::class.java).apply {
-//                putExtra(SelectRute.username, username)
-                putExtra(Home.username, "admin2")
+                putExtra(SelectRute.username, username)
+//                putExtra(Home.username, "admin2")
+                putExtra(SelectRute.asal, _tv_asal2.text)
+                putExtra(SelectRute.tujuan, _tv_tujuan2.text)
+                putExtra(SelectRute.tanggal, selectedDate)
+                putExtra(SelectRute.username, username)
             }
             startActivity(intentWithData)
         }
