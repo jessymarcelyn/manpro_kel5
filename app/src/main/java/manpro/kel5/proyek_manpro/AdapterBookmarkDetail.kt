@@ -29,12 +29,10 @@ class AdapterBookmarkDetail(context: Context, private var bookmarks: MutableList
         labelTextView.text = bookmark?.bookmarkName
 
         iv_unbookmark.setOnClickListener {
-            if (bookmark != null) {
+            getItem(position)?.let { bookmark ->
                 Log.d("mgmg", bookmark.docId)
-            }
-            bookmarks.removeAt(position)
-            notifyDataSetChanged()
-            if (bookmark != null) {
+                remove(bookmark)
+                notifyDataSetChanged()
                 deleteBookmarkFromDatabase(bookmark.docId)
             }
         }

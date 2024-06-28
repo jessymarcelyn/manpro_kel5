@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -19,12 +23,13 @@ class Bookmark : AppCompatActivity() {
 
     private var db = FirebaseFirestore.getInstance()
     private lateinit var autentikasi : FirebaseAuth
-    private lateinit var adapterBookmark: AdapterBookmarkDetail
-    private lateinit var bookmarks: MutableList<BookmarkData>
+    private lateinit var adapterBookmark: BookmarkDetailAdapter
+    private lateinit var bookmarks: List<BookmarkDetailData>
     private lateinit var label_bookmark : ListView
     private lateinit var dataAsal: String
     private lateinit var dataTujuan: String
     private lateinit var tanggalDate: String
+    private lateinit var btn_edit: ImageView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,38 +75,38 @@ class Bookmark : AppCompatActivity() {
         bookmarks = mutableListOf()
         label_bookmark = findViewById(R.id.label_bookmark)
 
-        adapterBookmark = AdapterBookmarkDetail(this, bookmarks)
+        adapterBookmark = BookmarkDetailAdapter(this,
+            bookmarks as MutableList<BookmarkDetailData>, db)
         label_bookmark.adapter = adapterBookmark
+
     }
-        private fun fetchBookmarks(userId: String) {
+    private fun fetchBookmarks(userId: String) {
         db.collection("Bookmark")
             .whereEqualTo("id_user", userId)
             .get()
             .addOnSuccessListener { documents ->
-                bookmarks.clear()
+                val newBookmarks = mutableListOf<BookmarkDetailData>()
                 for (document in documents) {
-                    Log.d("uquq", "ada")
-                    Log.d("uquq", "docId : "+ document.id)
                     val idRuteList = document.get("id_rute") as? List<String>
                     val idStopDest = document.getString("id_stop_dest")
                     val idStopSource = document.getString("id_stop_source")
                     val bookmarkName = document.getString("bookmarkName")
 
                     if (idStopSource != null && idStopDest != null && idRuteList != null) {
-                        val bookmark = BookmarkData(
+                        val bookmark = BookmarkDetailData(
                             document.id,
                             idStopSource,
                             idStopDest,
                             userId,
                             idRuteList,
-                            bookmarkName
+                            bookmarkName ?: ""
                         )
-                        bookmarks.add(bookmark)
-                        Log.d("uquq", "bookmarks :  " + bookmarks)
+                        newBookmarks.add(bookmark)
                     }
                 }
 
-                adapterBookmark.notifyDataSetChanged() // Notify adapter of changes
+                bookmarks = newBookmarks
+                adapterBookmark.updateData(newBookmarks)
             }
             .addOnFailureListener { e ->
                 Log.w("FirestoreError", "Error getting documents", e)
