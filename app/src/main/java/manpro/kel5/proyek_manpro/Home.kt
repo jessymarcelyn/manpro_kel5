@@ -97,15 +97,14 @@ class Home : AppCompatActivity() {
         loadListTambah()
 
         var _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
-
         var _tv_tujuan2 = findViewById<TextView>(R.id.tv_tujuan2)
 
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Arief Rahman Hakim 1"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Arief Rahman Hakim 2"
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Graha Famili"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "PTC"
-        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "1Test A"
-        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "1Test D"
+        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Kebon Rojo"
+        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Bubutan 2"
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Surabaya Kota"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Gubeng"
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
