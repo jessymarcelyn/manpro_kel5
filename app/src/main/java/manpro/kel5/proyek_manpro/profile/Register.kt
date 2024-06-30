@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import manpro.kel5.proyek_manpro.Home
 import manpro.kel5.proyek_manpro.R
 import manpro.kel5.proyek_manpro.databinding.ActivityRegisterBinding
+import java.util.Locale
 
 class Register : AppCompatActivity() {
 
@@ -54,9 +55,10 @@ class Register : AppCompatActivity() {
         // Register
         binding.buttonDaftar.setOnClickListener {
             val username = binding.tiUsername.text.toString()
-            val email = binding.tiEmail.text.toString()
+            var emailRaw = binding.tiEmail.text.toString()
             val password = binding.tiPassword.text.toString()
 
+            val email = emailRaw.toLowerCase()
             // New User
             val newUser = hashMapOf(
                 "username" to username,
@@ -66,26 +68,33 @@ class Register : AppCompatActivity() {
 
 
             // Membuat user dengan username dan password
-            if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
-                autentikasi.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-                    if (it.isSuccessful){
-                        // Menambah user ke database
-                        db.collection("User")
-                            .add(newUser)
-                            .addOnSuccessListener { documentReference ->
-                                Toast.makeText(this, "Add User Success", Toast.LENGTH_SHORT).show()
-                            }
+            if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                if (email.endsWith("@petra.ac.id")) {
+                    Toast.makeText(this, "Email tidak boleh berakhiran @petra.ac.id", Toast.LENGTH_SHORT).show()
+                } else if (password.length < 6) {
+                    Toast.makeText(this, "Password harus terdiri dari minimal 6 karakter", Toast.LENGTH_SHORT).show()
+                } else {
+                    autentikasi.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            // Menambah user ke database
+                            db.collection("User")
+                                .add(newUser)
+                                .addOnSuccessListener { documentReference ->
+                                    Toast.makeText(this, "Add User Success", Toast.LENGTH_SHORT).show()
+                                }
 
-                        Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, Home::class.java)
-                        startActivity(intent)
-                    }else{
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, Home::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-            }else {
+            } else {
                 Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
             }
+
 
         }
 
