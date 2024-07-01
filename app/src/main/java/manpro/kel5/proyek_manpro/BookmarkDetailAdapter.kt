@@ -21,16 +21,20 @@ class BookmarkDetailAdapter(
     private val db: FirebaseFirestore
 ) : BaseAdapter() {
 
+    private var arRute = arrayListOf<Rute>()
+
     override fun getCount(): Int = bookmarks.size
 
     override fun getItem(position: Int): BookmarkDetailData = bookmarks[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
 
+    private lateinit var bookmark : BookmarkDetailData
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_bookmark_detail, parent, false)
 
-        val bookmark = getItem(position)
+        bookmark = getItem(position)
         val btnEdit = view.findViewById<ImageView>(R.id.iv_edit)
         val lokasiAsalTextView = view.findViewById<TextView>(R.id.tv_lokasi_asal)
         val lokasiTujuanTextView = view.findViewById<TextView>(R.id.tv_lokasi_tujuan)
@@ -45,6 +49,7 @@ class BookmarkDetailAdapter(
 
         // Calculate and display duration
         fetchAndDisplayRouteDuration(bookmark.idRute, durasiTextView)
+        fetchRutes()
 
         btnEdit.setOnClickListener {
             showEditDialog(bookmark)
@@ -60,14 +65,15 @@ class BookmarkDetailAdapter(
         }
 
         btnChoose.setOnClickListener {
-            val intent = Intent(context, track_route::class.java).apply {
-                putExtra(track_route.asal, bookmark.idStopSource)
-                putExtra(track_route.tujuan, bookmark.idStopDest)
-                putExtra(track_route.index, bookmark.bookmarkName)
-                putStringArrayListExtra(SelectRute.arrayStopp, ArrayList(bookmark.idRute))
+            Log.d("jeje ", bookmark.idRute.toString())
+
+            val intent = Intent(context, ChooseRoute::class.java).apply {
+                putExtra("kirimData", arRute)
+                putExtra(ChooseRoute.asal, bookmark.idStopSource)
+                putExtra(ChooseRoute.tujuan, bookmark.idStopDest)
+                putExtra(ChooseRoute.index, bookmark.bookmarkName)
             }
             context.startActivity(intent)
-            Log.d("BookmarkDetailAdapter", "Data dikirim: asal=${bookmark.idStopSource}, tujuan=${bookmark.idStopDest}, index=${bookmark.bookmarkName}, arrayStopp=${bookmark.idRute}")
 
         }
 
@@ -75,6 +81,80 @@ class BookmarkDetailAdapter(
 
         return view
     }
+    private fun fetchRutes() {
+        arRute.clear()
+        val validDiscoveredRoutes = bookmark.idRute // Assuming this is an ArrayList<String> containing route IDs
+
+        val totalRoutes = validDiscoveredRoutes.size
+        var counter = 0
+
+        fun processRoute(innerList: List<String>) {
+            // Initialize variables for route data
+            val listId = mutableListOf<String>()
+            val listAsal = mutableListOf<String>()
+            val listTujuan = mutableListOf<String>()
+            val listHarga = mutableListOf<Int>()
+            val listDurasi = mutableListOf<Int>()
+            val listJamBerangkat = mutableListOf<Int>()
+            val listJamSampai = mutableListOf<Int>()
+            val listTranspor = mutableListOf<String>()
+
+            // Loop through each route ID
+            for (ruteId in innerList) {
+                // Fetch route data from the database
+                db.collection("RuteBaru").document(ruteId).get()
+                    .addOnSuccessListener { documentSnapshot ->
+                        if (documentSnapshot.exists()) {
+                            val docId = documentSnapshot.id
+                            val namaAsal = documentSnapshot.getString("id_stop_source")
+                            val namaTujuan = documentSnapshot.getString("id_stop_dest")
+                            val jamBerangkat = documentSnapshot.getLong("jam_berangkat")?.toInt() ?: 0
+                            val jamSampai = documentSnapshot.getLong("jam_sampai")?.toInt() ?: 0
+                            val id_transportasi = documentSnapshot.getString("id_transportasi")
+                            val durasi = documentSnapshot.getLong("estimasi")?.toInt() ?: 0
+                            val biaya = documentSnapshot.getLong("price")?.toInt() ?: 0
+
+                            // Check if all route data is present
+                            if (namaAsal != null && namaTujuan != null && jamBerangkat != null && jamSampai != null && id_transportasi != null) {
+                                listId.add(docId)
+                                listAsal.add(namaAsal)
+                                listTujuan.add(namaTujuan)
+                                listHarga.add(biaya)
+                                listDurasi.add(durasi)
+                                listJamBerangkat.add(jamBerangkat)
+                                listJamSampai.add(jamSampai)
+                                listTranspor.add(id_transportasi)
+
+                                // Build Rute object if all data is collected
+                                if (listId.size == innerList.size) {
+                                    arRute.add(
+                                        Rute(
+                                            listId,
+                                            listAsal,
+                                            listTujuan,
+                                            listDurasi,
+                                            listHarga,
+                                            listJamBerangkat,
+                                            listJamSampai,
+                                            listTranspor
+                                        )
+                                    )
+                                    counter++
+                                }
+                            }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        // Handle failure
+                    }
+            }
+        }
+
+        // Process discovered routes
+        processRoute(validDiscoveredRoutes)
+    }
+
+
 
     private fun fetchAndDisplayRouteDuration(idRutes: List<String>, durasiTextView: TextView) {
         var totalDurationSeconds = 0

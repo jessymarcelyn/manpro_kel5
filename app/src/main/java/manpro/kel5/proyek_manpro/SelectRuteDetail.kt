@@ -81,7 +81,6 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
         tanggalDate = intent.getStringExtra(ChooseRoute.tanggal) ?: ""
         val username = intent.getStringExtra(ChooseRoute.username) ?: ""
 
-        Log.d("mxmx", "username SelectRuteDetail " + username)
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         val _btn_back_c_rute = findViewById<ImageView>(R.id.btn_back_c_rute)
 
@@ -141,8 +140,6 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                                 // Ambil detail dari stop
                                 val sourceStop = stopsMap[idSource]
                                 val destStop = stopsMap[idDest]
-                                Log.d("pop", "idSource " + idSource)
-                                Log.d("pop", "source stop " + sourceStop)
 
                                 // Create Rute object
                                 val route = Rutee(
@@ -163,13 +160,10 @@ class SelectRuteDetail : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMa
                                     destStop?.latitude ?: 0.0,
                                     destStop?.longitude ?: 0.0
                                 )
-                                Log.d("owow", "counter : $rute")
-                                Log.d("owow", "rute id : $docId")
                                 arRute.add(route)
                             }
                         }
 
-                        Log.d("asas", arRute.toString())
                         // After processing all routes, initialize the map
                         val mapFragment =
                             supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
@@ -347,7 +341,6 @@ override fun onMapReady(googleMap: GoogleMap?) {
                     "driving", "bus")
             }
 
-            Log.d("lili", "url : " + url)
             direction(url, color) // Pass the color to the direction function
         }
     }

@@ -184,21 +184,23 @@
             app:srcCompat="@drawable/ic_location_tujuan" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/iv_keretaa"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/view3"
             app:layout_constraintStart_toStartOf="@+id/view3"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_train" />
 
         <ImageView
-            android:id="@+id/imageView30"
+            android:id="@+id/iv_busss"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="@+id/imageView6"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_keretaa"
+            app:layout_constraintStart_toEndOf="@+id/iv_keretaa"
+            app:layout_constraintTop_toTopOf="@+id/iv_keretaa"
             app:srcCompat="@drawable/ic_bus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

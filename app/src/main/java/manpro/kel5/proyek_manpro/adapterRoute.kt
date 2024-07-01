@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,8 @@ class adapterRoute (
         val recyclerView: RecyclerView = itemView.findViewById(R.id.listRute)
         val _tv_brgkt = itemView.findViewById<TextView>(R.id.tv_brgkt)
         val _tv_brgkt2 = itemView.findViewById<TextView>(R.id.tv_brgkt2)
+        val _iv_busss = itemView.findViewById<ImageView>(R.id.iv_busss)
+        val _iv_keretaa = itemView.findViewById<ImageView>(R.id.iv_keretaa)
 
         init {
             Log.d("adapterRoute", "ViewHolder initialized")
@@ -69,11 +72,6 @@ class adapterRoute (
         val formattedFirstJamBerangkat = formatTime(firstJamBerangkat)
         val formattedLastJamSampai = formatTime(lastJamSampai)
 
-        Log.d("oou", firstJamBerangkat.toString())
-        Log.d("oou", lastJamSampai.toString())
-        Log.d("oou", formattedFirstJamBerangkat.toString())
-        Log.d("oou", formattedLastJamSampai.toString())
-
         holder._tv_brgkt.text = formattedFirstJamBerangkat
         holder._tv_brgkt2.text = formattedLastJamSampai
 
@@ -91,6 +89,30 @@ class adapterRoute (
             if (index == rute.nama_source.lastIndex) {
                 titikRute.add(rute.nama_dest[index])
             }
+        }
+
+        var bus = false
+        var kereta = false
+
+        for (transportasi in rute.id_transportasi) {
+            if (transportasi.startsWith("B")) {
+                kereta = true
+            } else {
+                bus = true
+
+            }
+        }
+
+        if (!kereta) {
+            holder._iv_busss.visibility = View.GONE
+        } else {
+            holder._iv_busss.visibility = View.VISIBLE
+        }
+
+        if (!bus) {
+            holder._iv_keretaa.visibility = View.GONE
+        } else {
+            holder._iv_keretaa.visibility = View.VISIBLE
         }
 
         val adapter = ListRuteStop(titikRute)

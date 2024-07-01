@@ -89,15 +89,6 @@ class SelectRute : AppCompatActivity() {
 
         val username = intent.getStringExtra(SelectRute.username) ?: ""
 
-        Log.d("mxmx", "username SelctRute " + username)
-
-        Log.d("sfsf", "tanggal SelectRute: " + tanggalDate)
-        Log.d("egh", "dataAsal : " + dataAsal)
-        Log.d("egh", "dataTujuan : " + dataTujuan)
-        Log.d("rre", "_filterOpt " + _filterOpt)
-        Log.d("rre", "bus " + bus)
-        Log.d("rre", "train " + train)
-
         val _btn_back = findViewById<ImageView>(R.id.btn_back_c_rute)
         _btn_back.setOnClickListener {
             val intentWithData = Intent(this@SelectRute, Home::class.java).apply {
@@ -110,18 +101,12 @@ class SelectRute : AppCompatActivity() {
             startActivity(intentWithData)
         }
         arrayTujuan = intent.getStringArrayListExtra(SelectRute.arrayStopp) ?: ArrayList()
-        Log.d("fkfk", arrayTujuan.toString())
-
 
         val btnFilter = findViewById<ImageButton>(R.id.btnFilter1)
 
         btnFilter.setOnClickListener{
             showFilterDialog()
         }
-
-        Log.d("eueu", "dataAsal " + dataAsal)
-        Log.d("eueu", "dataTujuan " +  dataTujuan)
-
 
         _tv_kosong1 = findViewById<TextView>(R.id.tv_kosong1)
         _tv_kosong2 = findViewById<TextView>(R.id.tv_kosong2)
@@ -153,12 +138,10 @@ class SelectRute : AppCompatActivity() {
             }
 
             override fun gotoDetail(data: Rute, pos: Int) {
-                Log.d("opo", pos.toString())
 //                val intent = Intent(this@SelectRute, Map::class.java)
 //                val intent = Intent(this@SelectRute, SelectRuteDetail::class.java)
 //                intent.putExtra("kirimData", data)S
                 val intent = Intent(this@SelectRute, ChooseRoute::class.java)
-                Log.d("uyuy", data.toString())
                 intent.putExtra("kirimData", data)
                 intent.putExtra(ChooseRoute.asal, dataAsal)
                 intent.putExtra(ChooseRoute.tujuan, dataTujuan)
@@ -226,15 +209,10 @@ class SelectRute : AppCompatActivity() {
             bus = _idSwitch.isChecked
             train = _idSwitch2.isChecked
 
-            Log.d("nbnb", "bus : $bus")
-            Log.d("nbnb", "train : $train")
-
             if (selectedRadioButtonId != -1) {
-                Log.d("nbnb", "masuk1")
                 val selectedRadioButton = dialog.findViewById<RadioButton>(selectedRadioButtonId)
                 if (selectedRadioButton != null) {
                     val filterText = selectedRadioButton.text.toString()
-                    Log.d("nbnb", "masuk3")
                     when (selectedRadioButtonId) {
                         _btnRadio1.id -> {
                             _filterOpt = 1
@@ -250,11 +228,8 @@ class SelectRute : AppCompatActivity() {
                         }
                     }
 
-                    Log.d("nbnb", "bus2 : $bus")
-                    Log.d("nbnb", "train2 : $train")
                     // Save the current state to SharedPreferences
                     with(sharedPreferences.edit()) {
-                        Log.d("nbnb", "masuk2")
                         putInt("filterOpt", _filterOpt)
                         putBoolean("bus", bus)
                         putBoolean("train", train)
@@ -282,11 +257,7 @@ class SelectRute : AppCompatActivity() {
         depth: Int = 0,
         maxDepth: Int = 5 // Set a reasonable maximum depth
     ) {
-        Log.d("hbhb", "masuk0")
-        Log.d("hbhb", "depth : " + depth)
-        Log.d("hbhb", "maxDepth : " + maxDepth)
         if (depth > maxDepth) {
-            Log.d("hbhb", "masuk1")
             // Prevents excessive recursion
             if (validDiscoveredRoutes.isEmpty()) {
                 updateVisibility(false)
@@ -340,12 +311,7 @@ class SelectRute : AppCompatActivity() {
                             null
                         }
 
-                        Log.d("pepe", "documentId : " + document.id)
                         if (idStopDest == tempatTujuan) {
-                            Log.d("pepe", "masuk1")
-                            Log.d("pepe", "tanggalDateParsed : " + tanggalDateParsed)
-                            Log.d("pepe", "ruteBaruStartDateDate : " + ruteBaruStartDateDate)
-                            Log.d("pepe", "ruteBaruFinishDateDate : " + ruteBaruStartDateDate)
                             if (ruteBaruFinishDateDate == null) {
                                 if (tanggalDateParsed.after(ruteBaruStartDateDate)) {
                                     val connectionValidity =
@@ -367,10 +333,6 @@ class SelectRute : AppCompatActivity() {
                             }
 
                         } else if (idStopDest !in currentRoute) {
-                            Log.d("pepe", "masuk2")
-                            Log.d("pepe", "tanggalDateParsed : " + tanggalDateParsed)
-                            Log.d("pepe", "ruteBaruStartDateDate : " + ruteBaruStartDateDate)
-                            Log.d("pepe", "ruteBaruFinishDateDate : " + ruteBaruStartDateDate)
                             if (tanggalDateParsed != null && ruteBaruStartDateDate != null) {
                                 if (ruteBaruFinishDateDate != null) {
                                     if (tanggalDateParsed.after(ruteBaruStartDateDate) &&
@@ -525,12 +487,7 @@ class SelectRute : AppCompatActivity() {
     }
 
     fun fetchRutes() {
-        Log.d("hbhb", "masuk2")
-        Log.d("mvmv", validDiscoveredRoutes.toString())
         arRute.clear()
-        Log.d("emem", "masuk4")
-        Log.d("egh", "masuk2")
-        Log.d("jjj", validDiscoveredRoutes.toString())
 
 //        if (validDiscoveredRoutes.isEmpty()) {
 //            updateVisibility(false)
@@ -554,7 +511,6 @@ class SelectRute : AppCompatActivity() {
             var counterInnerList = 0
 
             for (ruteId in innerList) {
-                Log.d("mhmh", "ruteID " + ruteId)
                 db.collection("RuteBaru")
                     .get()
                     .addOnSuccessListener { documents ->
@@ -568,12 +524,8 @@ class SelectRute : AppCompatActivity() {
                                 val id_transportasi = document.getString("id_transportasi")
                                 val durasi = document.getLong("estimasi")?.toInt() ?: 0
                                 val biaya = document.getLong("price")?.toInt() ?: 0
-                                Log.d("mhmh", "masuk1 ")
-                                Log.d("mhmh", "namaAsal " + namaAsal)
-                                Log.d("mhmh", "namaTujuan " + namaTujuan)
 
                                 if (namaAsal != null && namaTujuan != null && jamBerangkat != null && jamSampai != null &&id_transportasi != null) {
-                                    Log.d("mhmh", "masuk2 ")
                                     listId.add(docId)
                                     listAsal.add(namaAsal)
                                     listTujuan.add(namaTujuan)
@@ -618,8 +570,6 @@ class SelectRute : AppCompatActivity() {
 
                                         if (counter == totalRoutes) {
                                             // Semua rute sudah berhasil
-                                            Log.d("emem", "masuk5")
-                                            Log.d("mjmj", arRute.toString())
 //                                            _rvRute.adapter?.notifyDataSetChanged()
                                             val filteredRoutes: MutableList<Rute> = mutableListOf()
 
@@ -627,14 +577,12 @@ class SelectRute : AppCompatActivity() {
 
                                             }
                                             else if (bus) {
-                                                Log.d("mnmn", "masuk1")
                                                 filteredRoutes.addAll(arRute.filter { route ->
                                                     route.id_transportasi.all { it.startsWith("B") }
                                                 })
                                                 arRute.clear()
                                                 arRute.addAll(filteredRoutes)
                                             } else if (train) {
-                                                Log.d("mnmn", "masuk2")
                                                 filteredRoutes.addAll(arRute.filter { route ->
                                                     route.id_transportasi.all { it.startsWith("T") }
                                                 })
@@ -642,7 +590,6 @@ class SelectRute : AppCompatActivity() {
                                                 arRute.addAll(filteredRoutes)
                                             }
 
-                                                Log.d("mmm",arRute.toString())
                                                 sortRutes(arRute)
                                                 _rvRute.adapter?.notifyDataSetChanged()
                                         }
@@ -665,8 +612,6 @@ class SelectRute : AppCompatActivity() {
 
         // Process each route
             for (innerList in validDiscoveredRoutes) {
-                Log.d("lll", validDiscoveredRoutes.toString())
-                Log.d("iii", innerList.toString())
                 processRoute(innerList)
             }
 
@@ -687,19 +632,14 @@ class SelectRute : AppCompatActivity() {
 
 
     fun sortRutes(arRute: ArrayList<Rute>) {
-        Log.d("emem", "masuk6")
-        Log.d("egh", "masuk3")
         if (_filterOpt == 1) {
-            Log.d("egh", "masuk4")
             val timeFormat = SimpleDateFormat("HHmm", Locale.getDefault())
             arRute.sortBy { rute ->
                 // rute waktu sampai tercepat
-                Log.d("wdwd", rute.jam_sampai.lastOrNull().toString())
                 rute.jam_sampai.lastOrNull()?.let { jamSampai ->
                     jamSampai
                 } ?: Int.MAX_VALUE// Default to a large value if listJamSampai is empty
             }
-            Log.d("sasa", arRute.toString())
             _rvRute.adapter?.notifyDataSetChanged()
         }
 
@@ -714,7 +654,6 @@ class SelectRute : AppCompatActivity() {
             sortedRute.forEach { rute ->
                 Log.d("efef", "Total Biaya: ${rute.biaya.sum()}")
             }
-            Log.d("sasa", arRute.toString())
             _rvRute.adapter?.notifyDataSetChanged()
         } else if(_filterOpt == 3){
             // rute minim transfer
@@ -723,7 +662,6 @@ class SelectRute : AppCompatActivity() {
             }
             arRute.clear()
             arRute.addAll(sortedRute)
-            Log.d("sasa", arRute.toString())
             _rvRute.adapter?.notifyDataSetChanged()
         }
 
@@ -732,19 +670,15 @@ class SelectRute : AppCompatActivity() {
         val stopPoints = route.mapNotNull { routeId ->
             documents.firstOrNull { it.id == routeId }?.getString("id_stop_dest")
         }
-        Log.d("eaea", stopPoints.toString())
 
         var counter = 0
         for (stop in stopPoints) {
             for (i in 1 until arrayTujuan.size) {
-                Log.d("agag", "stop : "+ stop)
-                Log.d("agag", "arrayTujuan : "+ arrayTujuan[i])
                 if (stop == arrayTujuan[i]) {
                     counter++
                 }
             }
         }
-        Log.d("eaea", (counter == arrayTujuan.size-1).toString())
         return counter == arrayTujuan.size-1
     }
 
@@ -752,7 +686,6 @@ class SelectRute : AppCompatActivity() {
 
 
     private fun displayRoutes(validDiscoveredRoutes: List<List<String>>) {
-        Log.d("ere", "MASUK " + validDiscoveredRoutes.toString())
         if (validDiscoveredRoutes.isNotEmpty()) {
             val routeString = validDiscoveredRoutes.joinToString("\n") {
                 it.joinToString(" -> ") { route -> route }

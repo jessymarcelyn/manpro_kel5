@@ -2,7 +2,9 @@ package manpro.kel5.proyek_manpro
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -40,6 +42,7 @@ class track_route : AppCompatActivity() {
     val listJamSampai = mutableListOf<Int>()
     val listTranspor = mutableListOf<String>()
     val listDurasi = mutableListOf<Int>()
+    private lateinit var transpor_first:String
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +77,8 @@ class track_route : AppCompatActivity() {
         val _rv_track = findViewById<RecyclerView>(R.id.rv_track)
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         _tv_title.text = "Rute " + dataIndex.toString()
+        val _vert1 = findViewById<View>(R.id.vert1)
+        _vert1.setBackgroundColor(Color.RED)
 
         val username = intent.getStringExtra(ChooseRoute.username) ?: ""
 
@@ -106,7 +111,10 @@ class track_route : AppCompatActivity() {
                 }
             }
             dataIntent.id_transportasi.forEachIndexed { index, data ->
-                if (index != 0) {
+                if(index == 0){
+                    transpor_first = data
+                }
+                else if (index != 0) {
                     listTranspor.add(data)
                 }
             }
@@ -116,7 +124,7 @@ class track_route : AppCompatActivity() {
                 }
             }
             _rv_track.layoutManager = LinearLayoutManager(this)
-            val adapterP = adapterTrack(listAsal, listJamBerangkat, listJamSampai, listTranspor)
+            val adapterP = adapterTrack(listAsal, listJamBerangkat, listJamSampai, listTranspor, transpor_first)
             _rv_track.adapter = adapterP
         }
 

@@ -109,12 +109,8 @@ class Home : AppCompatActivity() {
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Gubeng"
 //        val terimaDataAsal  = intent.getStringExtra(Home.dataAsall) ?: "Pakuwon City Mall"
 //        val terimaDataTujuan = intent.getStringExtra(Home.dataTujuann) ?: "Galaxy Mall 2"
-        Log.d("pipi", "balik")
-        Log.d("pipi", "terimaDataAsal" + terimaDataAsal)
-        Log.d("pipi", "terimaDataTujuan" + terimaDataTujuan)
         val _isAsall = intent.getBooleanExtra(isAsall, false)
         val username = intent.getStringExtra(Home.username) ?: ""
-        Log.d("mxmx", "username Home " + username)
         _tv_asal2.text = terimaDataAsal
         _tv_tujuan2.text = terimaDataTujuan
 
@@ -162,7 +158,6 @@ class Home : AppCompatActivity() {
         }
         adapterP.setOnItemClickCallback(object : AdapterHomeLoc.OnItemClickCallback {
             override fun onItemClicked(data: String, index: Int) {
-                Log.d("nbnb", "data " + data)
                 val intentWithData = Intent(this@Home, SelectLocation::class.java).apply {
                     putExtra(SelectLocation.isAsal, false)
                     putExtra(SelectLocation.asal, _tv_asal2.text)
@@ -242,7 +237,6 @@ class Home : AppCompatActivity() {
 
             AllStop.add(_tv_tujuan2.text as String)
 
-            Log.d("cbcb", ArrayList(AllStop).toString())
             val intentWithData = Intent(this@Home, SelectRute::class.java).apply {
                 putStringArrayListExtra(SelectRute.arrayStopp, ArrayList(AllStop))
                 putExtra(SelectRute.asal, _tv_asal2.text)

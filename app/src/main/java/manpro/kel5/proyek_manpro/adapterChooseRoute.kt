@@ -37,6 +37,8 @@ class adapterChooseRoute (
         var _tv_trans : TextView = itemView.findViewById(R.id.tv_bus)
         var _tv_durasi_transit : TextView = itemView.findViewById(R.id.tv_durasi_transit)
         var _view_garis : View = itemView.findViewById(R.id.view_garis)
+        var _iv_transport : ImageView = itemView.findViewById(R.id.iv_transport)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -64,9 +66,6 @@ class adapterChooseRoute (
         val duration = calculateTimeDifference(jamB, jamS)
 
         holder._tv_durasi_transit.text = duration.toString() + " Menit"
-        Log.d("pem", jamB.toString())
-        Log.d("pem", jamS.toString())
-        Log.d("pem", duration.toString())
 //        holder._tv_jamBerangkat.text = rutee.jam_berangkat
 
         val color = colorMap.getOrPut(trans) {
@@ -78,6 +77,26 @@ class adapterChooseRoute (
 
         }
         holder._view_garis.setBackgroundColor(color)
+
+        var bus = false
+        var kereta = false
+
+        for (transportasi in trans) {
+            if (transportasi.toString().startsWith("B")) {
+                bus = true
+            } else if (transportasi.toString().startsWith("K")) {
+                kereta = true
+            }
+        }
+        // Set image based on the transportation mode
+        if (kereta) {
+            holder._iv_transport.setImageResource(R.drawable.ic_train)
+        } else if (bus) {
+            holder._iv_transport.setImageResource(R.drawable.ic_bus)
+        } else {
+            // Handle default case if neither bus nor train is true
+        }
+
     }
 
     // Convert "HHMM" string format to total minutes since midnight

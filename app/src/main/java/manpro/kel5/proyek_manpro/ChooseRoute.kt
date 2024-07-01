@@ -82,13 +82,6 @@ class ChooseRoute : AppCompatActivity() {
         dataFilterTrain = intent.getBooleanExtra(ChooseRoute.filterTrain, true)
         tanggalDate = intent.getStringExtra(ChooseRoute.tanggal) ?: ""
         val username = intent.getStringExtra(ChooseRoute.username) ?: ""
-        Log.d("mxmx", "username ChooseRoute " + username)
-        Log.d("sfsf", "tanggal ChooseRoute: " + tanggalDate)
-
-        Log.d("fdfd", "_filterOpt " + dataFilterOpt)
-        Log.d("fdfd", "bus " + dataFilterBus)
-        Log.d("fdfd", "train " + dataFilterTrain)
-
 
         val _tv_title = findViewById<TextView>(R.id.tv_title)
         val _tv_asal2 = findViewById<TextView>(R.id.tv_asal2)
@@ -119,10 +112,10 @@ class ChooseRoute : AppCompatActivity() {
         _tv_title.text = "Rute " + indexx.toString()
         _tv_tanggal.text = tanggalDate
 
-        Log.d("lklk", dataIntent.toString())
 
         var totalBiaya = 0
-
+        Log.d("mimi ", dataIntent.toString())
+        Log.d("mimi ", "dataasal ; " +dataAsal.toString())
         if (dataIntent != null) {
             for (harga in dataIntent.biaya) {
                 totalBiaya += harga
